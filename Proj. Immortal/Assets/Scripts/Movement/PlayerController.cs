@@ -1,22 +1,20 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public InputActionAsset InputActions;
-
-    private InputAction _moveAction;
-    private InputAction _lookAction;
-
+    [Header("Settings")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
 
+    [Header("Input")]
+    public InputActionAsset InputActions;
+
+    private Transform _camera;
+    private InputAction _moveAction;
     private Rigidbody _rb;
     private Vector2 _moveInput;
-    private Vector2 _lookInput;
-    private Vector3 _moveDirection;
-    private Vector3 _targetVelocity;
+
 
     private void OnEnable()
     {
@@ -31,38 +29,59 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _camera = Camera.main.transform;
         _moveAction = InputSystem.actions.FindAction("Move");
-        _lookAction = InputSystem.actions.FindAction("Look");
+    }
+
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
     {
         _moveInput = _moveAction.ReadValue<Vector2>();
-        _lookInput = _lookAction.ReadValue<Vector2>();
-
-        _targetVelocity = new Vector3(_moveInput.x, 0, _moveInput.y).normalized;
     }
 
     private void FixedUpdate()
     {
-        ApplyMovement();
-        ApplyRotate();
-    }
+        Vector3 direction = GetMoveDirection();
 
-    private void ApplyMovement()
-    {
-        Vector3 currentVelocity = _rb.linearVelocity;
-        Vector3 moveVelocity = _targetVelocity * moveSpeed;
-
-        _rb.linearVelocity = new Vector3(moveVelocity.x, currentVelocity.y, moveVelocity.z);
-    }
-
-    private void ApplyRotate()
-    {
-        if (_targetVelocity != Vector3.zero)
+        if (direction.sqrMagnitude > 0.01f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(_targetVelocity);
-            _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
+            ApplyMovement(direction);
+            ApplyRotate(direction);
         }
+        else
+        {
+            _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
+        }
+    }
+
+    public Vector3 GetMoveDirection()
+    {
+        Vector3 forward = _camera.forward;
+        Vector3 right = _camera.right;
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDirection = forward * _moveInput.y + right * _moveInput.x;
+
+        return moveDirection;
+    }
+
+    private void ApplyMovement(Vector3 direction)
+    {
+        Vector3 velocity = direction * moveSpeed;
+        _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
+    }
+
+    private void ApplyRotate(Vector3 direction)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, rotateSpeed);
     }
 }
