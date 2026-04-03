@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TestEnemy : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameObject bloodParticle;
+    [SerializeField] private ParticleSystem bloodParticle;
     
     private EnemyHealth _enemyHealth;
     private Rigidbody _rb;
@@ -16,7 +16,7 @@ public class TestEnemy : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, Vector3 knockbackForce)
     {
         _enemyHealth.DecreaseHealth(damage);
-        Instantiate(bloodParticle, transform.position, Quaternion.identity);
+        bloodParticle.Play();
 
         if (_rb != null)
         {
