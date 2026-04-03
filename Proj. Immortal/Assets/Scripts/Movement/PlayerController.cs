@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [Header("Input")]
     public InputActionAsset InputActions;
 
+    private CinemachineImpulseSource _impulseSource;
     private TrailRenderer trail;
     private Transform _camera;
     private InputAction _moveAction;
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
         _camera = Camera.main.transform;
         _moveAction = InputSystem.actions.FindAction("Move");
         _dashAction = InputSystem.actions.FindAction("Dash");
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour
         _isDashing = true;
         _dashCooldownTimer = dashCooldown;
         trail.emitting = true;
+        _impulseSource.GenerateImpulse();
 
         int playerLayer = gameObject.layer;
         int enemyLayer = LayerMask.NameToLayer(enemyLayerName);
