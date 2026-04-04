@@ -48,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
             if (damageable != null)
             {
                 Vector3 knockbackDirection = (transform.position - enemy.transform.position).normalized;
-                DamageInfo info = new DamageInfo() { Amount = PlayerStats.Instance.AttackDamage, KnockbackForce = knockbackDirection * knockbackStrength};
+                DamageInfo info = new DamageInfo() { DamageAmount = PlayerStats.Instance.AttackDamage, KnockbackForce = knockbackDirection * knockbackStrength};
 
                 damageable.TakeDamage(info);
             }

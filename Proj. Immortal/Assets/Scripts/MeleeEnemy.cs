@@ -12,7 +12,7 @@ public class MeleeEnemy : EnemyBase
 
             if (damageable != null)
             {
-                DamageInfo info = new DamageInfo() { Amount = attackDamage, KnockbackForce = Vector3.zero };
+                DamageInfo info = new DamageInfo() { DamageAmount = attackDamage, KnockbackForce = Vector3.zero };
                 damageable.TakeDamage(info);
             }
         }

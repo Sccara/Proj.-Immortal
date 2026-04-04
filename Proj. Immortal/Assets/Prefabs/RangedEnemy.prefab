@@ -496,7 +496,7 @@ MonoBehaviour:
   expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
   attackPoint: {fileID: 4496648902265063981}
   attackDamage: 20
-  attackRange: 7
+  attackRange: 18
   attackCooldown: 3
   hitLayers:
     serializedVersion: 2

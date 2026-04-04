@@ -16,9 +16,10 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected float attackDamage;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float attackCooldown;
+    [SerializeField] protected float poise;
+    [SerializeField] protected float maxPoise;
     [SerializeField] protected LayerMask hitLayers;
-
-
+    
     [SerializeField] protected float lastAttackTime;
 
     protected virtual void Awake()
@@ -67,13 +68,20 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo info)
     {
-        health.DecreaseHealth(info.Amount);
+        health.DecreaseHealth(info.DamageAmount);
+        DecreasePoise(info.PoiseDecreaseAmount);
         bloodParticle.Play();
 
         if (rb != null)
         {
             StartCoroutine(HandleKnockback(info.KnockbackForce));
         }
+    }
+
+    private void DecreasePoise(float amount)
+    {
+        poise -= amount;
+        CheckStagger();
     }
 
     private IEnumerator HandleKnockback(Vector3 knockbackForce)
@@ -94,6 +102,15 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         agent.enabled = true;
 
         agent.SetDestination(player.position);
+    }
+
+    protected void CheckStagger()
+    {
+        if (poise <= 0)
+        {
+            poise = 0;
+            agent.enabled = false;
+        }
     }
 
     protected void MoveToPlayer()

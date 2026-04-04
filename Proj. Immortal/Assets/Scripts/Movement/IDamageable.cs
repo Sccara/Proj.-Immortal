@@ -9,6 +9,7 @@ public interface IDamageable
 [Serializable]
 public struct DamageInfo
 {
-    public float Amount;
+    public float DamageAmount;
+    public float PoiseDecreaseAmount;
     public Vector3 KnockbackForce;
 }

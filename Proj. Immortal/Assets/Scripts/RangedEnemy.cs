@@ -36,7 +36,7 @@ public class RangedEnemy : EnemyBase
 
         if (projGO.TryGetComponent(out Projectile proj))
         {
-            proj.DamageInfo = new DamageInfo() { Amount = attackDamage, KnockbackForce = direction * 2f };
+            proj.DamageInfo = new DamageInfo() { DamageAmount = attackDamage, KnockbackForce = direction * 2f };
 
             if (projGO.TryGetComponent(out Rigidbody rbProj))
             {

@@ -14,7 +14,7 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo info)
     {
-        _healthSystem.TakeDamage(info.Amount);
+        _healthSystem.TakeDamage(info.DamageAmount);
         healthSystemUI.UpdateHealthBar(_healthSystem.HealthPercent);
 
         if (_healthSystem.Health <= 0)

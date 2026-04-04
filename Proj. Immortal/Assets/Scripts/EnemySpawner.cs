@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject[] enemyPrefabs;
 
     [SerializeField] private float spawnRadius;
     [SerializeField] private float spawnRate;
@@ -30,6 +30,6 @@ public class EnemySpawner : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(player.position.x + x, 1f, player.position.z + z);
 
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPos, Quaternion.identity);
     }
 }
