@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c372c1f3f5f15648894ffc224396c6e, type: 3}
   m_Name: Speed Upgrade
   m_EditorClassIdentifier: Assembly-CSharp::SpeedUpgradeSO
-  icon: {fileID: 0}
-  description: 
-  amount: 0
+  icon: {fileID: 21300000, guid: 2536641ebe27dda4897e606bdc73c225, type: 3}
+  description: Speed up ability
+  amount: 5

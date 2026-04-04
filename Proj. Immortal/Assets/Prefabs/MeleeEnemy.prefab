@@ -164,12 +164,11 @@ GameObject:
   - component: {fileID: 7710743918676005616}
   - component: {fileID: 7049437956429052634}
   - component: {fileID: 3523957841398587458}
-  - component: {fileID: 2918412652098726456}
   - component: {fileID: 3518948704115963547}
-  - component: {fileID: 8487690959949273794}
   - component: {fileID: 4896696299986175479}
+  - component: {fileID: 3220242839198916746}
   m_Layer: 3
-  m_Name: SimpleEnemy
+  m_Name: MeleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,27 +297,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!114 &2918412652098726456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5998784767012839802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff3c370e6f97fe45bb7193b62dc58f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestEnemy
-  bloodParticle: {fileID: 7114924660515333653}
-  attackPoint: {fileID: 5336126757980394824}
-  expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
-  attackDamage: 10
-  attackRange: 1
-  attackCooldown: 1.5
-  hitLayers:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &3518948704115963547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,18 +311,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   health: 0
   maxHealth: 100
---- !u!114 &8487690959949273794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5998784767012839802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64986ece1842d6346b51744866049efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
 --- !u!195 &4896696299986175479
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -367,6 +333,28 @@ NavMeshAgent:
   m_BaseOffset: 0.50000006
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3220242839198916746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5998784767012839802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da56787486e0424d98db54c30daafb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeEnemy
+  bloodParticle: {fileID: 7114924660515333653}
+  expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
+  attackPoint: {fileID: 5336126757980394824}
+  attackDamage: 10
+  attackRange: 1.5
+  attackCooldown: 1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  lastAttackTime: 0
 --- !u!1 &7587264371105079236
 GameObject:
   m_ObjectHideFlags: 0
