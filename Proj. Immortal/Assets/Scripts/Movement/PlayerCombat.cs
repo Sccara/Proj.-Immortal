@@ -1,11 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField] private float attackDamage;
     [SerializeField] private float attackRange;
-    [SerializeField] private float attackCooldown;
     [SerializeField] private float knockbackStrength;
     [SerializeField] private float attackStepForce;
 
@@ -15,6 +14,8 @@ public class PlayerCombat : MonoBehaviour
     private Rigidbody _rb;
     private InputAction _attackAction;
     private float _nextAttackTime;
+
+    public float KnockbackStrength => knockbackStrength;
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class PlayerCombat : MonoBehaviour
             if (_attackAction.WasPressedThisFrame())
             {
                 Attack();
-                _nextAttackTime = Time.time + attackCooldown;
+                _nextAttackTime = Time.time + PlayerStats.Instance.AttackCooldown;
             }
         }
     }
@@ -46,9 +47,10 @@ public class PlayerCombat : MonoBehaviour
 
             if (damageable != null)
             {
-                Vector3 knockbackDirection = (enemy.transform.position - transform.position).normalized;
-                damageable.TakeDamage(attackDamage, knockbackDirection * knockbackStrength);
+                Vector3 knockbackDirection = (transform.position - enemy.transform.position).normalized;
+                DamageInfo info = new DamageInfo() { Amount = PlayerStats.Instance.AttackDamage, KnockbackForce = knockbackDirection * knockbackStrength};
 
+                damageable.TakeDamage(info);
             }
         }
     }

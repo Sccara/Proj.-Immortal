@@ -166,6 +166,8 @@ GameObject:
   - component: {fileID: 3523957841398587458}
   - component: {fileID: 2918412652098726456}
   - component: {fileID: 3518948704115963547}
+  - component: {fileID: 8487690959949273794}
+  - component: {fileID: 4896696299986175479}
   m_Layer: 3
   m_Name: SimpleEnemy
   m_TagString: Untagged
@@ -188,6 +190,7 @@ Transform:
   m_Children:
   - {fileID: 499910180026840067}
   - {fileID: 4403176108320373007}
+  - {fileID: 5336126757980394824}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2421903613882034489
@@ -294,7 +297,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &2918412652098726456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +311,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestEnemy
   bloodParticle: {fileID: 7114924660515333653}
+  attackPoint: {fileID: 5336126757980394824}
+  expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
+  attackDamage: 10
+  attackRange: 1
+  attackCooldown: 1.5
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &3518948704115963547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +333,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   health: 0
   maxHealth: 100
+--- !u!114 &8487690959949273794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5998784767012839802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64986ece1842d6346b51744866049efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
+--- !u!195 &4896696299986175479
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5998784767012839802}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.0000001
+  m_BaseOffset: 0.50000006
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7587264371105079236
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +483,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthUI
   healthBar: {fileID: 2091093855927848659}
+--- !u!1 &7667330309970724815
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5336126757980394824}
+  m_Layer: 3
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5336126757980394824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667330309970724815}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6210063994854087558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7898432015751517144
 PrefabInstance:
   m_ObjectHideFlags: 0

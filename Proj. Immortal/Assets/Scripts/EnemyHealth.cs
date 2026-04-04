@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public Action<float> OnHealthChanged;
+    public Action OnDeath;
 
     [SerializeField] private float health;
     [SerializeField] private float maxHealth;
@@ -24,7 +25,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (health <= 0)
         {
-            OnDeath();
+            Die();
         }
     }
 
@@ -36,8 +37,8 @@ public class EnemyHealth : MonoBehaviour
         OnHealthChanged(HealthPercent);
     }
 
-    public void OnDeath()
+    public void Die()
     {
-        Destroy(gameObject);
+        OnDeath.Invoke();
     }
 }

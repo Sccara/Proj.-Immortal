@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float dashForce;
     [SerializeField] private float dashCooldown;
@@ -106,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement(Vector3 direction)
     {
-        Vector3 velocity = direction * moveSpeed;
+        Vector3 velocity = direction * PlayerStats.Instance.MoveSpeed;
         _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
     }
 
