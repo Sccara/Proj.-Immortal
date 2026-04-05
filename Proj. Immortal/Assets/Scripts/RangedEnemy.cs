@@ -14,9 +14,12 @@ public class RangedEnemy : EnemyBase
             if (agent.enabled)
                 agent.isStopped = true;
 
-            Vector3 lookDir = (player.position - transform.position).normalized;
-            lookDir.y = 0;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * 5f);
+            if (!isStaggered)
+            {
+                Vector3 lookDir = (player.position - transform.position).normalized;
+                lookDir.y = 0;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * 5f);
+            }
         }
         else
         {
@@ -36,7 +39,7 @@ public class RangedEnemy : EnemyBase
 
         if (projGO.TryGetComponent(out Projectile proj))
         {
-            proj.DamageInfo = new DamageInfo() { DamageAmount = attackDamage, KnockbackForce = direction * 2f };
+            proj.DamageInfo = new DamageInfo() { DamageAmount = attackDamage, KnockbackForce = direction * 2f, PoiseDecreaseAmount = poiseDamage };
 
             if (projGO.TryGetComponent(out Rigidbody rbProj))
             {

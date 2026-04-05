@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashForce;
     [SerializeField] private float dashCooldown;
     [SerializeField] private float dashDuration;
+    [SerializeField] private float dashStamina;
     [SerializeField] private string enemyLayerName;
 
     [Header("Input")]
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
         _dashCooldownTimer = dashCooldown;
         trail.emitting = true;
         _impulseSource.GenerateImpulse();
+        GetComponent<StaminaSystemController>().UseStamina(dashStamina);
 
         int playerLayer = gameObject.layer;
         int enemyLayer = LayerMask.NameToLayer(enemyLayerName);

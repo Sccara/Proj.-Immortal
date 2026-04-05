@@ -349,8 +349,16 @@ MonoBehaviour:
   expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
   attackPoint: {fileID: 5336126757980394824}
   attackDamage: 10
+  timeSinceLastHit: 0
+  poiseRestoreCooldown: 3
+  poiseRestoreMultiplier: 1
   attackRange: 1.5
   attackCooldown: 1
+  poiseDamage: 35
+  poise: 0
+  maxPoise: 30
+  isStaggered: 0
+  staggeredTime: 3
   hitLayers:
     serializedVersion: 2
     m_Bits: 64

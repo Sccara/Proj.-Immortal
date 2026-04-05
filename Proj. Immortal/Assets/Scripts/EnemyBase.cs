@@ -14,10 +14,16 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected Transform attackPoint;
 
     [SerializeField] protected float attackDamage;
+    [SerializeField] protected float timeSinceLastHit;
+    [SerializeField] protected float poiseRestoreCooldown;
+    [SerializeField] protected float poiseRestoreMultiplier;
     [SerializeField] protected float attackRange;
     [SerializeField] protected float attackCooldown;
+    [SerializeField] protected float poiseDamage;
     [SerializeField] protected float poise;
     [SerializeField] protected float maxPoise;
+    [SerializeField] protected bool isStaggered;
+    [SerializeField] protected float staggeredTime;
     [SerializeField] protected LayerMask hitLayers;
     
     [SerializeField] protected float lastAttackTime;
@@ -31,6 +37,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         health.OnDeath += Death;
 
         lastAttackTime = attackCooldown;
+        poise = maxPoise;
     }
 
     private void Start()
@@ -52,12 +59,19 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
             MoveToPlayer();
         }
 
+        if (timeSinceLastHit >= poiseRestoreCooldown && poise <= maxPoise)
+        {
+            poise += poiseRestoreMultiplier * Time.deltaTime;
+            poise = Mathf.Clamp(poise, 0, maxPoise);
+        }
+
         lastAttackTime -= Time.deltaTime;
+        timeSinceLastHit += Time.deltaTime;
     }
 
     protected void ExecuteAttack()
     {
-        if (lastAttackTime > 0)
+        if (lastAttackTime > 0 || isStaggered == true)
             return;
         
         Attack();
@@ -71,6 +85,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         health.DecreaseHealth(info.DamageAmount);
         DecreasePoise(info.PoiseDecreaseAmount);
         bloodParticle.Play();
+        timeSinceLastHit = 0f;
 
         if (rb != null)
         {
@@ -80,6 +95,9 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     private void DecreasePoise(float amount)
     {
+        if (isStaggered)
+            return;
+
         poise -= amount;
         CheckStagger();
     }
@@ -99,9 +117,11 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         }
 
         rb.isKinematic = true;
-        agent.enabled = true;
-
-        agent.SetDestination(player.position);
+        if (!isStaggered)
+        {
+            agent.enabled = true;
+            agent.SetDestination(player.position);
+        } 
     }
 
     protected void CheckStagger()
@@ -109,8 +129,24 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         if (poise <= 0)
         {
             poise = 0;
-            agent.enabled = false;
+            StartCoroutine(Stagger());
         }
+    }
+
+    protected IEnumerator Stagger()
+    {
+        agent.enabled = false;
+        isStaggered = true;
+        Color oldColor = GetComponent<MeshRenderer>().material.color;
+        GetComponent<MeshRenderer>().material.color = Color.black;
+
+        yield return new WaitForSeconds(staggeredTime);
+
+        GetComponent<MeshRenderer>().material.color = oldColor;
+        agent.enabled = true;
+        agent.SetDestination(player.position);
+        isStaggered = false;
+        poise = maxPoise;
     }
 
     protected void MoveToPlayer()
