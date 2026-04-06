@@ -10,10 +10,13 @@ public class PlayerStatsConfigSO : ScriptableObject
     public float attackDamage;
     public float poiseDamage;
     public float maxPoise;
-    [Header("Movement")]
+    public float poiseRestoreCooldown;
+    public float poiseRestoreMultiplier;
+   [Header("Movement")]
     public float moveSpeed;
     public float rotateSpeed;
     [Header("Combat")]
+    public float staggerTime;
     public float attackRange;
     public float knockbackStrength;
     public float attackStepForce;

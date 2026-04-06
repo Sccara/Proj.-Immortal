@@ -18,8 +18,11 @@ MonoBehaviour:
   attackDamage: 20
   poiseDamage: 25
   maxPoise: 50
+  poiseRestoreCooldown: 3
+  poiseRestoreMultiplier: 2
   moveSpeed: 5
   rotateSpeed: 5
+  staggerTime: 3
   attackRange: 1
   knockbackStrength: 7
   attackStepForce: 15
@@ -29,7 +32,7 @@ MonoBehaviour:
   minDamageMultiplier: 1.5
   maxDamageMultiplier: 2.5
   maxPoiseMultiplier: 2
-  lightAttackCooldown: 0.7
+  lightAttackCooldown: 0.3
   heavyAttackCooldown: 1.5
   dashForce: 15
   dashCooldown: 1

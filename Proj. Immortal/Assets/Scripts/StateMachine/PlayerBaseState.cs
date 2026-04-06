@@ -53,6 +53,10 @@ public abstract class PlayerBaseState
             _currentSuperState.SetSubState(newState);
         }
     }
+    public void SwitchStateExternal(PlayerBaseState newState)
+    {
+        SwitchState(newState);
+    }
     protected void SetSuperState(PlayerBaseState newSuperState)
     {
         _currentSuperState = newSuperState;

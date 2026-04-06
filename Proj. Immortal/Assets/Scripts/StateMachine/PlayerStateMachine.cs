@@ -9,6 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerStats _stats;
     private InputReader _input;
     private PlayerManager _playerManager;
+    private Animator _animator;
 
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public float DashCooldownTimer { get => _dashCooldownTimer; set { _dashCooldownTimer = value; } }
@@ -17,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerManager PlayerManager => _playerManager;
     public PlayerStats Stats => _stats;
     public InputReader Input => _input;
+    public Animator Animator => _animator;
     public int PlayerLayer => gameObject.layer;
     public string EnemyLayerName => enemyLayerName;
     public Rigidbody Rb => _rb;
@@ -42,6 +44,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         _input = GetComponent<InputReader>();
+        _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
         _playerManager = GetComponent<PlayerManager>();
@@ -50,7 +53,9 @@ public class PlayerStateMachine : MonoBehaviour
 
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
-        _currentState.EnterState(); 
+        _currentState.EnterState();
+
+        _playerManager.Health.OnPoiseBroken += HandlePoiseBroken;
     }
 
     private void Start()
@@ -73,21 +78,6 @@ public class PlayerStateMachine : MonoBehaviour
     private void FixedUpdate()
     {
         _currentState.FixedUpdateStates();
-
-        //if (_isDashing)
-        //    return;
-
-        //Vector3 direction = GetMoveDirection();
-
-        //if (direction.sqrMagnitude > 0.01f)
-        //{
-        //    ApplyMovement(direction);
-        //    ApplyRotate(direction);
-        //}
-        //else
-        //{
-        //    _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
-        //}
     }
 
     public Vector3 GetMoveDirection()
@@ -119,5 +109,15 @@ public class PlayerStateMachine : MonoBehaviour
     {
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, _stats.RotateSpeed);
+    }
+
+    private void HandlePoiseBroken()
+    {
+        _currentState.SwitchStateExternal(_states.Staggered());
+    }
+
+    private void OnDisable()
+    {
+        _playerManager.Health.OnPoiseBroken -= HandlePoiseBroken;
     }
 }

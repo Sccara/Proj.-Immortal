@@ -29,10 +29,13 @@ public class PlayerStats : MonoBehaviour
     [field: SerializeField] public float PoiseDamage { get; set; }
     [field: SerializeField] public float Poise { get; set; }
     [field: SerializeField] public float MaxPoise { get; set; }
+    [field: SerializeField] public float PoiseRestoreCooldown { get; set; }
+    [field: SerializeField]  public float PoiseRestoreMultiplier { get; set; }
     [Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; set; }
     [field: SerializeField] public float RotateSpeed { get; set; }
     [Header("Combat")]
+    [field: SerializeField] public float StaggerTime { get; set; }
     [field: SerializeField] public float AttackRange { get; set; }
     [field: SerializeField] public float KnockbackStrength { get; set; }
     [field: SerializeField] public float AttackStepForce { get; set; }
@@ -67,6 +70,8 @@ public class PlayerStats : MonoBehaviour
 
         AttackDamage = cfg.attackDamage;
         PoiseDamage = cfg.poiseDamage;
+        PoiseRestoreCooldown = cfg.poiseRestoreCooldown;
+        PoiseRestoreMultiplier = cfg.poiseRestoreMultiplier;
 
         MaxPoise = cfg.maxPoise;
         Poise = MaxPoise;
@@ -78,6 +83,7 @@ public class PlayerStats : MonoBehaviour
         KnockbackStrength = cfg.knockbackStrength;
         AttackStepForce = cfg.attackStepForce;
         MaxChargeTime = cfg.maxChargeTime;
+        StaggerTime = cfg.staggerTime;
 
         AttackStamina = cfg.attackStamina;
         HeavyAttackStamina = cfg.heavyAttackStamina;

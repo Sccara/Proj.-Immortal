@@ -1,75 +1,71 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class HealthSystemController : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameObject loseScreen;
-    [SerializeField] private HealthSystemUI healthSystemUI;
+    public static Action<float> OnHealthChanged;
+    public Action<float> OnPoiseChanged;
+    public Action OnPoiseBroken;
+    public static Action OnDeath;
+
     public HealthSystem _healthSystem;
 
-    [SerializeField] private float staggerTime;
-    [SerializeField] private bool isStaggered;
-
-    [SerializeField] private float timeSinceLastHit;
-    [SerializeField] private float poiseRestoreCooldown;
-    [SerializeField] private float poiseRestoreMultiplier;
+    [SerializeField] private float _currentPoise;
+    [SerializeField] private float _timeSinceLastHit;
 
     private void Start()
     {
         _healthSystem = new HealthSystem(PlayerStats.Instance.Health, PlayerStats.Instance.MaxHealth);
-        healthSystemUI.UpdateHealthBar(_healthSystem.HealthPercent);
+        _currentPoise = PlayerStats.Instance.MaxPoise;
+
+        OnHealthChanged?.Invoke(_healthSystem.HealthPercent);
     }
 
     private void Update()
     {
-        if (timeSinceLastHit >= poiseRestoreCooldown && PlayerStats.Instance.Poise <= PlayerStats.Instance.MaxPoise)
-        {
-            PlayerStats.Instance.Poise += poiseRestoreMultiplier * Time.deltaTime;
-            PlayerStats.Instance.Poise = Mathf.Clamp(PlayerStats.Instance.Poise, 0, PlayerStats.Instance.MaxPoise);
-        }
-
-        timeSinceLastHit += Time.deltaTime;
+        HandlePoiseRegen();
     }
+
+    private void HandlePoiseRegen()
+    {
+        if (_timeSinceLastHit >= PlayerStats.Instance.PoiseRestoreCooldown && _currentPoise < PlayerStats.Instance.MaxPoise)
+        {
+            _currentPoise += PlayerStats.Instance.PoiseRestoreMultiplier * Time.deltaTime;
+            _currentPoise = Mathf.Min(_currentPoise, PlayerStats.Instance.MaxPoise);
+            OnPoiseChanged?.Invoke(_currentPoise / PlayerStats.Instance.MaxPoise);
+        }
+        _timeSinceLastHit += Time.deltaTime;
+    }
+
 
     public void TakeDamage(DamageInfo info)
     {
+        if (_healthSystem.Health <= 0)
+            return;
+
         _healthSystem.TakeDamage(info.DamageAmount);
-        healthSystemUI.UpdateHealthBar(_healthSystem.HealthPercent);
-        PlayerStats.Instance.Poise -= info.PoiseDecreaseAmount;
-        if (PlayerStats.Instance.Poise <= 0 && !isStaggered)
+        OnHealthChanged?.Invoke(_healthSystem.HealthPercent);
+
+        _timeSinceLastHit = 0;
+        PlayerStats.Instance.Poise -= info.PoiseDecreaseAmount; // ???
+        _currentPoise -= info.PoiseDecreaseAmount;
+        OnPoiseChanged?.Invoke(_currentPoise / PlayerStats.Instance.MaxPoise);
+
+        if (_currentPoise <= 0)
         {
-            StartCoroutine(Stagger());
+            OnPoiseBroken?.Invoke();
         }
 
         if (_healthSystem.Health <= 0)
         {
-            loseScreen.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            OnDeath?.Invoke();
         }
-    }
-
-    private IEnumerator Stagger()
-    {
-        isStaggered = true;
-        // Cancel attack
-        GetComponent<PlayerController>().enabled = false;
-        GetComponent<PlayerCombat>().enabled = false;
-        Color oldColor = GetComponent<MeshRenderer>().material.color;
-        GetComponent<MeshRenderer>().material.color = Color.black;
-
-        yield return new WaitForSeconds(staggerTime);
-
-        GetComponent<PlayerController>().enabled = true;
-        GetComponent<PlayerCombat>().enabled = true;
-        GetComponent<MeshRenderer>().material.color = oldColor;
-        PlayerStats.Instance.Poise = PlayerStats.Instance.MaxPoise;
-        isStaggered = false;
     }
 
     public void Heal(float healAmount)
     {
         _healthSystem.Heal(healAmount);
-        healthSystemUI.UpdateHealthBar(_healthSystem.HealthPercent);
+        OnHealthChanged?.Invoke(_healthSystem.HealthPercent);
     }
 }

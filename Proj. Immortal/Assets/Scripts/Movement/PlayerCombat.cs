@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [SerializeField] private WeaponDamageDetector weaponDetector;
+
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
 
@@ -10,54 +12,35 @@ public class PlayerCombat : MonoBehaviour
 
     private Rigidbody _rb;
 
+    public WeaponDamageDetector WeaponDetector => weaponDetector;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _stamina = GetComponent<StaminaSystemController>();
     }
 
-    //public void PerformAttack(float stamina, float chargePercent = 0)
-    //{
-    //    if (GetComponent<StaminaSystemController>().CheckStamina() == false)
-    //        return;
+    public void ActivateWeapon(float damageMult, float poiseMult, float staminaCost, float stepForce)
+    {
+        if (GetComponent<StaminaSystemController>().CheckStamina() == false)
+            return;
 
-    //    float damageMult;
-    //    float poiseMult;
-    //    if (chargePercent != 0)
-    //    {
-    //        damageMult = Mathf.Lerp(minDamageMultiplier, maxDamageMultiplier, chargePercent);
-    //        poiseMult = Mathf.Lerp(1f, maxPoiseMultiplier, chargePercent);
-    //    }
-    //    else
-    //    {
-    //        damageMult = 1;
-    //        poiseMult = 1;
-    //    }
+        GetComponent<StaminaSystemController>().UseStamina(staminaCost);
+        GetComponent<Rigidbody>().AddForce(transform.forward * stepForce, ForceMode.Impulse);
 
-    //    _rb.AddForce(transform.forward * attackStepForce, ForceMode.Impulse);
-    //    GetComponent<StaminaSystemController>().UseStamina(stamina);
+        // Готовим данные
+        float finalDamage = PlayerStats.Instance.AttackDamage * damageMult;
+        float finalPoise = PlayerStats.Instance.PoiseDamage * poiseMult;
+        Vector3 knockback = transform.forward * (PlayerStats.Instance.KnockbackStrength * damageMult);
 
-    //    Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
+        // Включаем меч
+        weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
+    }
 
-    //    foreach (Collider enemy in hitEnemies)
-    //    {
-    //        IDamageable damageable = enemy.GetComponent<IDamageable>();
-
-    //        if (damageable != null)
-    //        {
-    //            Vector3 knockbackDirection = (transform.position - enemy.transform.position).normalized;
-
-    //            DamageInfo info = new DamageInfo()
-    //            { 
-    //                DamageAmount = PlayerStats.Instance.AttackDamage * damageMult,
-    //                KnockbackForce = knockbackDirection * (knockbackStrength * damageMult),
-    //                PoiseDecreaseAmount = PlayerStats.Instance.PoiseDamage * poiseMult
-    //            };
-
-    //            damageable.TakeDamage(info);
-    //        }
-    //    }
-    //}
+    public void DeactivateWeapon()
+    {
+        weaponDetector.DisableDamage();
+    }
 
     public void PerformAttackk(float damageMult, float poiseMult, float staminaCost, float stepForce, float range, float knockback)
     {
@@ -83,12 +66,28 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public void StartDamageWindow()
     {
-        if (attackPoint == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.position, PlayerStats.Instance.AttackRange);
+        Debug.Log("StartDamageWindow");
+        // Передаем параметры из текущих статов
+        weaponDetector.EnableDamage(
+            PlayerStats.Instance.AttackDamage,
+            PlayerStats.Instance.PoiseDamage,
+            transform.forward * PlayerStats.Instance.KnockbackStrength
+        );
     }
+
+    public void EndDamageWindow()
+    {
+        weaponDetector.DisableDamage();
+    }
+
+    //private void OnDrawGizmosSelected()
+    //{
+    //    if (attackPoint == null)
+    //        return;
+
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(attackPoint.position, PlayerStats.Instance.AttackRange);
+    //}
 }
