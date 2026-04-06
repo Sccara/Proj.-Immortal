@@ -476,7 +476,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325749359}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 39325235759cac94ea38a3631be06da0, type: 3}
   m_Name: 
@@ -2252,6 +2252,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347603155}
   m_CullTransparentMesh: 1
+--- !u!114 &1523164625 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3511701561223828964, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+  m_PrefabInstance: {fileID: 6538071833038322320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2a38a6b990c10b4f89e77ffe4f7e5b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
 --- !u!224 &1606139835 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7601225295101593667, guid: 412c84ad175bbd04aaf590ef175224c9, type: 3}
@@ -2828,6 +2839,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3511701561223828964, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269433142186122330, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: combat
+      value: 
+      objectReference: {fileID: 1523164625}
     - target: {fileID: 4411419462911629165, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2868,14 +2887,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5219573198072299313, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: poise
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5219573198072299313, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: maxPoise
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 5783568130548789771, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: upgradePanel
       value: 
@@ -2889,21 +2900,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1027886624}
     - target: {fileID: 7550979647310192321, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: staggerTime
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7550979647310192321, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: healthSystemUI
       value: 
       objectReference: {fileID: 1083507742}
-    - target: {fileID: 7550979647310192321, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: poiseRestoreCooldown
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7550979647310192321, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: poiseRestoreMultiplier
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

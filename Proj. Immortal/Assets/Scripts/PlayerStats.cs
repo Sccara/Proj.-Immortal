@@ -4,6 +4,8 @@ public class PlayerStats : MonoBehaviour
 {
     public static PlayerStats Instance { get; private set; }
 
+    [SerializeField] private PlayerStatsConfigSO config;
+
     private void Awake()
     {
         if (Instance == null)
@@ -14,21 +16,84 @@ public class PlayerStats : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Initialize(config);
     }
+    [Header("Stats")]
+    [field: SerializeField] public float MaxHealth { get; set; }
+    [field: SerializeField] public float Health { get; set; }
+    [field: SerializeField] public float MaxStamina { get; set; }
+    [field: SerializeField] public float Stamina { get; set; }
+    [field: SerializeField] public float StaminaRestoreRate { get; set; }
+    [field: SerializeField] public float AttackDamage { get; set; }
+    [field: SerializeField] public float PoiseDamage { get; set; }
+    [field: SerializeField] public float Poise { get; set; }
+    [field: SerializeField] public float MaxPoise { get; set; }
+    [Header("Movement")]
+    [field: SerializeField] public float MoveSpeed { get; set; }
+    [field: SerializeField] public float RotateSpeed { get; set; }
+    [Header("Combat")]
+    [field: SerializeField] public float AttackRange { get; set; }
+    [field: SerializeField] public float KnockbackStrength { get; set; }
+    [field: SerializeField] public float AttackStepForce { get; set; }
+    [field: SerializeField] public float MaxChargeTime { get; set; }
+    [field: SerializeField] public float AttackStamina { get; set; }
+    [field: SerializeField] public float HeavyAttackStamina { get; set; }
+    [field: SerializeField] public float MinDamageMultiplier { get; set; }
+    [field: SerializeField] public float MaxDamageMultiplier { get; set; }
+    [field: SerializeField] public float MaxPoiseMultiplier { get; set; }
+    [field: SerializeField] public float LightAttackCooldown { get; set; }
+    [field: SerializeField] public float HeavyAttackCooldown { get; set; }
+    [Header("Dash")]
+    [field: SerializeField] public float DashForce { get; set; }
+    [field: SerializeField] public float DashCooldown { get; set; }
+    [field: SerializeField] public float DashDuration { get; set; }
+    [field: SerializeField] public float DashStamina { get; set; }
 
-    [SerializeField] private float _staminaRestoreRate;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float attackDamage;
-    [SerializeField] private float attackCooldown;
-    [SerializeField] private float poiseDamage;
-    [SerializeField] private float poise;
-    [SerializeField] private float maxPoise;
+    private void Initialize(PlayerStatsConfigSO cfg)
+    {
+        if (cfg == null)
+        {
+            Debug.LogError("PlayerStats: Config SO is missing!");
+            return;
+        }
 
-    public float StaminaRestoreRate { get => _staminaRestoreRate; set { _staminaRestoreRate = value; } }
-    public float MoveSpeed { get => moveSpeed; set { moveSpeed = value; } }
-    public float AttackDamage { get => attackDamage; set { attackDamage = value; } }
-    public float AttackCooldown { get => attackCooldown; set { attackCooldown = value; } }
-    public float PoiseDamage { get => poiseDamage; set { poiseDamage = value; } }
-    public float Poise { get => poise; set { poise = value; } }
-    public float MaxPoise { get => maxPoise; set { maxPoise = value; } }
+        MaxHealth = cfg.maxHealth;
+        Health = MaxHealth;
+
+        MaxStamina = cfg.maxStamina;
+        Stamina = MaxStamina;
+        StaminaRestoreRate = cfg.staminaRestoreRate;
+
+        AttackDamage = cfg.attackDamage;
+        PoiseDamage = cfg.poiseDamage;
+
+        MaxPoise = cfg.maxPoise;
+        Poise = MaxPoise;
+
+        MoveSpeed = cfg.moveSpeed;
+        RotateSpeed = cfg.rotateSpeed;
+
+        AttackRange = cfg.attackRange;
+        KnockbackStrength = cfg.knockbackStrength;
+        AttackStepForce = cfg.attackStepForce;
+        MaxChargeTime = cfg.maxChargeTime;
+
+        AttackStamina = cfg.attackStamina;
+        HeavyAttackStamina = cfg.heavyAttackStamina;
+
+        MinDamageMultiplier = cfg.minDamageMultiplier;
+        MaxDamageMultiplier = cfg.maxDamageMultiplier;
+        MaxPoiseMultiplier = cfg.maxPoiseMultiplier;
+
+        LightAttackCooldown = cfg.lightAttackCooldown;
+        HeavyAttackCooldown = cfg.heavyAttackCooldown;
+
+        DashForce = cfg.dashForce;
+        DashCooldown = cfg.dashCooldown;
+        DashDuration = cfg.dashDuration;
+        DashStamina = cfg.dashStamina;
+
+        Debug.Log("<color=green>PlayerStats initialized successfully from SO.</color>");
+    }
 }

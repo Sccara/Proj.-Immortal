@@ -16,7 +16,7 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _healthSystem = new HealthSystem(150, 150);
+        _healthSystem = new HealthSystem(PlayerStats.Instance.Health, PlayerStats.Instance.MaxHealth);
         healthSystemUI.UpdateHealthBar(_healthSystem.HealthPercent);
     }
 
@@ -52,7 +52,7 @@ public class HealthSystemController : MonoBehaviour, IDamageable
     private IEnumerator Stagger()
     {
         isStaggered = true;
-        GetComponent<PlayerCombat>().CancelAttack();
+        // Cancel attack
         GetComponent<PlayerController>().enabled = false;
         GetComponent<PlayerCombat>().enabled = false;
         Color oldColor = GetComponent<MeshRenderer>().material.color;

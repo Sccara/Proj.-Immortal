@@ -13,7 +13,7 @@ public class StaminaSystemController : MonoBehaviour
 
     private void Start()
     {
-        _staminaSystem = new StaminaSystem(100, 100);
+        _staminaSystem = new StaminaSystem(PlayerStats.Instance.Stamina, PlayerStats.Instance.MaxStamina);
         _staminaSystemUI.UpdateStaminaBar(_staminaSystem.StaminaPercent);
     }
 
