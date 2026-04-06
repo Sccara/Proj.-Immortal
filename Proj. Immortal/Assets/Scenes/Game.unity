@@ -466,28 +466,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4411419462911629165, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
   m_PrefabInstance: {fileID: 6538071833038322320}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &274696440 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3565888318105151665, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-  m_PrefabInstance: {fileID: 6538071833038322320}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &274696445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274696440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 680520527cf989349993ad7e85c09655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WeaponDamageDetector
-  hitPoints: []
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _debugGizmos: 1
 --- !u!1 &325749359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2864,10 +2842,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3511701561223828964, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      propertyPath: weaponDetector
-      value: 
-      objectReference: {fileID: 274696445}
     - target: {fileID: 4411419462911629165, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2916,13 +2890,18 @@ PrefabInstance:
       propertyPath: levelSystemUI
       value: 
       objectReference: {fileID: 1152404000}
+    - target: {fileID: 7029538792328981239, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7594540630431473377, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3565888318105151665, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 274696445}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
