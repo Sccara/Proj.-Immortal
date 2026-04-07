@@ -8,7 +8,7 @@ public class ExperienceSphere : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out LevelSystemController playerLevel))
         {
-            playerLevel.AddExp(expAmount);
+            playerLevel.AddSouls(expAmount);
             Destroy(gameObject);
         }
     }

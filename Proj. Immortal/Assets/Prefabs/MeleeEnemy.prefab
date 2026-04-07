@@ -309,8 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7e119517eec3f408ebca4bea5cccc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  health: 0
-  maxHealth: 100
+  expReward: 25
 --- !u!195 &4896696299986175479
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -479,6 +478,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthUI
   healthBar: {fileID: 2091093855927848659}
+  _healthSystem: {fileID: 3518948704115963547}
 --- !u!1 &7667330309970724815
 GameObject:
   m_ObjectHideFlags: 0

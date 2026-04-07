@@ -5,17 +5,17 @@ public class EnemyHealthUI : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
 
-    private EnemyHealth _healthSystem;
+    [SerializeField] private EnemyHealth _healthSystem;
 
-    private void Awake()
+    private void Start()
     {
         Init();
-        _healthSystem.Health.OnValueChanged += UpdateHealthBar;
     }
 
     public void Init()
     {
         _healthSystem = GetComponentInParent<EnemyHealth>();
+        _healthSystem.Health.OnValueChanged += UpdateHealthBar;
     }
 
     public void UpdateHealthBar(float healthPercent)

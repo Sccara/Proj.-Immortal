@@ -8,15 +8,16 @@ public class InputReader : MonoBehaviour
 
     private InputAction _moveAction;
     private InputAction _dashAction;
+    private InputAction _interactAction;
     private InputAction _lightAttackAction;
     private InputAction _heavyAttackAction;
 
     public Vector2 MoveInput { get; private set; }
     public bool DashPressed { get; private set; }
+    public bool InteractPressed { get; private set; }
     public bool IsMovementPressed => MoveInput.sqrMagnitude > 0.01f;
     public bool LightAttackPressed { get; private set; }
     public bool HeavyAttackPressed { get; private set; }
-
 
     private void OnEnable()
     {
@@ -35,8 +36,12 @@ public class InputReader : MonoBehaviour
 
         _moveAction = actions.FindAction("Move");
         _dashAction = actions.FindAction("Dash");
+        _interactAction = actions.FindAction("Interact");
         _lightAttackAction = actions.FindAction("Attack");
         _heavyAttackAction = actions.FindAction("HeavyAttack");
+
+        _interactAction.started += ctx => InteractPressed = true;
+        _interactAction.canceled += ctx => InteractPressed = false;
 
         _dashAction.started += ctx => DashPressed = true;
         _dashAction.canceled += ctx => DashPressed = false;

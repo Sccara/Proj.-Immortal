@@ -5,6 +5,9 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats Instance { get; private set; }
 
     [SerializeField] private PlayerStatsConfigSO config;
+    [SerializeField] private float baseLevelUpCost = 100f;
+    [SerializeField] private float levelCostMultiplier = 1.2f;
+
 
     private void Awake()
     {
@@ -19,6 +22,11 @@ public class PlayerStats : MonoBehaviour
 
         Initialize(config);
     }
+
+    [Header("Leveling")]
+    [field: SerializeField] public int Level { get; set; } = 1;
+    [field: SerializeField] public float CurrentSouls { get; set; }
+    public float LevelUpCost { get => GetLevelUpCost(); private set { } }
     [Header("Stats")]
     [field: SerializeField] public Resource Health { get; private set; }
     [field: SerializeField] public Resource Stamina { get; private set; }
@@ -95,5 +103,10 @@ public class PlayerStats : MonoBehaviour
         DashStamina = cfg.dashStamina;
 
         Debug.Log("<color=green>PlayerStats initialized successfully from SO.</color>");
+    }
+
+    private float GetLevelUpCost()
+    {
+        return Mathf.Round(baseLevelUpCost * Mathf.Pow(Level, levelCostMultiplier));
     }
 }

@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour
 
     public Resource Health { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         Health = new Resource(100);
     }
@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void Die()
     {
-        PlayerManager.Instance.Level.AddExp(expReward);
+        PlayerManager.Instance.Level.AddSouls(expReward);
 
         OnDeath.Invoke();
     }
