@@ -20,15 +20,12 @@ public class PlayerStats : MonoBehaviour
         Initialize(config);
     }
     [Header("Stats")]
-    [field: SerializeField] public float MaxHealth { get; set; }
-    [field: SerializeField] public float Health { get; set; }
-    [field: SerializeField] public float MaxStamina { get; set; }
-    [field: SerializeField] public float Stamina { get; set; }
+    [field: SerializeField] public Resource Health { get; private set; }
+    [field: SerializeField] public Resource Stamina { get; private set; }
+    [field: SerializeField] public Resource Poise { get; private set; }
     [field: SerializeField] public float StaminaRestoreRate { get; set; }
     [field: SerializeField] public float AttackDamage { get; set; }
     [field: SerializeField] public float PoiseDamage { get; set; }
-    [field: SerializeField] public float Poise { get; set; }
-    [field: SerializeField] public float MaxPoise { get; set; }
     [field: SerializeField] public float PoiseRestoreCooldown { get; set; }
     [field: SerializeField]  public float PoiseRestoreMultiplier { get; set; }
     [Header("Movement")]
@@ -61,20 +58,17 @@ public class PlayerStats : MonoBehaviour
             return;
         }
 
-        MaxHealth = cfg.maxHealth;
-        Health = MaxHealth;
+        Health = new Resource(cfg.maxHealth);
 
-        MaxStamina = cfg.maxStamina;
-        Stamina = MaxStamina;
+        Stamina = new Resource(cfg.maxStamina);
         StaminaRestoreRate = cfg.staminaRestoreRate;
+
+        Poise = new Resource(cfg.maxPoise);
 
         AttackDamage = cfg.attackDamage;
         PoiseDamage = cfg.poiseDamage;
         PoiseRestoreCooldown = cfg.poiseRestoreCooldown;
         PoiseRestoreMultiplier = cfg.poiseRestoreMultiplier;
-
-        MaxPoise = cfg.maxPoise;
-        Poise = MaxPoise;
 
         MoveSpeed = cfg.moveSpeed;
         RotateSpeed = cfg.rotateSpeed;

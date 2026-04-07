@@ -3,27 +3,22 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public Action<float> OnHealthChanged;
     public Action OnDeath;
 
-    [SerializeField] private float health;
-    [SerializeField] private float maxHealth;
+    [SerializeField] private float expReward;
 
-    public float HealthPercent => health / maxHealth;
+    public Resource Health { get; set; }
 
     private void Start()
     {
-        health = maxHealth;
+        Health = new Resource(100);
     }
 
     public void DecreaseHealth(float amount)
     {
-        health -= amount;
-        health = Mathf.Clamp(health, 0, maxHealth);
+        Health.Use(amount);
 
-        OnHealthChanged(HealthPercent);
-
-        if (health <= 0)
+        if (Health.Current <= 0)
         {
             Die();
         }
@@ -31,14 +26,13 @@ public class EnemyHealth : MonoBehaviour
 
     public void IncreaseHealth(float amount)
     {
-        health += amount;
-        health = Mathf.Clamp(health, 0, maxHealth);
-
-        OnHealthChanged(HealthPercent);
+        Health.Restore(amount);
     }
 
     public void Die()
     {
+        PlayerManager.Instance.Level.AddExp(expReward);
+
         OnDeath.Invoke();
     }
 }

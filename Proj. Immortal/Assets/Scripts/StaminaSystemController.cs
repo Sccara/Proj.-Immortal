@@ -3,52 +3,30 @@ using UnityEngine;
 
 public class StaminaSystemController : MonoBehaviour
 {
-    [SerializeField] StaminaSystem _staminaSystem;
-    [SerializeField] StaminaSystemUI _staminaSystemUI;
-
-    [SerializeField] private bool _isPerformedAction;
     [SerializeField] private float performActionCooldown;
 
-    public bool IsPerformedAction {  get { return _isPerformedAction; } set { _isPerformedAction = value; } }
-
-    private void Start()
-    {
-        _staminaSystem = new StaminaSystem(PlayerStats.Instance.Stamina, PlayerStats.Instance.MaxStamina);
-        _staminaSystemUI.UpdateStaminaBar(_staminaSystem.StaminaPercent);
-    }
+    private bool _isRegenPaused;
 
     private void Update()
     {
-        if (_staminaSystem.StaminaPercent < 1 && !_isPerformedAction)
+        if (PlayerStats.Instance.Stamina.Percent < 1f && !_isRegenPaused)
         {
-            RestoreStamina(PlayerStats.Instance.StaminaRestoreRate * Time.deltaTime);
-            _staminaSystemUI.UpdateStaminaBar(_staminaSystem.StaminaPercent);
+            PlayerStats.Instance.Stamina.Restore(PlayerStats.Instance.StaminaRestoreRate * Time.deltaTime);
         }
     }
 
-    private IEnumerator PerformAction()
-    {
-        _isPerformedAction = true;
-
-        yield return new WaitForSeconds(performActionCooldown);
-
-        _isPerformedAction = false;
-    }
-
-    public bool CheckStamina()
-    {
-        return _staminaSystem.Stamina > 0;
-    }
+    public bool HasEnoughStamina() => PlayerStats.Instance.Stamina.Current >= 1;
 
     public void UseStamina(float amount)
     {
-        _staminaSystem.UseStamina(amount);
-        StartCoroutine(PerformAction());
-        _staminaSystemUI.UpdateStaminaBar(_staminaSystem.StaminaPercent);
+        PlayerStats.Instance.Stamina.Use(amount);
+        StartCoroutine(PauseRegenCoroutine());
     }
 
-    public void RestoreStamina(float amount)
+    private IEnumerator PauseRegenCoroutine()
     {
-        _staminaSystem.RestoreStamina(amount);
+        _isRegenPaused = true;
+        yield return new WaitForSeconds(performActionCooldown);
+        _isRegenPaused = false;
     }
 }

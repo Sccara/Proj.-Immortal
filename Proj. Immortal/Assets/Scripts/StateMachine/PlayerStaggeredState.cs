@@ -13,7 +13,8 @@ public class PlayerStaggeredState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entered Staggered State!");
+        Ctx.PlayerManager.Health.CanBeStaggered = false;
+
         _staggerTimer = Ctx.Stats.StaggerTime;
 
         Ctx.StopMovement();
@@ -31,7 +32,9 @@ public class PlayerStaggeredState : PlayerBaseState
     }
     public override void ExitState()
     {
-        Ctx.Stats.Poise = Ctx.Stats.MaxPoise;
+        Ctx.PlayerManager.Health.CanBeStaggered = true;
+        Ctx.PlayerManager.Health.TriggerInvulnerability(0.3f);
+        Ctx.PlayerManager.Health.ResetPoise();
         Ctx.PlayerManager.GetComponent<MeshRenderer>().material.color = Color.gray;
     }
     public override void InitializeSubState()

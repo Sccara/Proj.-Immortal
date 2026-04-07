@@ -11,6 +11,7 @@ public class PlayerDashState : PlayerBaseState
 
     public override void EnterState()
     {
+        Ctx.PlayerManager.Health.IsInvulnerable = true;
         Ctx.StartCoroutine(HandleDash());
     }
     public override void UpdateState()
@@ -25,8 +26,11 @@ public class PlayerDashState : PlayerBaseState
     {
         if (Ctx.Input.DashPressed)
         {
+            
             //Ctx.RequireNewDashPress = true;
         }
+
+        Ctx.PlayerManager.Health.IsInvulnerable = false;
     }
     public override void InitializeSubState()
     {

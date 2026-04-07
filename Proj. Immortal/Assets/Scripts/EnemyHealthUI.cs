@@ -10,7 +10,7 @@ public class EnemyHealthUI : MonoBehaviour
     private void Awake()
     {
         Init();
-        _healthSystem.OnHealthChanged += UpdateHealthBar;
+        _healthSystem.Health.OnValueChanged += UpdateHealthBar;
     }
 
     public void Init()
@@ -21,5 +21,11 @@ public class EnemyHealthUI : MonoBehaviour
     public void UpdateHealthBar(float healthPercent)
     {
         healthBar.fillAmount = healthPercent;
+    }
+
+    private void OnDisable()
+    {
+        if (_healthSystem != null)
+            _healthSystem.Health.OnValueChanged -= UpdateHealthBar;
     }
 }

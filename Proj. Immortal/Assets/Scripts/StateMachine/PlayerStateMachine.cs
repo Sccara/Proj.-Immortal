@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
     private Animator _animator;
 
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
+    public PlayerStateFactory States { get => _states; }   
     public float DashCooldownTimer { get => _dashCooldownTimer; set { _dashCooldownTimer = value; } }
     public TrailRenderer Trail => trail;
     public CinemachineImpulseSource ImpulseSource => _impulseSource;

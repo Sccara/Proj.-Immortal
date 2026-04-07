@@ -22,18 +22,16 @@ public class PlayerCombat : MonoBehaviour
 
     public void ActivateWeapon(float damageMult, float poiseMult, float staminaCost, float stepForce)
     {
-        if (GetComponent<StaminaSystemController>().CheckStamina() == false)
+        if (GetComponent<StaminaSystemController>().HasEnoughStamina() == false)
             return;
 
         GetComponent<StaminaSystemController>().UseStamina(staminaCost);
         GetComponent<Rigidbody>().AddForce(transform.forward * stepForce, ForceMode.Impulse);
 
-        // Готовим данные
         float finalDamage = PlayerStats.Instance.AttackDamage * damageMult;
         float finalPoise = PlayerStats.Instance.PoiseDamage * poiseMult;
         Vector3 knockback = transform.forward * (PlayerStats.Instance.KnockbackStrength * damageMult);
 
-        // Включаем меч
         weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
     }
 
@@ -44,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void PerformAttackk(float damageMult, float poiseMult, float staminaCost, float stepForce, float range, float knockback)
     {
-        if (!_stamina.CheckStamina()) return;
+        if (!_stamina.HasEnoughStamina()) return;
 
         _stamina.UseStamina(staminaCost);
         _rb.AddForce(transform.forward * stepForce, ForceMode.Impulse);
@@ -68,8 +66,6 @@ public class PlayerCombat : MonoBehaviour
 
     public void StartDamageWindow()
     {
-        Debug.Log("StartDamageWindow");
-        // Передаем параметры из текущих статов
         weaponDetector.EnableDamage(
             PlayerStats.Instance.AttackDamage,
             PlayerStats.Instance.PoiseDamage,
