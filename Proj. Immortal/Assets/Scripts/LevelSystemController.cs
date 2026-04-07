@@ -66,7 +66,6 @@ public class LevelSystemController : MonoBehaviour
         {
             case StatType.Health:
                 float newHealthMax = PlayerStats.Instance.Health.Max + healthBonusPerLevel;
-                // Благодаря твоему рефакторингу, этот метод сам обновит полоску ХП!
                 PlayerStats.Instance.Health.SetMax(newHealthMax);
                 break;
 
@@ -83,7 +82,6 @@ public class LevelSystemController : MonoBehaviour
 
     public void ShowUpgradePanel()
     {
-        // Включаем курсор и ставим игру на паузу
         upgradePanel.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -92,7 +90,6 @@ public class LevelSystemController : MonoBehaviour
 
     public void CloseUpgradePanel()
     {
-        // Возвращаемся в игру
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1f;

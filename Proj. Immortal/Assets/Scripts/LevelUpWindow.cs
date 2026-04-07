@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LevelUpWindow : MonoBehaviour
+public class LevelUpWindow : UIWindow
 {
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI currentSoulsText;
@@ -57,5 +57,11 @@ public class LevelUpWindow : MonoBehaviour
     {
         PlayerManager.Instance.Level.CloseUpgradePanel();
         gameObject.SetActive(false);
+    }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        RefreshUI();
     }
 }
