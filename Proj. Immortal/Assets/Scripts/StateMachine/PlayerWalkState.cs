@@ -33,5 +33,9 @@ public class PlayerWalkState : PlayerBaseState
         {
             SwitchState(Factory.Idle());
         }
+        else if (Ctx.Input.IsMovementPressed && Ctx.Input.IsSprinting)
+        {
+            SwitchState(Factory.Run()); 
+        }
     }
 }

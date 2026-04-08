@@ -65,12 +65,15 @@ public class PlayerGroundedState : PlayerBaseState
                     return true; 
                 }
                 break;
-            //case InputCommand.LightAttack:
-            //    SwitchState(Factory.LightAttack());
-            //    return true;
-            //case InputCommand.HeavyAttack:
-            //    SwitchState(Factory.HeavyAttack());
-            //    return true;
+            case InputCommand.Jump:
+                SwitchState(Factory.Jump());
+                break;
+                //case InputCommand.LightAttack:
+                //    SwitchState(Factory.LightAttack());
+                //    return true;
+                //case InputCommand.HeavyAttack:
+                //    SwitchState(Factory.HeavyAttack());
+                //    return true;
         }
 
         // Если дошли сюда, значит этот стейт не знает, что делать с командой.

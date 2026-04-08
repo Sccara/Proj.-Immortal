@@ -133,5 +133,7 @@ public enum InputCommand
     LightAttack,
     HeavyAttack,
     Interact,
-    Heal
+    Heal,
+    Jump,
+    Sprint
 }

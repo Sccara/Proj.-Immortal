@@ -38,7 +38,10 @@ public class PlayerStats : MonoBehaviour
     [field: SerializeField]  public float PoiseRestoreMultiplier { get; set; }
     [Header("Movement")]
     [field: SerializeField] public float MoveSpeed { get; set; }
+    [field: SerializeField] public float SprintMoveSpeed { get; set; }
+    [field: SerializeField] public float WalkMoveSpeed { get; set; }
     [field: SerializeField] public float RotateSpeed { get; set; }
+    [field: SerializeField] public float SprintStamina { get; set; }
     [Header("Combat")]
     [field: SerializeField] public float StaggerTime { get; set; }
     [field: SerializeField] public float AttackRange { get; set; }
@@ -78,8 +81,11 @@ public class PlayerStats : MonoBehaviour
         PoiseRestoreCooldown = cfg.poiseRestoreCooldown;
         PoiseRestoreMultiplier = cfg.poiseRestoreMultiplier;
 
-        MoveSpeed = cfg.moveSpeed;
+        WalkMoveSpeed = cfg.walkMoveSpeed;
+        SprintMoveSpeed = cfg.sprintMoveSpeed;
+        MoveSpeed = WalkMoveSpeed;
         RotateSpeed = cfg.rotateSpeed;
+        SprintStamina = cfg.sprintStamina;
 
         AttackRange = cfg.attackRange;
         KnockbackStrength = cfg.knockbackStrength;

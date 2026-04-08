@@ -20,8 +20,10 @@ MonoBehaviour:
   maxPoise: 50
   poiseRestoreCooldown: 3
   poiseRestoreMultiplier: 2
-  moveSpeed: 5
+  walkMoveSpeed: 5
+  sprintMoveSpeed: 20
   rotateSpeed: 5
+  sprintStamina: 5
   staggerTime: 3
   attackRange: 1
   knockbackStrength: 7
