@@ -1,10 +1,21 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputReader : MonoBehaviour
 {
-    [Header("Input")]
-    public InputActionAsset InputActions;
+    public Action OnInteractPressed;
+    public Action OnCycleQuickItemPressed;
+    public Action OnEscapePressed;
+    public Action OnInventoryPressed;
+    public Action OnDashPressed;
+
+    public Vector2 MoveInput { get; private set; }
+    public bool IsMovementPressed => MoveInput.sqrMagnitude > 0.01f;
+    public bool LightAttackPressed { get; private set; }
+    public bool HeavyAttackPressed { get; private set; }
+
+    private InputSystem_Actions _input;
 
     private InputAction _moveAction;
     private InputAction _dashAction;
@@ -15,64 +26,40 @@ public class InputReader : MonoBehaviour
     private InputAction _lightAttackAction;
     private InputAction _heavyAttackAction;
 
-    public Vector2 MoveInput { get; private set; }
-    public bool DashPressed { get; private set; }
-    public bool InteractPressed { get; private set; }
-    public bool CycleQuickItemAction { get; set; }
-    public bool EscapeButtonAction { get; set; }
-    public bool InventoryAction { get; set; }
-    public bool IsMovementPressed => MoveInput.sqrMagnitude > 0.01f;
-    public bool LightAttackPressed { get; private set; }
-    public bool HeavyAttackPressed { get; private set; }
-
-    private void OnEnable()
-    {
-        InputActions.FindActionMap("Player").Enable();
-    }
-
-    private void OnDisable()
-    {
-        InputActions.FindActionMap("Player").Disable();
-    }
-
-
     private void Awake()
     {
-        var actions = InputSystem.actions;
+        _input = new InputSystem_Actions();
 
-        _moveAction = actions.FindAction("Move");
-        _dashAction = actions.FindAction("Dash");
-        _interactAction = actions.FindAction("Interact");
-        _lightAttackAction = actions.FindAction("Attack");
-        _heavyAttackAction = actions.FindAction("HeavyAttack");
-        _cycleQuickItemAction = actions.FindAction("CycleQuickItem");
-        _escapeButtonAction = actions.FindAction("Escape");
-        _inventoryAction = actions.FindAction("Inventory");
+        _input.Player.HeavyAttack.started += ctx => HeavyAttackPressed = true;
+        _input.Player.HeavyAttack.canceled += ctx => HeavyAttackPressed = false;
 
-        _interactAction.started += ctx => InteractPressed = true;
-        _interactAction.canceled += ctx => InteractPressed = false;
 
-        _escapeButtonAction.started += ctx => EscapeButtonAction = true;
-        _escapeButtonAction.canceled += ctx => EscapeButtonAction = false;
+        _input.Player.Interact.performed += ctx =>
+        {
+            Debug.Log("Interact pressed");
+            OnInteractPressed?.Invoke();
+        };
 
-        _inventoryAction.started += ctx => InventoryAction = true;
-        _inventoryAction.canceled += ctx => InventoryAction = false;
-
-        _cycleQuickItemAction.started += ctx => CycleQuickItemAction = true;
-        _cycleQuickItemAction.canceled += ctx => CycleQuickItemAction = false;
-
-        _dashAction.started += ctx => DashPressed = true;
-        _dashAction.canceled += ctx => DashPressed = false;
-
-        _lightAttackAction.performed += ctx => LightAttackPressed = true;
-
-        _heavyAttackAction.started += ctx => HeavyAttackPressed = true;
-        _heavyAttackAction.canceled += ctx => HeavyAttackPressed = false;
+        _input.Player.CycleQuickItem.performed += ctx => OnCycleQuickItemPressed?.Invoke();
+        _input.Player.Escape.performed += ctx => OnEscapePressed?.Invoke();
+        _input.Player.Inventory.performed += ctx => OnInventoryPressed?.Invoke();
+        _input.Player.Dash.performed += ctx => OnDashPressed?.Invoke();
+        _input.Player.Attack.performed += ctx => LightAttackPressed = true;
     }
 
     private void Update()
     {
-        MoveInput = _moveAction.ReadValue<Vector2>();
+        MoveInput = _input.Player.Move.ReadValue<Vector2>();
+    }
+
+    private void OnEnable()
+    {
+        _input?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _input?.Disable();
     }
 
     public void UseAttackInput() => LightAttackPressed = false;

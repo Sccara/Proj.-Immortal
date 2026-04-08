@@ -24,12 +24,6 @@ public class PlayerDashState : PlayerBaseState
     }
     public override void ExitState()
     {
-        if (Ctx.Input.DashPressed)
-        {
-            
-            //Ctx.RequireNewDashPress = true;
-        }
-
         Ctx.PlayerManager.Health.IsInvulnerable = false;
     }
     public override void InitializeSubState()

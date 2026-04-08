@@ -22,6 +22,16 @@ public abstract class PlayerBaseState
     public abstract void CheckSwitchStates();
     public abstract void InitializeSubState();
 
+    public virtual bool HandleInput(InputCommand command)
+    {
+        if (_currentSubState != null)
+        {
+            return _currentSubState.HandleInput(command);
+        }
+
+        return false;
+    }
+
     public void UpdateStates()
     {
         UpdateState();

@@ -64,6 +64,10 @@ public class PlayerStateMachine : MonoBehaviour
         _stats = PlayerStats.Instance;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        Input.OnDashPressed += () => CurrentState?.HandleInput(InputCommand.Dash);
+        //Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
+        //Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
     }
 
     private void Update()
@@ -121,4 +125,13 @@ public class PlayerStateMachine : MonoBehaviour
     {
         _playerManager.Health.OnPoiseBroken -= HandlePoiseBroken;
     }
+}
+
+public enum InputCommand
+{
+    Dash,
+    LightAttack,
+    HeavyAttack,
+    Interact,
+    Heal
 }

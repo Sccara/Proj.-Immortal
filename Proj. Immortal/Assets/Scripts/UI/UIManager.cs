@@ -34,24 +34,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Start()
     {
-        // Временный инпут для теста. Позже перенесешь в свой InputReader
-        if (inputReader.InventoryAction)
+        inputReader.OnInventoryPressed += () =>
+        { 
+            ToggleWindow(WindowType.Inventory, hideHUD: true); 
+        };
+        inputReader.OnEscapePressed += CloseLastWindow;
+    }
+
+    private void OnDestroy()
+    {
+        if (inputReader != null)
         {
-            ToggleWindow(WindowType.Inventory, hideHUD: true);
-        }
-        else if (inputReader.EscapeButtonAction)
-        {
-            CloseLastWindow();
+            //inputReader.OnInventoryPressed -= HandleInventoryToggle;
+            inputReader.OnEscapePressed -= CloseLastWindow;
         }
     }
 
     public void ToggleWindow(WindowType type, bool hideHUD = false)
     {
-        inputReader.InventoryAction = false;
-        inputReader.EscapeButtonAction = false;
-
         if (_windows.TryGetValue(type, out UIWindow window))
         {
             if (window.gameObject.activeSelf)

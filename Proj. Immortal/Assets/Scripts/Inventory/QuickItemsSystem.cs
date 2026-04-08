@@ -17,14 +17,7 @@ public class QuickItemsSystem : MonoBehaviour
     private void Start()
     {
         inventorySystem.OnInventoryChanged += NotifyUI;
-    }
-
-    private void Update()
-    {
-        if (inputReader.CycleQuickItemAction)
-        {
-            CycleNextItem();
-        }
+        inputReader.OnCycleQuickItemPressed += CycleNextItem;
     }
 
     private void OnDestroy()
@@ -61,8 +54,6 @@ public class QuickItemsSystem : MonoBehaviour
 
     public void CycleNextItem()
     {
-        inputReader.CycleQuickItemAction = false;
-
         if (equippedItems.Count <= 1)
         {
             return;

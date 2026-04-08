@@ -86,9 +86,10 @@ GameObject:
   - component: {fileID: 4269433142186122330}
   - component: {fileID: 7993863743934738338}
   - component: {fileID: 1365971673030607122}
+  - component: {fileID: 8405616296295915670}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -438,8 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7885a10e812254cbd029c3671a8d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystemController
-  _currentPoise: 0
   _timeSinceLastHit: 0
+  <IsInvulnerable>k__BackingField: 0
 --- !u!114 &5783568130548789771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +453,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c32471f594759e4f8dda6fa980f30af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelSystemController
+  healthBonusPerLevel: 10
+  staminaBonusPerLevel: 5
+  damageBonusPerLevel: 2
   levelSystemUI: {fileID: 0}
   upgradePanel: {fileID: 0}
 --- !u!114 &5219573198072299313
@@ -467,15 +471,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
-  <MaxHealth>k__BackingField: 0
-  <Health>k__BackingField: 0
-  <MaxStamina>k__BackingField: 0
-  <Stamina>k__BackingField: 0
+  baseLevelUpCost: 100
+  levelCostMultiplier: 1.2
+  <Level>k__BackingField: 1
+  <CurrentSouls>k__BackingField: 2000
   <StaminaRestoreRate>k__BackingField: 0
   <AttackDamage>k__BackingField: 0
   <PoiseDamage>k__BackingField: 0
-  <Poise>k__BackingField: 0
-  <MaxPoise>k__BackingField: 0
   <PoiseRestoreCooldown>k__BackingField: 0
   <PoiseRestoreMultiplier>k__BackingField: 0
   <MoveSpeed>k__BackingField: 0
@@ -508,8 +510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8ca0d21a33a1e44b9b05f41c6a7cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystemController
-  _staminaSystemUI: {fileID: 0}
-  _isPerformedAction: 0
   performActionCooldown: 0.7
 --- !u!114 &6448107660609498646
 MonoBehaviour:
@@ -577,6 +577,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8405616296295915670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180b746ad9f8559418c15c034faad6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  slots: []
+  items:
+  - {fileID: 11400000, guid: c732da6d31dafe04391187034e2823d9, type: 2}
+  - {fileID: 11400000, guid: e550c90adb32f4041a82b238d6cd7c58, type: 2}
+  - {fileID: 11400000, guid: 67d3cf9e93826f6459107e92662c298f, type: 2}
+  - {fileID: 11400000, guid: 41a860c306a80af47992780119e8973e, type: 2}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

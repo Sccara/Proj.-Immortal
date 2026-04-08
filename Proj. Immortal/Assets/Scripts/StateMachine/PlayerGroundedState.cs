@@ -43,11 +43,7 @@ public class PlayerGroundedState : PlayerBaseState
         //    SwitchState(Factory.Dash());
         //}
 
-        if(Ctx.Input.DashPressed && Ctx.DashCooldownTimer <= 0)
-    {
-            SwitchState(Factory.Dash());
-        }
-        else if (Ctx.Input.LightAttackPressed)
+        if (Ctx.Input.LightAttackPressed)
         {
             Ctx.Input.UseAttackInput();
             SwitchState(Factory.LightAttack());
@@ -56,5 +52,29 @@ public class PlayerGroundedState : PlayerBaseState
         {
             SwitchState(Factory.HeavyAttack());
         }
+    }
+
+    public override bool HandleInput(InputCommand command)
+    {
+        switch (command)
+        {
+            case InputCommand.Dash:
+                if (Ctx.DashCooldownTimer <= 0)
+                {
+                    SwitchState(Factory.Dash());
+                    return true; 
+                }
+                break;
+            //case InputCommand.LightAttack:
+            //    SwitchState(Factory.LightAttack());
+            //    return true;
+            //case InputCommand.HeavyAttack:
+            //    SwitchState(Factory.HeavyAttack());
+            //    return true;
+        }
+
+        // Если дошли сюда, значит этот стейт не знает, что делать с командой.
+        // Передаем её дальше в SubState (например, в Idle или Walk)
+        return base.HandleInput(command);
     }
 }
