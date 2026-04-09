@@ -17,6 +17,9 @@ public class PlayerStatsConfigSO : ScriptableObject
     public float sprintMoveSpeed;
     public float rotateSpeed;
     public float sprintStamina;
+    public float jumpForce;
+    public float jumpStamina;
+    public float fallMultiplier;
     [Header("Combat")]
     public float staggerTime;
     public float attackRange;

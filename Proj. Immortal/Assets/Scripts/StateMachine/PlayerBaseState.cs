@@ -40,6 +40,14 @@ public abstract class PlayerBaseState
             _currentSubState.UpdateStates();
         }
     }
+    public void ExitStates()
+    {
+        ExitState();
+        if (_currentSubState != null)
+        {
+            _currentSubState.ExitStates();
+        }
+    }
     public void FixedUpdateStates()
     {
         FixedUpdateState();
@@ -50,7 +58,7 @@ public abstract class PlayerBaseState
     }
     protected void SwitchState(PlayerBaseState newState)
     {
-        ExitState();
+        ExitStates();
 
         newState.EnterState();
 

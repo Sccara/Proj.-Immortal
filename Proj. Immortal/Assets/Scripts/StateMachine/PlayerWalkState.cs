@@ -29,11 +29,16 @@ public class PlayerWalkState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
+        if (!Ctx.Input.IsSprinting)
+        {
+            Ctx.IsSprintBroken = false;
+        }
+
         if (!Ctx.Input.IsMovementPressed)
         {
             SwitchState(Factory.Idle());
         }
-        else if (Ctx.Input.IsMovementPressed && Ctx.Input.IsSprinting)
+        else if (Ctx.Input.IsSprinting && !Ctx.IsSprintBroken && Ctx.PlayerManager.Stamina.HasEnoughStamina())
         {
             SwitchState(Factory.Run()); 
         }

@@ -42,6 +42,9 @@ public class PlayerStats : MonoBehaviour
     [field: SerializeField] public float WalkMoveSpeed { get; set; }
     [field: SerializeField] public float RotateSpeed { get; set; }
     [field: SerializeField] public float SprintStamina { get; set; }
+    [field: SerializeField] public float JumpForce { get; set; }
+    [field: SerializeField] public float JumpStamina { get; set; }
+    [field: SerializeField]public float FallMultiplier { get; set; }
     [Header("Combat")]
     [field: SerializeField] public float StaggerTime { get; set; }
     [field: SerializeField] public float AttackRange { get; set; }
@@ -86,6 +89,9 @@ public class PlayerStats : MonoBehaviour
         MoveSpeed = WalkMoveSpeed;
         RotateSpeed = cfg.rotateSpeed;
         SprintStamina = cfg.sprintStamina;
+        JumpForce = cfg.jumpForce;
+        JumpStamina = cfg.jumpStamina;
+        FallMultiplier = cfg.fallMultiplier;
 
         AttackRange = cfg.attackRange;
         KnockbackStrength = cfg.knockbackStrength;

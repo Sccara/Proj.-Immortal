@@ -45,4 +45,8 @@ public class PlayerStateFactory : MonoBehaviour
     {
         return new PlayerJumpState(_context, this);
     }
+    public PlayerBaseState Fall()
+    {
+        return new PlayerFallState(_context, this);
+    }
 }

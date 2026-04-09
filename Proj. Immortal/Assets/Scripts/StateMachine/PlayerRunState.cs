@@ -23,6 +23,7 @@ public class PlayerRunState : PlayerBaseState
     }
     public override void ExitState()
     {
+        Debug.Log("Exit Run State");
         Ctx.Stats.MoveSpeed = Ctx.Stats.WalkMoveSpeed;
     }
     public override void InitializeSubState()
@@ -35,9 +36,14 @@ public class PlayerRunState : PlayerBaseState
         {
             SwitchState(Factory.Idle());
         }
-        else if ((Ctx.Input.IsMovementPressed && !Ctx.Input.IsSprinting) || !Ctx.PlayerManager.Stamina.HasEnoughStamina())
+        else if (Ctx.Input.IsMovementPressed && !Ctx.Input.IsSprinting)
         {
             SwitchState(Factory.Walk());
-        } 
+        }
+        else if (!Ctx.PlayerManager.Stamina.HasEnoughStamina())
+        {
+            Ctx.IsSprintBroken = true;
+            SwitchState(Factory.Walk());
+        }
     }
 }

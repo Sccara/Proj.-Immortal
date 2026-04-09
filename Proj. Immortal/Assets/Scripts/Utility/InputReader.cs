@@ -19,15 +19,6 @@ public class InputReader : MonoBehaviour
 
     private InputSystem_Actions _input;
 
-    private InputAction _moveAction;
-    private InputAction _dashAction;
-    private InputAction _interactAction;
-    private InputAction _cycleQuickItemAction;
-    private InputAction _escapeButtonAction;
-    private InputAction _inventoryAction;
-    private InputAction _lightAttackAction;
-    private InputAction _heavyAttackAction;
-
     private void Awake()
     {
         _input = new InputSystem_Actions();

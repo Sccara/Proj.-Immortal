@@ -11,6 +11,11 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerManager _playerManager;
     private Animator _animator;
 
+    // Вынести в отдельный скрипт
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private float groundCheckRadius = 0.2f;
+
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public PlayerStateFactory States { get => _states; }   
     public float DashCooldownTimer { get => _dashCooldownTimer; set { _dashCooldownTimer = value; } }
@@ -23,6 +28,8 @@ public class PlayerStateMachine : MonoBehaviour
     public int PlayerLayer => gameObject.layer;
     public string EnemyLayerName => enemyLayerName;
     public Rigidbody Rb => _rb;
+    public bool IsSprintBroken { get; set; }
+    public bool IsSprintJump { get; set; }
     public bool IsDashing { get => _isDashing; set { _isDashing = value; } }
     public bool RequireNewDashPress { get => _requireNewDashPress; set { _requireNewDashPress = value; } }
 
@@ -66,6 +73,7 @@ public class PlayerStateMachine : MonoBehaviour
         Cursor.visible = false;
 
         Input.OnDashPressed += () => CurrentState?.HandleInput(InputCommand.Dash);
+        Input.OnJumpPressed += () => CurrentState?.HandleInput(InputCommand.Jump);
         //Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
         //Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
     }
@@ -119,6 +127,11 @@ public class PlayerStateMachine : MonoBehaviour
     private void HandlePoiseBroken()
     {
         _currentState.SwitchStateExternal(_states.Staggered());
+    }
+
+    public bool IsGrounded()
+    {
+        return Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
     }
 
     private void OnDisable()

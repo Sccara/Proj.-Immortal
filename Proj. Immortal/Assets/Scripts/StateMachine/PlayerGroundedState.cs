@@ -56,6 +56,8 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override bool HandleInput(InputCommand command)
     {
+        Debug.Log($"Command: {command}");
+
         switch (command)
         {
             case InputCommand.Dash:
@@ -66,7 +68,12 @@ public class PlayerGroundedState : PlayerBaseState
                 }
                 break;
             case InputCommand.Jump:
-                SwitchState(Factory.Jump());
+                if (Ctx.PlayerManager.Stamina.HasEnoughStamina())
+                {
+                    Ctx.IsSprintJump = Ctx.Input.IsSprinting && !Ctx.IsSprintBroken;
+                    SwitchState(Factory.Jump());
+                    return true;
+                }
                 break;
                 //case InputCommand.LightAttack:
                 //    SwitchState(Factory.LightAttack());

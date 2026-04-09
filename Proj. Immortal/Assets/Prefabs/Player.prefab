@@ -31,6 +31,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4411419462911629165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3043922202935016387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8783917549785136509}
+  m_Layer: 6
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8783917549785136509
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3043922202935016387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.872, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4411419462911629165}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3419289373211620017
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +142,7 @@ Transform:
   - {fileID: 6436449140090824537}
   - {fileID: 1200700187179401878}
   - {fileID: 8692428842267008813}
+  - {fileID: 8783917549785136509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5735160190767732323
@@ -481,7 +513,13 @@ MonoBehaviour:
   <PoiseRestoreCooldown>k__BackingField: 0
   <PoiseRestoreMultiplier>k__BackingField: 0
   <MoveSpeed>k__BackingField: 0
+  <SprintMoveSpeed>k__BackingField: 0
+  <WalkMoveSpeed>k__BackingField: 0
   <RotateSpeed>k__BackingField: 0
+  <SprintStamina>k__BackingField: 0
+  <JumpForce>k__BackingField: 0
+  <JumpStamina>k__BackingField: 0
+  <FallMultiplier>k__BackingField: 0
   <StaggerTime>k__BackingField: 0
   <AttackRange>k__BackingField: 0
   <KnockbackStrength>k__BackingField: 0
@@ -523,6 +561,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71575962c35c2cc468cdb636e389df08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateMachine
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 128
+  groundCheckTransform: {fileID: 8783917549785136509}
+  groundCheckRadius: 0.2
   enemyLayerName: Enemy
   _requireNewDashPress: 0
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -554,7 +597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdb59b72219d034790d09511c9be9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputReader
-  InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!95 &1365971673030607122
 Animator:
   serializedVersion: 7

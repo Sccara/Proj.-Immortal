@@ -1,34 +1,26 @@
 using UnityEngine;
 
-public class PlayerJumpState : PlayerBaseState
+public class PlayerFallState : PlayerBaseState
 {
-    public PlayerJumpState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
-    : base(currentContext, playerStateFactory)
-    { 
+    public PlayerFallState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
+: base(currentContext, playerStateFactory)
+    {
         IsRootState = true;
     }
 
     public override void EnterState()
     {
-        Debug.Log("Jump state");
+        Debug.Log("Fall state");
 
-        Vector3 velocity = Ctx.Rb.linearVelocity;
-        velocity.y = 0;
-        Ctx.Rb.linearVelocity = velocity;
-
-        // Применяем силу прыжка
-        Ctx.Rb.AddForce(Vector3.up * Ctx.Stats.JumpForce, ForceMode.Impulse);
-
-        // Тратим стамину
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.JumpStamina);
     }
-
     public override void UpdateState()
     {
         CheckSwitchStates();
     }
     public override void FixedUpdateState()
     {
+        Ctx.Rb.AddForce(Vector3.down * Ctx.Stats.FallMultiplier, ForceMode.Acceleration);
+
         HandleAirPhysics();
     }
     public override void ExitState()
@@ -41,28 +33,21 @@ public class PlayerJumpState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
-        if (Ctx.Rb.linearVelocity.y < 0)
+        if (Ctx.IsGrounded())
         {
-            SwitchState(Factory.Fall());
+            SwitchState(Factory.Grounded());
         }
     }
 
     private void HandleAirPhysics()
     {
         Vector3 direction = Ctx.GetMoveDirection();
-
-        // 1. Максимальная скорость зависит от того, КАК мы прыгнули, а не от того, что мы жмем сейчас
         float maxAirSpeed = Ctx.IsSprintJump ? Ctx.Stats.SprintMoveSpeed : Ctx.Stats.WalkMoveSpeed;
-
-        // 2. Рулежка в воздухе (если игрок жмет WASD)
         Ctx.Rb.AddForce(direction * maxAirSpeed * 0.5f, ForceMode.Acceleration);
 
-        // 3. Срез инерции (Clamp)
         Vector3 currentVelocity = Ctx.Rb.linearVelocity;
         Vector3 horizontalVelocity = new Vector3(currentVelocity.x, 0, currentVelocity.z);
 
-        // Теперь, если мы прыгнули со спринта, лимит - SprintSpeed. Мы пролетим далеко!
-        // И даже если отпустить Shift в воздухе, скорость не срежется до WalkSpeed.
         if (horizontalVelocity.magnitude > maxAirSpeed)
         {
             Vector3 clampedVelocity = horizontalVelocity.normalized * maxAirSpeed;
