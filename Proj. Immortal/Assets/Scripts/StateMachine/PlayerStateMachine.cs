@@ -74,8 +74,8 @@ public class PlayerStateMachine : MonoBehaviour
 
         Input.OnDashPressed += () => CurrentState?.HandleInput(InputCommand.Dash);
         Input.OnJumpPressed += () => CurrentState?.HandleInput(InputCommand.Jump);
-        //Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
-        //Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
+        Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
+        Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
     }
 
     private void Update()

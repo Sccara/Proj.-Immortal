@@ -5,6 +5,9 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private WeaponDamageDetector weaponDetector;
 
+    private float _currentDamageMult = 1f;
+    private float _currentPoiseMult = 1f;
+
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
 
@@ -20,70 +23,83 @@ public class PlayerCombat : MonoBehaviour
         _stamina = GetComponent<StaminaSystemController>();
     }
 
-    public void ActivateWeapon(float damageMult, float poiseMult, float staminaCost, float stepForce)
+    public void SetAttackMultipliers(float damageMult, float poiseMult)
     {
-        if (GetComponent<StaminaSystemController>().HasEnoughStamina() == false)
-            return;
+        _currentDamageMult = damageMult;
+        _currentPoiseMult = poiseMult;
+    }
 
-        GetComponent<StaminaSystemController>().UseStamina(staminaCost);
-        GetComponent<Rigidbody>().AddForce(transform.forward * stepForce, ForceMode.Impulse);
+    // === ›“» Ã≈“Œƒ€ ¬€«€¬¿ﬁ“—ﬂ »« ANIMATION EVENTS ¬ ”Õ»“» ===
 
-        float finalDamage = PlayerStats.Instance.AttackDamage * damageMult;
-        float finalPoise = PlayerStats.Instance.PoiseDamage * poiseMult;
-        Vector3 knockback = transform.forward * (PlayerStats.Instance.KnockbackStrength * damageMult);
+    public void AnimEvent_EnableHitbox()
+    {
+        float finalDamage = PlayerStats.Instance.AttackDamage * _currentDamageMult;
+        float finalPoise = PlayerStats.Instance.PoiseDamage * _currentPoiseMult;
+        Vector3 knockback = transform.forward * PlayerStats.Instance.KnockbackStrength * _currentDamageMult;
 
         weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
     }
 
-    public void DeactivateWeapon()
+    public void AnimEvent_DisableHitbox()
     {
         weaponDetector.DisableDamage();
     }
 
-    public void PerformAttackk(float damageMult, float poiseMult, float staminaCost, float stepForce, float range, float knockback)
-    {
-        if (!_stamina.HasEnoughStamina()) return;
-
-        _stamina.UseStamina(staminaCost);
-        _rb.AddForce(transform.forward * stepForce, ForceMode.Impulse);
-
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
-        foreach (Collider enemy in hitEnemies)
-        {
-            if (enemy.TryGetComponent(out IDamageable damageable))
-            {
-                Vector3 direction = (enemy.transform.position - transform.position).normalized;
-                DamageInfo info = new DamageInfo
-                {
-                    DamageAmount = PlayerStats.Instance.AttackDamage * damageMult,
-                    KnockbackForce = direction * (knockback * damageMult),
-                    PoiseDecreaseAmount = PlayerStats.Instance.PoiseDamage * poiseMult
-                };
-                damageable.TakeDamage(info);
-            }
-        }
-    }
-
-    public void StartDamageWindow()
-    {
-        weaponDetector.EnableDamage(
-            PlayerStats.Instance.AttackDamage,
-            PlayerStats.Instance.PoiseDamage,
-            transform.forward * PlayerStats.Instance.KnockbackStrength
-        );
-    }
-
-    public void EndDamageWindow()
-    {
-        weaponDetector.DisableDamage();
-    }
-
-    //private void OnDrawGizmosSelected()
+    //public void ActivateWeapon(float damageMult, float poiseMult, float staminaCost, float stepForce)
     //{
-    //    if (attackPoint == null)
+    //    if (GetComponent<StaminaSystemController>().HasEnoughStamina() == false)
     //        return;
 
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(attackPoint.position, PlayerStats.Instance.AttackRange);
+    //    GetComponent<StaminaSystemController>().UseStamina(staminaCost);
+    //    GetComponent<Rigidbody>().AddForce(transform.forward * stepForce, ForceMode.Impulse);
+
+    //    float finalDamage = PlayerStats.Instance.AttackDamage * damageMult;
+    //    float finalPoise = PlayerStats.Instance.PoiseDamage * poiseMult;
+    //    Vector3 knockback = transform.forward * (PlayerStats.Instance.KnockbackStrength * damageMult);
+
+    //    weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
+    //}
+
+    //public void DeactivateWeapon()
+    //{
+    //    weaponDetector.DisableDamage();
+    //}
+
+    //public void PerformAttackk(float damageMult, float poiseMult, float staminaCost, float stepForce, float range, float knockback)
+    //{
+    //    if (!_stamina.HasEnoughStamina()) return;
+
+    //    _stamina.UseStamina(staminaCost);
+    //    _rb.AddForce(transform.forward * stepForce, ForceMode.Impulse);
+
+    //    Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
+    //    foreach (Collider enemy in hitEnemies)
+    //    {
+    //        if (enemy.TryGetComponent(out IDamageable damageable))
+    //        {
+    //            Vector3 direction = (enemy.transform.position - transform.position).normalized;
+    //            DamageInfo info = new DamageInfo
+    //            {
+    //                DamageAmount = PlayerStats.Instance.AttackDamage * damageMult,
+    //                KnockbackForce = direction * (knockback * damageMult),
+    //                PoiseDecreaseAmount = PlayerStats.Instance.PoiseDamage * poiseMult
+    //            };
+    //            damageable.TakeDamage(info);
+    //        }
+    //    }
+    //}
+
+    //public void StartDamageWindow()
+    //{
+    //    weaponDetector.EnableDamage(
+    //        PlayerStats.Instance.AttackDamage,
+    //        PlayerStats.Instance.PoiseDamage,
+    //        transform.forward * PlayerStats.Instance.KnockbackStrength
+    //    );
+    //}
+
+    //public void EndDamageWindow()
+    //{
+    //    weaponDetector.DisableDamage();
     //}
 }

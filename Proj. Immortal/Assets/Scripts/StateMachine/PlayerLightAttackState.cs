@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class PlayerLightAttackState : PlayerBaseState
 {
-    private float _attackTimer;
-
-    private Quaternion _startRotation;
-    private Quaternion _targetRotation;
+    private bool _isAnimationFinished;
 
     public PlayerLightAttackState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
     : base(currentContext, playerStateFactory)
@@ -15,13 +12,13 @@ public class PlayerLightAttackState : PlayerBaseState
 
     public override void EnterState()
     {
-        Ctx.Animator.Play("LightAttack");
+        _isAnimationFinished = false;
         Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.AttackStamina);
-        _attackTimer = 0.8f; // Длина всей анимации
+        Ctx.PlayerManager.Combat.SetAttackMultipliers(1f, 1f);
+        Ctx.Animator.Play("LightAttack");
     }
     public override void UpdateState()
     {
-        _attackTimer -= Time.deltaTime;
         CheckSwitchStates();
     }
     public override void FixedUpdateState()
@@ -38,9 +35,14 @@ public class PlayerLightAttackState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
-        if (_attackTimer <= 0)
+        if (_isAnimationFinished)
         {
             SwitchState(Factory.Grounded());
         }
+    }
+
+    public void AnimationFinished()
+    {
+        _isAnimationFinished = true;
     }
 }

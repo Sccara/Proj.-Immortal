@@ -17,11 +17,11 @@ MonoBehaviour:
   staminaRestoreRate: 20
   attackDamage: 20
   poiseDamage: 25
-  maxPoise: 50
+  maxPoise: 200
   poiseRestoreCooldown: 3
   poiseRestoreMultiplier: 2
   walkMoveSpeed: 5
-  sprintMoveSpeed: 7.5
+  sprintMoveSpeed: 10
   rotateSpeed: 5
   sprintStamina: 5
   jumpForce: 5
