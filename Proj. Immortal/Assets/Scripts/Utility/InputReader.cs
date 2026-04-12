@@ -10,6 +10,7 @@ public class InputReader : MonoBehaviour
     public Action OnEscapePressed;
     public Action OnInventoryPressed;
     public Action OnDashPressed;
+    public Action OnLockOnPressed;
 
     public Action OnLightAttackPressed;
     public Action OnHeavyAttackPressed;
@@ -36,10 +37,10 @@ public class InputReader : MonoBehaviour
         _input.Player.Escape.performed += ctx => OnEscapePressed?.Invoke();
         _input.Player.Inventory.performed += ctx => OnInventoryPressed?.Invoke();
         _input.Player.Dash.performed += ctx => OnDashPressed?.Invoke();
-        //_input.Player.Attack.performed += ctx => LightAttackPressed = true;
         _input.Player.Jump.performed += ctx => OnJumpPressed?.Invoke();
         _input.Player.Attack.performed += ctx => OnLightAttackPressed?.Invoke();
-        _input.Player.HeavyAttack.started += ctx => OnHeavyAttackPressed?.Invoke(); // ???
+        _input.Player.HeavyAttack.started += ctx => OnHeavyAttackPressed?.Invoke();
+        _input.Player.LockOn.started += ctx => OnLockOnPressed?.Invoke();
     }
 
     private void Update()
@@ -56,6 +57,4 @@ public class InputReader : MonoBehaviour
     {
         _input?.Disable();
     }
-
-    //public void UseAttackInput() => LightAttackPressed = false;
 }

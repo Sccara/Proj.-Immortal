@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -10,6 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     private InputReader _input;
     private PlayerManager _playerManager;
     private Animator _animator;
+    private TargetLockSystem _targetLock;
 
     // Вынести в отдельный скрипт
     [SerializeField] private LayerMask groundMask;
@@ -55,6 +57,7 @@ public class PlayerStateMachine : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
+        _targetLock = GetComponent<TargetLockSystem>();
         _playerManager = GetComponent<PlayerManager>();
         _impulseSource = GetComponent<CinemachineImpulseSource>();
         _camera = Camera.main.transform;
@@ -120,8 +123,22 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ApplyRotate(Vector3 direction)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, _stats.RotateSpeed);
+        if (_targetLock.IsLockedOn)
+        {
+            Vector3 directionToTarget = _targetLock.CurrentTarget.position - transform.position;
+            directionToTarget.y = 0;
+
+            if (directionToTarget != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Stats.RotateSpeed * Time.fixedDeltaTime);
+            }
+        }
+        else if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, _stats.RotateSpeed);
+        }
     }
 
     private void HandlePoiseBroken()

@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 1365971673030607122}
   - component: {fileID: 8405616296295915670}
   - component: {fileID: 5264399362625496569}
+  - component: {fileID: 1290416745817091015}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -652,6 +653,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationEvents
   _stateMachine: {fileID: 6448107660609498646}
   _combat: {fileID: 3511701561223828964}
+--- !u!114 &1290416745817091015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192d2888351496d4186755ae3fb4367b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetLockSystem
+  lockOnRadius: 15
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  playerCamera: {fileID: 0}
+  inputReader: {fileID: 7993863743934738338}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

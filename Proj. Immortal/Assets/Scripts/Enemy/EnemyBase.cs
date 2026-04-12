@@ -48,6 +48,11 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void Update()
     {
+        if (transform.position.y < -5)
+        {
+            Destroy(gameObject);
+        }
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= attackRange)
