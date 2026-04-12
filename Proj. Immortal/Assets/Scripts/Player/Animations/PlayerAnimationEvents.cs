@@ -20,4 +20,18 @@ public class PlayerAnimationEvents : MonoBehaviour
         else if (_stateMachine.CurrentState is PlayerHeavyAttackState heavyState)
             heavyState.AnimationFinished();
     }
+
+    public void OnItemUsed()
+    {
+        if (_stateMachine.CurrentState is PlayerUseItemState useItemState)
+        {
+            useItemState.AnimationFinished();
+        }
+    }
+
+    public void AnimEvent_ApplyItemEffect()
+    {
+        // Обращаемся к QuickItemsSystem и просим применить предмет
+        _stateMachine.PlayerManager.QuickItems.ConsumeCurrentItem(_stateMachine);
+    }
 }

@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 8405616296295915670}
   - component: {fileID: 5264399362625496569}
   - component: {fileID: 1290416745817091015}
+  - component: {fileID: 1418714845170944608}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -180,7 +181,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1d667b0c738268844b7bf58538733c66, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -517,6 +518,7 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 0
   <SprintMoveSpeed>k__BackingField: 0
   <WalkMoveSpeed>k__BackingField: 0
+  <UseItemSpeed>k__BackingField: 0
   <RotateSpeed>k__BackingField: 0
   <SprintStamina>k__BackingField: 0
   <JumpForce>k__BackingField: 0
@@ -587,6 +589,7 @@ MonoBehaviour:
   stamina: {fileID: 311555042095912451}
   level: {fileID: 5783568130548789771}
   combat: {fileID: 3511701561223828964}
+  quickItems: {fileID: 0}
 --- !u!114 &7993863743934738338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +674,22 @@ MonoBehaviour:
     m_Bits: 8
   playerCamera: {fileID: 0}
   inputReader: {fileID: 7993863743934738338}
+--- !u!114 &1418714845170944608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f36f21ba9575e47846f836fea74a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuickItemsSystem
+  inputReader: {fileID: 0}
+  inventorySystem: {fileID: 0}
+  maxQuickSlots: 0
+  equippedItems: []
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

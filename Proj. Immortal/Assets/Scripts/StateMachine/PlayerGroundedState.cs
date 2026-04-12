@@ -11,7 +11,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("GroundedState");
+        Debug.Log("Grounded state");
     }
     public override void UpdateState()
     {
@@ -67,6 +67,19 @@ public class PlayerGroundedState : PlayerBaseState
                 return true;
             case InputCommand.HeavyAttack:
                 SwitchState(Factory.HeavyAttack());
+                return true;
+            case InputCommand.UseItem:
+                ItemSO activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
+                int quantity = Ctx.PlayerManager.QuickItems.GetCurrentItemQuantity();
+
+                if (activeItem != null && quantity > 0)
+                {
+                    SwitchState(Factory.UseItem());
+                }     
+                else
+                {
+                    // SwitchState(Factory.CantUseItem()); // TO DO
+                }
                 return true;
         }
 

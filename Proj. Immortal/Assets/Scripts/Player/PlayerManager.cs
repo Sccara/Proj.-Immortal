@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private StaminaSystemController stamina;
     [SerializeField] private LevelSystemController level;
     [SerializeField] private PlayerCombat combat;
+    [SerializeField] private QuickItemsSystem quickItems;
 
     private PlayerStats _stats;
 
@@ -15,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public StaminaSystemController Stamina { get => stamina; private set { } }
     public LevelSystemController Level { get => level; private set { } }
     public PlayerCombat Combat { get => combat; private set { } }
+    public QuickItemsSystem QuickItems { get => quickItems; private set { } }
     public PlayerStats Stats { get => _stats; private set { } }
 
     private void Awake()

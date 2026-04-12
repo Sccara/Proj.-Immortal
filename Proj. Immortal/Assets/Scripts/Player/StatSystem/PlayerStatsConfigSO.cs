@@ -15,6 +15,7 @@ public class PlayerStatsConfigSO : ScriptableObject
     [Header("Movement")]
     public float walkMoveSpeed;
     public float sprintMoveSpeed;
+    public float useItemSpeed;
     public float rotateSpeed;
     public float sprintStamina;
     public float jumpForce;

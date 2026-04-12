@@ -40,6 +40,7 @@ public class PlayerStats : MonoBehaviour
     [field: SerializeField] public float MoveSpeed { get; set; }
     [field: SerializeField] public float SprintMoveSpeed { get; set; }
     [field: SerializeField] public float WalkMoveSpeed { get; set; }
+    [field: SerializeField] public float UseItemSpeed { get; set; }
     [field: SerializeField] public float RotateSpeed { get; set; }
     [field: SerializeField] public float SprintStamina { get; set; }
     [field: SerializeField] public float JumpForce { get; set; }
@@ -86,6 +87,7 @@ public class PlayerStats : MonoBehaviour
 
         WalkMoveSpeed = cfg.walkMoveSpeed;
         SprintMoveSpeed = cfg.sprintMoveSpeed;
+        UseItemSpeed = cfg.useItemSpeed;
         MoveSpeed = WalkMoveSpeed;
         RotateSpeed = cfg.rotateSpeed;
         SprintStamina = cfg.sprintStamina;

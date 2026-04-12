@@ -22,6 +22,7 @@ MonoBehaviour:
   poiseRestoreMultiplier: 2
   walkMoveSpeed: 5
   sprintMoveSpeed: 10
+  useItemSpeed: 2
   rotateSpeed: 5
   sprintStamina: 5
   jumpForce: 5

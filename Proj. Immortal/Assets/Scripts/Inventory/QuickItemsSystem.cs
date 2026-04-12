@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,6 +77,23 @@ public class QuickItemsSystem : MonoBehaviour
         {
             equippedItems.Add(item);
             NotifyUI();
+        }
+    }
+
+    public void ConsumeCurrentItem(PlayerStateMachine player)
+    {
+        ItemSO currentItem = GetCurrentItem();
+        int quantity = GetCurrentItemQuantity();
+
+        if (currentItem != null && quantity > 0)
+        {
+            bool success = currentItem.Use(player);
+
+            if (success)
+            {
+                inventorySystem.RemoveItem(currentItem, 1);
+                NotifyUI();
+            }
         }
     }
 

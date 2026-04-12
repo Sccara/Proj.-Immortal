@@ -79,6 +79,7 @@ public class PlayerStateMachine : MonoBehaviour
         Input.OnJumpPressed += () => CurrentState?.HandleInput(InputCommand.Jump);
         Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
         Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
+        Input.OnQuickItemUsePressed += () => CurrentState?.HandleInput(InputCommand.UseItem);
     }
 
     private void Update()
@@ -165,5 +166,6 @@ public enum InputCommand
     Interact,
     Heal,
     Jump,
-    Sprint
+    Sprint,
+    UseItem
 }

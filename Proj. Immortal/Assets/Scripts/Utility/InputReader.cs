@@ -7,6 +7,7 @@ public class InputReader : MonoBehaviour
     public Action OnInteractPressed;
     public Action OnJumpPressed;
     public Action OnCycleQuickItemPressed;
+    public Action OnQuickItemUsePressed;
     public Action OnEscapePressed;
     public Action OnInventoryPressed;
     public Action OnDashPressed;
@@ -41,6 +42,7 @@ public class InputReader : MonoBehaviour
         _input.Player.Attack.performed += ctx => OnLightAttackPressed?.Invoke();
         _input.Player.HeavyAttack.started += ctx => OnHeavyAttackPressed?.Invoke();
         _input.Player.LockOn.started += ctx => OnLockOnPressed?.Invoke();
+        _input.Player.UseQuickItem.started += ctx => OnQuickItemUsePressed?.Invoke();
     }
 
     private void Update()

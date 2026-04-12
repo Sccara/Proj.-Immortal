@@ -10,6 +10,14 @@ public class ItemSO : ScriptableObject
     public int maxStackSize = 99;
     public int cost;
     public Sprite icon;
+
+    public virtual string AnimationTriggerName => "UseGenericItem";
+
+    public virtual bool Use(PlayerStateMachine player)
+    {
+        Debug.Log($"Item {itemName} can't be used directly!");
+        return false;
+    }
 }
 
 public enum ItemType
