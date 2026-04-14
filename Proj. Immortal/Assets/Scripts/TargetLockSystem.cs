@@ -10,7 +10,7 @@ public class TargetLockSystem : MonoBehaviour
     [SerializeField] private InputReader inputReader;
 
     public Transform CurrentTarget { get; private set; }
-    public bool IsLockedOn => CurrentTarget != null;
+    public bool IsLockedOn { get; private set; }
 
     private void Start()
     {
@@ -19,10 +19,9 @@ public class TargetLockSystem : MonoBehaviour
 
     private void Update()
     {
-        // Если цель умерла или ушла слишком далеко — сбрасываем таргет
         if (IsLockedOn)
         {
-            if (!CurrentTarget.gameObject.activeInHierarchy ||
+            if (CurrentTarget == null ||
                 Vector3.Distance(transform.position, CurrentTarget.position) > lockOnRadius * 1.5f)
             {
                 ClearTarget();
@@ -68,21 +67,30 @@ public class TargetLockSystem : MonoBehaviour
             }
         }
 
+        IsLockedOn = true;
         CurrentTarget = bestTarget;
         SetLockOnCamera(1);
     }
 
     private void ClearTarget()
     {
+        Debug.Log("===CLEAR TARGET===");
         CurrentTarget = null;
-        SetLockOnCamera(-1);
+        ClearLockOnCamera(-1);
+        IsLockedOn = false;
     }
 
     private void SetLockOnCamera(int priority)
     {
         playerCamera.Priority = priority;
         playerCamera.Target.LookAtTarget = CurrentTarget;
+    }
 
+    private void ClearLockOnCamera(int priority)
+    {
+        Debug.Log("ClearLockOnCamera");
+        playerCamera.Priority = priority;
+        playerCamera.Target.LookAtTarget = null;
     }
 
     private void OnDrawGizmosSelected()

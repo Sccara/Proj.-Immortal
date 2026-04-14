@@ -457,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7e119517eec3f408ebca4bea5cccc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  expReward: 30
+  expReward: 3000
 --- !u!195 &8529910531996169985
 NavMeshAgent:
   m_ObjectHideFlags: 0

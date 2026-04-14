@@ -13,10 +13,10 @@ public class PlayerAttributes : MonoBehaviour
     public float LevelUpCost => GetLevelUpCost();
 
     [Header("Core Attributes")]
-    public int Vigor = 10;
-    public int Endurance = 10;
-    public int Strength = 10;
-    public int Dexterity = 10;
+    [field: SerializeField] public int Vigor { get; private set; } = 10;
+    [field: SerializeField] public int Endurance { get; private set; } = 10;
+    [field: SerializeField] public int Strength { get; private set; } = 10;
+    [field: SerializeField] public int Dexterity { get; private set; } = 10;
 
     [Header("Stats")]
     public Stat MaxHealthStat = new Stat();
@@ -33,6 +33,11 @@ public class PlayerAttributes : MonoBehaviour
     public Resource HealthResource;
     public Resource StaminaResource;
     public Resource PoiseResource;
+
+    [Header("DEBUG")]
+    public string health;
+    public string stamina;
+    public string poise;
 
     private void Awake()
     {
@@ -57,6 +62,38 @@ public class PlayerAttributes : MonoBehaviour
         AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
     }
 
+    private void Update()
+    {
+        health = $"{HealthResource.Current} '/' {HealthResource.Max}";
+        stamina = $"{StaminaResource.Current} '/' {StaminaResource.Max}";
+        poise = $"{PoiseResource.Current} '/' {PoiseResource.Max}";
+    }
+
+    public void UpgradeAttribute(StatType statType)
+    {
+        switch (statType)
+        {
+            case StatType.Vigor:
+                Vigor++;
+                MaxHealthStat.SetBaseValue(CalculateHPFromVigor(Vigor));
+                break;
+            case StatType.Endurance:
+                Endurance++;
+                MaxStaminaStat.SetBaseValue(CalculateStaminaFromEndurance(Endurance));
+                break;
+            case StatType.Strength:
+                Strength++;
+                AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
+                break;
+            case StatType.Dexterity:
+                Dexterity++;
+                AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
+                break;
+        }
+
+        Debug.Log($"Прокачан {statType}. Новые значения пересчитаны!");
+    }
+
     private float CalculateHPFromVigor(int vigor) => vigor * 10f;
     private float CalculateStaminaFromEndurance(int endurance) => endurance * 5f;
     private float CalculateBaseAttack(int str, int dex) => (str + dex) * 2f;
@@ -66,3 +103,12 @@ public class PlayerAttributes : MonoBehaviour
         return Mathf.Round(baseLevelUpCost * Mathf.Pow(Level, levelCostMultiplier));
     }
 }
+
+public enum StatType
+{
+    Vigor,
+    Endurance,
+    Strength,
+    Dexterity
+}
+

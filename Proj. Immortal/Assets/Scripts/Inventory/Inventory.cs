@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public Action OnInventoryChanged;
 
-    [SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
+    [field: SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
 
     [SerializeField] private List<ItemSO> items = new List<ItemSO>();
 
@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var item in items)
         {
-            AddItem(item);
+            AddItem(item, 5);
         }
     }
 
