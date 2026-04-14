@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 1290416745817091015}
   - component: {fileID: 1418714845170944608}
   - component: {fileID: 6340540996623804120}
+  - component: {fileID: 2859235365213478418}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -458,7 +459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   weaponDetector: {fileID: 7029538792328981239}
-  currentWeaponConfig: {fileID: 0}
+  currentWeaponConfig: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
   attackPoint: {fileID: 1200700187179401878}
   enemyLayers:
     serializedVersion: 2
@@ -540,6 +541,7 @@ MonoBehaviour:
   level: {fileID: 5783568130548789771}
   combat: {fileID: 3511701561223828964}
   quickItems: {fileID: 1418714845170944608}
+  equipment: {fileID: 2859235365213478418}
   playerAttributes: {fileID: 6340540996623804120}
   config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
 --- !u!114 &7993863743934738338
@@ -591,9 +593,6 @@ MonoBehaviour:
   slots: []
   items:
   - {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
-  - {fileID: 11400000, guid: e550c90adb32f4041a82b238d6cd7c58, type: 2}
-  - {fileID: 11400000, guid: 67d3cf9e93826f6459107e92662c298f, type: 2}
-  - {fileID: 11400000, guid: 41a860c306a80af47992780119e8973e, type: 2}
 --- !u!114 &5264399362625496569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,21 +654,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4fbf72ba626b374f84bf65612ac1e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttributes
+  config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
   <Level>k__BackingField: 1
   <CurrentSouls>k__BackingField: 0
   baseLevelUpCost: 100
   levelCostMultiplier: 1.2
-  Vigor: 10
-  Endurance: 10
-  Strength: 10
-  Dexterity: 10
-  MaxHealthStat: {fileID: 0}
-  MaxStaminaStat: {fileID: 0}
-  AttackPowerStat: {fileID: 0}
-  PoiseAttackPowerStat: {fileID: 0}
-  MoveSpeedStat: {fileID: 0}
-  MaxPoiseStat: {fileID: 0}
-  StaminaRestoreRateStat: {fileID: 0}
+  <Vigor>k__BackingField: 10
+  <Endurance>k__BackingField: 10
+  <Strength>k__BackingField: 10
+  <Dexterity>k__BackingField: 10
+  MaxHealthStat:
+    baseValue: 0
+  MaxStaminaStat:
+    baseValue: 0
+  RightHandAttackStat:
+    baseValue: 0
+  LeftHandAttackStat:
+    baseValue: 0
+  PoiseAttackPowerStat:
+    baseValue: 0
+  MoveSpeedStat:
+    baseValue: 0
+  MaxPoiseStat:
+    baseValue: 0
+  StaminaRestoreRateStat:
+    baseValue: 0
+  health: 
+  stamina: 
+  poise: 
+--- !u!114 &2859235365213478418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee87535ed6a1e24495418aed6500b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
+  <RightWeapon>k__BackingField: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  <LeftWeapon>k__BackingField: {fileID: 0}
+  rightHandSocket: {fileID: 0}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

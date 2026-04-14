@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private LevelSystemController level;
     [SerializeField] private PlayerCombat combat;
     [SerializeField] private QuickItemsSystem quickItems;
+    [SerializeField] private PlayerEquipment equipment;
     [SerializeField] private PlayerAttributes playerAttributes;
     [SerializeField] private PlayerConfigSO config;
 
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public LevelSystemController Level { get => level; private set { } }
     public PlayerCombat Combat { get => combat; private set { } }
     public QuickItemsSystem QuickItems { get => quickItems; private set { } }
+    public PlayerEquipment Equipment { get => equipment; private set { } }
     public PlayerAttributes Attributes { get => playerAttributes; private set { } }
     public PlayerConfigSO Config { get => config; private set { } }
 

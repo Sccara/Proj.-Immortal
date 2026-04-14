@@ -8,7 +8,7 @@ public class HotbarUI : MonoBehaviour
     [SerializeField] private QuickItemsSystem quickItemsSystem;
 
     [Header("UI Elements (Down Slot)")]
-    [SerializeField] private GameObject itemSlotContainer; // Весь слот (чтобы скрывать, если пусто)
+    [SerializeField] private GameObject itemSlotContainer;
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI quantityText;
 
@@ -19,7 +19,7 @@ public class HotbarUI : MonoBehaviour
 
     private void Start()
     {
-        UpdateHotbarUI(); // Инициализация при старте
+        UpdateHotbarUI();
     }
 
     private void OnDestroy()
@@ -34,21 +34,17 @@ public class HotbarUI : MonoBehaviour
 
         if (currentItem == null)
         {
-            // Если ничего не экипировано — скрываем слот
             itemSlotContainer.SetActive(false);
             return;
         }
 
-        // Включаем слот и настраиваем визуал
         itemSlotContainer.SetActive(true);
         itemIcon.sprite = currentItem.icon;
 
         int currentQuantity = quickItemsSystem.GetCurrentItemQuantity();
 
-        // Как в Souls: даже если зелий 0, иконка остается, просто показывает 0
         quantityText.text = currentQuantity.ToString();
 
-        // Опционально: Делаем иконку полупрозрачной, если предметов не осталось
         itemIcon.color = currentQuantity > 0 ? Color.white : new Color(1, 1, 1, 0.3f);
     }
 }

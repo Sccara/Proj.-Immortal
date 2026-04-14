@@ -21,7 +21,8 @@ public class PlayerAttributes : MonoBehaviour
     [Header("Stats")]
     public Stat MaxHealthStat = new Stat();
     public Stat MaxStaminaStat = new Stat();
-    public Stat AttackPowerStat = new Stat();
+    public Stat RightHandAttackStat = new Stat();
+    public Stat LeftHandAttackStat = new Stat();
     public Stat PoiseAttackPowerStat = new Stat();
 
     [Header("Hidden Stats")]
@@ -58,8 +59,14 @@ public class PlayerAttributes : MonoBehaviour
         MaxPoiseStat.SetBaseValue(config.basePoise);
         PoiseResource = new Resource(MaxPoiseStat.Value);
         MaxPoiseStat.OnStatChanged += (newMax) => PoiseResource.SetMax(newMax, false);
+    }
 
-        AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
+    private void Start()
+    {
+        PlayerManager.Instance.Equipment.OnWeaponEquipped += RecalculateAttackPower;
+
+        RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
+        RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
     }
 
     private void Update()
@@ -83,11 +90,13 @@ public class PlayerAttributes : MonoBehaviour
                 break;
             case StatType.Strength:
                 Strength++;
-                AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
+                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
                 break;
             case StatType.Dexterity:
                 Dexterity++;
-                AttackPowerStat.SetBaseValue(CalculateBaseAttack(Strength, Dexterity));
+                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
                 break;
         }
 
@@ -96,7 +105,35 @@ public class PlayerAttributes : MonoBehaviour
 
     private float CalculateHPFromVigor(int vigor) => vigor * 10f;
     private float CalculateStaminaFromEndurance(int endurance) => endurance * 5f;
-    private float CalculateBaseAttack(int str, int dex) => (str + dex) * 2f;
+    private void RecalculateAttackPower(EquipmentSlot slot, WeaponSO weapon)
+    {
+        float totalDamage = 0f;
+
+        if (weapon == null)
+        {
+            // Удары кулаками (можно завести отдельную константу для этого)
+            totalDamage = (Strength + Dexterity) * 1.5f;
+        }
+        else
+        {
+            // Считаем урон от скейлов оружия
+            float strBonus = Strength * weapon.StrengthScaling;
+            float dexBonus = Dexterity * weapon.DexterityScaling;
+            totalDamage = weapon.BaseDamage + strBonus + dexBonus;
+        }
+
+        // Применяем урон в нужный стат
+        if (slot == EquipmentSlot.RightHand)
+        {
+            RightHandAttackStat.SetBaseValue(totalDamage);
+            Debug.Log($"Урон Правой руки: {totalDamage}");
+        }
+        else
+        {
+            LeftHandAttackStat.SetBaseValue(totalDamage);
+            Debug.Log($"Урон Левой руки: {totalDamage}");
+        }
+    }
 
     private float GetLevelUpCost()
     {

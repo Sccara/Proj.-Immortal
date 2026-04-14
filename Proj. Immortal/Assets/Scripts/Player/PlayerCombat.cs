@@ -12,18 +12,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private LayerMask enemyLayers;
 
-    private StaminaSystemController _stamina;
-
-    private Rigidbody _rb;
-
     public WeaponDamageDetector WeaponDetector => weaponDetector;
     public WeaponSO CurrentWeaponConfig => currentWeaponConfig;
-
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-        _stamina = GetComponent<StaminaSystemController>();
-    }
 
     public void SetAttackMultipliers(float damageMult, float poiseMult)
     {
@@ -35,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void AnimEvent_EnableHitbox()
     {
-        float finalDamage = PlayerManager.Instance.Attributes.AttackPowerStat.Value * _currentDamageMult;
+        float finalDamage = PlayerManager.Instance.Attributes.RightHandAttackStat.Value * _currentDamageMult;
         float finalPoise = PlayerManager.Instance.Attributes.PoiseAttackPowerStat.Value * _currentPoiseMult;
         Vector3 knockback = transform.forward * currentWeaponConfig.KnockbackStrength * _currentDamageMult;
 
