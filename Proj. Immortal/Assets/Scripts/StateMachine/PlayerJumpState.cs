@@ -17,10 +17,10 @@ public class PlayerJumpState : PlayerBaseState
         Ctx.Rb.linearVelocity = velocity;
 
         // Применяем силу прыжка
-        Ctx.Rb.AddForce(Vector3.up * Ctx.Stats.JumpForce, ForceMode.Impulse);
+        Ctx.Rb.AddForce(Vector3.up * Ctx.Config.jumpForce, ForceMode.Impulse);
 
         // Тратим стамину
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.JumpStamina);
+        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Config.jumpStamina);
     }
 
     public override void UpdateState()
@@ -52,7 +52,7 @@ public class PlayerJumpState : PlayerBaseState
         Vector3 direction = Ctx.GetMoveDirection();
 
         // 1. Максимальная скорость зависит от того, КАК мы прыгнули, а не от того, что мы жмем сейчас
-        float maxAirSpeed = Ctx.IsSprintJump ? Ctx.Stats.SprintMoveSpeed : Ctx.Stats.WalkMoveSpeed;
+        float maxAirSpeed = Ctx.IsSprintJump ? Ctx.Config.sprintMoveSpeed : Ctx.Config.walkMoveSpeed;
 
         // 2. Рулежка в воздухе (если игрок жмет WASD)
         Ctx.Rb.AddForce(direction * maxAirSpeed * 0.5f, ForceMode.Acceleration);

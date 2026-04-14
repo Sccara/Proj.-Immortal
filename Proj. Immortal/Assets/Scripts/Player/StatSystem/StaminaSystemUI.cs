@@ -7,12 +7,12 @@ public class StaminaSystemUI : MonoBehaviour
 
     private void Awake()
     {
-        PlayerStats.Instance.Stamina.OnValueChanged += UpdateStaminaBar;
+        PlayerManager.Instance.Attributes.StaminaResource.OnValueChanged += UpdateStaminaBar;
     }
 
     private void Start()
     {
-        UpdateStaminaBar(PlayerStats.Instance.Stamina.Percent);
+        UpdateStaminaBar(PlayerManager.Instance.Attributes.StaminaResource.Percent);
     }
 
     public void UpdateStaminaBar(float staminaPercent)
@@ -22,7 +22,7 @@ public class StaminaSystemUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (PlayerStats.Instance != null)
-            PlayerStats.Instance.Stamina.OnValueChanged -= UpdateStaminaBar;
+        if (PlayerManager.Instance.Attributes != null)
+            PlayerManager.Instance.Attributes.StaminaResource.OnValueChanged -= UpdateStaminaBar;
     }
 }

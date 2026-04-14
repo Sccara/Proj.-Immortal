@@ -10,7 +10,7 @@ public class HealItemSO : ItemSO
 
     public override bool Use(PlayerStateMachine player)
     {
-        if (player.Stats.Health.Current >= player.Stats.Health.Max)
+        if (player.PlayerManager.Attributes.HealthResource.Current >= player.PlayerManager.Attributes.HealthResource.Max)
         {
             Debug.Log("Health is max!");
             return false;

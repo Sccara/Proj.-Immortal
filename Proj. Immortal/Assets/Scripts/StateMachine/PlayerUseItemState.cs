@@ -14,7 +14,7 @@ public class PlayerUseItemState : PlayerBaseState
     {
         Debug.Log("Use Item State");
         _isAnimationFinished = false;
-        Ctx.Stats.MoveSpeed = Ctx.Stats.UseItemSpeed;
+        Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.useItemSpeed;
 
         ItemSO activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
 
@@ -31,7 +31,7 @@ public class PlayerUseItemState : PlayerBaseState
     }
     public override void ExitState()
     {
-        Ctx.Stats.MoveSpeed = Ctx.Stats.WalkMoveSpeed;
+        Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.walkMoveSpeed;
     }
     public override void InitializeSubState()
     {

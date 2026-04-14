@@ -29,7 +29,7 @@ public class PlayerHeavyAttackState : PlayerBaseState
         {
             if (Ctx.Input.HeavyAttackPressed)
             {
-                _chargeTimer = Mathf.Min(_chargeTimer + Time.deltaTime, Ctx.Stats.MaxChargeTime);
+                _chargeTimer = Mathf.Min(_chargeTimer + Time.deltaTime, Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxChargeTime);
             }
             else
             {
@@ -63,11 +63,11 @@ public class PlayerHeavyAttackState : PlayerBaseState
     {
         _isCharging = false;
       
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.HeavyAttackStamina);
+        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Config.heavyAttackStamina);
 
-        float chargePercent = _chargeTimer / Ctx.Stats.MaxChargeTime;
-        float damageMult = Mathf.Lerp(Ctx.Stats.MinDamageMultiplier, Ctx.Stats.MaxDamageMultiplier, chargePercent);
-        float poiseMult = Mathf.Lerp(1f, Ctx.Stats.MaxPoiseMultiplier, chargePercent);
+        float chargePercent = _chargeTimer / Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxChargeTime;
+        float damageMult = Mathf.Lerp(Ctx.PlayerManager.Combat.CurrentWeaponConfig.MinDamageMultiplier, Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxDamageMultiplier, chargePercent);
+        float poiseMult = Mathf.Lerp(1f, Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxPoiseMultiplier, chargePercent);
 
         Ctx.PlayerManager.Combat.SetAttackMultipliers(damageMult, poiseMult);
         Ctx.Animator.SetBool("IsChargingHeavyAttack", _isCharging);

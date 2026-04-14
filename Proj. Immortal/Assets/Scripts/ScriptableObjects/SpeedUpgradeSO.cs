@@ -5,6 +5,6 @@ public class SpeedUpgradeSO : UpgradeSO
 { 
     public override void AddEffect()
     {
-        PlayerStats.Instance.MoveSpeed += amount;
+        //PlayerStats.Instance.MoveSpeed += amount;
     }
 }

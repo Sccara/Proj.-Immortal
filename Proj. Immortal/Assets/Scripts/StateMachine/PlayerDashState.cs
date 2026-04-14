@@ -38,10 +38,10 @@ public class PlayerDashState : PlayerBaseState
     IEnumerator HandleDash()
     {
         Ctx.IsDashing = true;
-        Ctx.DashCooldownTimer = Ctx.Stats.DashCooldown;
+        Ctx.DashCooldownTimer = Ctx.Config.dashCooldown;
         Ctx.Trail.emitting = true;
         Ctx.ImpulseSource.GenerateImpulse();
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.DashStamina);
+        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Config.dashStamina);
 
         int playerLayer = Ctx.PlayerLayer;
         int enemyLayer = LayerMask.NameToLayer(Ctx.EnemyLayerName);
@@ -53,11 +53,11 @@ public class PlayerDashState : PlayerBaseState
         if (dashDirection == Vector3.zero)
             dashDirection = Ctx.transform.forward;
 
-        Ctx.Rb.linearVelocity = dashDirection * Ctx.Stats.DashForce;
+        Ctx.Rb.linearVelocity = dashDirection * Ctx.Config.dashForce;
 
         //_rb.AddForceAtPosition(GetMoveDirection() * dashForce, transform.position, ForceMode.VelocityChange);
 
-        yield return new WaitForSeconds(Ctx.Stats.DashDuration);
+        yield return new WaitForSeconds(Ctx.Config.dashDuration);
 
         Physics.IgnoreLayerCollision(playerLayer, enemyLayer, false);
         Ctx.Trail.emitting = false;

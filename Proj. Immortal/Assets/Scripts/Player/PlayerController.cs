@@ -106,8 +106,8 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMovement(Vector3 direction)
     {
-        Vector3 velocity = direction * PlayerStats.Instance.MoveSpeed;
-        _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
+        //Vector3 velocity = direction * PlayerStats.Instance.MoveSpeed;
+        //_rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
     }
 
     private void ApplyRotate(Vector3 direction)

@@ -1,15 +1,15 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player Stats", menuName = "Player")]
-public class PlayerStatsConfigSO : ScriptableObject
+public class PlayerConfigSO : ScriptableObject
 {
     [Header("Stats")]
-    public float maxHealth;
-    public float maxStamina;
+    public int Vigor = 10;
+    public int Endurance = 10;
+    public int Strength = 10;
+    public int Dexterity = 10;
     public float staminaRestoreRate;
-    public float attackDamage;
-    public float poiseDamage;
-    public float maxPoise;
+    public float basePoise;
     public float poiseRestoreCooldown;
     public float poiseRestoreMultiplier;
     [Header("Movement")]

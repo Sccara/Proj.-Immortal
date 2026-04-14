@@ -8,23 +8,23 @@ public class PlayerRunState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Run state");
-        Ctx.Stats.MoveSpeed = Ctx.Stats.SprintMoveSpeed;
+        Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.sprintMoveSpeed;
     }
     public override void UpdateState()
     {
         CheckSwitchStates();
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.SprintStamina * Time.deltaTime);
+        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Config.sprintStamina * Time.deltaTime);
     }
     public override void FixedUpdateState()
     {
         Vector3 direction = Ctx.GetMoveDirection();
-        Ctx.ApplyMovement(direction, Ctx.Stats.MoveSpeed);
+        Ctx.ApplyMovement(direction, Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue);
         Ctx.ApplyRotate(direction);
     }
     public override void ExitState()
     {
         Debug.Log("Exit Run State");
-        Ctx.Stats.MoveSpeed = Ctx.Stats.WalkMoveSpeed;
+        Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.walkMoveSpeed;
     }
     public override void InitializeSubState()
     {

@@ -7,7 +7,11 @@ public class HealthSystemUI : MonoBehaviour
 
     private void Awake()
     {
-        PlayerStats.Instance.Health.OnValueChanged += UpdateHealthBar;
+        PlayerManager.Instance.Attributes.HealthResource.OnValueChanged += UpdateHealthBar;
+    }
+    private void Start()
+    {
+        UpdateHealthBar(PlayerManager.Instance.Attributes.HealthResource.Percent);
     }
 
     public void UpdateHealthBar(float healthPercent)
@@ -17,7 +21,7 @@ public class HealthSystemUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (PlayerStats.Instance != null)
-            PlayerStats.Instance.Health.OnValueChanged += UpdateHealthBar;
+        if (PlayerManager.Instance.Attributes != null)
+            PlayerManager.Instance.Attributes.HealthResource.OnValueChanged += UpdateHealthBar;
     }
 }

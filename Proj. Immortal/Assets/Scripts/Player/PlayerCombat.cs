@@ -1,9 +1,10 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private WeaponDamageDetector weaponDetector;
+    [SerializeField] private WeaponSO currentWeaponConfig;
 
     private float _currentDamageMult = 1f;
     private float _currentPoiseMult = 1f;
@@ -16,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
     private Rigidbody _rb;
 
     public WeaponDamageDetector WeaponDetector => weaponDetector;
+    public WeaponSO CurrentWeaponConfig => currentWeaponConfig;
 
     private void Awake()
     {
@@ -29,13 +31,13 @@ public class PlayerCombat : MonoBehaviour
         _currentPoiseMult = poiseMult;
     }
 
-    // === ›“» Ã≈“Œƒ€ ¬€«€¬¿ﬁ“—ﬂ »« ANIMATION EVENTS ¬ ”Õ»“» ===
+    // === ›“» Ã≈“Œƒ€ ¬€«€¬¿ﬁ“—ﬂ »« ANIMATION EVENTS ¬ UNITY ===
 
     public void AnimEvent_EnableHitbox()
     {
-        float finalDamage = PlayerStats.Instance.AttackDamage * _currentDamageMult;
-        float finalPoise = PlayerStats.Instance.PoiseDamage * _currentPoiseMult;
-        Vector3 knockback = transform.forward * PlayerStats.Instance.KnockbackStrength * _currentDamageMult;
+        float finalDamage = PlayerManager.Instance.Attributes.AttackPowerStat.Value * _currentDamageMult;
+        float finalPoise = PlayerManager.Instance.Attributes.PoiseAttackPowerStat.Value * _currentPoiseMult;
+        Vector3 knockback = transform.forward * currentWeaponConfig.KnockbackStrength * _currentDamageMult;
 
         weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
     }
@@ -44,62 +46,4 @@ public class PlayerCombat : MonoBehaviour
     {
         weaponDetector.DisableDamage();
     }
-
-    //public void ActivateWeapon(float damageMult, float poiseMult, float staminaCost, float stepForce)
-    //{
-    //    if (GetComponent<StaminaSystemController>().HasEnoughStamina() == false)
-    //        return;
-
-    //    GetComponent<StaminaSystemController>().UseStamina(staminaCost);
-    //    GetComponent<Rigidbody>().AddForce(transform.forward * stepForce, ForceMode.Impulse);
-
-    //    float finalDamage = PlayerStats.Instance.AttackDamage * damageMult;
-    //    float finalPoise = PlayerStats.Instance.PoiseDamage * poiseMult;
-    //    Vector3 knockback = transform.forward * (PlayerStats.Instance.KnockbackStrength * damageMult);
-
-    //    weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);
-    //}
-
-    //public void DeactivateWeapon()
-    //{
-    //    weaponDetector.DisableDamage();
-    //}
-
-    //public void PerformAttackk(float damageMult, float poiseMult, float staminaCost, float stepForce, float range, float knockback)
-    //{
-    //    if (!_stamina.HasEnoughStamina()) return;
-
-    //    _stamina.UseStamina(staminaCost);
-    //    _rb.AddForce(transform.forward * stepForce, ForceMode.Impulse);
-
-    //    Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, range, enemyLayers);
-    //    foreach (Collider enemy in hitEnemies)
-    //    {
-    //        if (enemy.TryGetComponent(out IDamageable damageable))
-    //        {
-    //            Vector3 direction = (enemy.transform.position - transform.position).normalized;
-    //            DamageInfo info = new DamageInfo
-    //            {
-    //                DamageAmount = PlayerStats.Instance.AttackDamage * damageMult,
-    //                KnockbackForce = direction * (knockback * damageMult),
-    //                PoiseDecreaseAmount = PlayerStats.Instance.PoiseDamage * poiseMult
-    //            };
-    //            damageable.TakeDamage(info);
-    //        }
-    //    }
-    //}
-
-    //public void StartDamageWindow()
-    //{
-    //    weaponDetector.EnableDamage(
-    //        PlayerStats.Instance.AttackDamage,
-    //        PlayerStats.Instance.PoiseDamage,
-    //        transform.forward * PlayerStats.Instance.KnockbackStrength
-    //    );
-    //}
-
-    //public void EndDamageWindow()
-    //{
-    //    weaponDetector.DisableDamage();
-    //}
 }

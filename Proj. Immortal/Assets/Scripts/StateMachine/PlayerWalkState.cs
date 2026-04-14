@@ -16,7 +16,7 @@ public class PlayerWalkState : PlayerBaseState
     public override void FixedUpdateState()
     {
         Vector3 direction = Ctx.GetMoveDirection();
-        Ctx.ApplyMovement(direction, Ctx.Stats.MoveSpeed);
+        Ctx.ApplyMovement(direction, Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue);
         Ctx.ApplyRotate(direction);
     }
     public override void ExitState()

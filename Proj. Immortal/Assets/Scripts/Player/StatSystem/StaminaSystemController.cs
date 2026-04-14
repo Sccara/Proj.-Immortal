@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -9,17 +10,18 @@ public class StaminaSystemController : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerStats.Instance.Stamina.Percent < 1f && !_isRegenPaused)
+
+        if (PlayerManager.Instance.Attributes.StaminaResource.Percent < 1f && !_isRegenPaused)
         {
-            PlayerStats.Instance.Stamina.Restore(PlayerStats.Instance.StaminaRestoreRate * Time.deltaTime);
+            PlayerManager.Instance.Attributes.StaminaResource.Restore(PlayerManager.Instance.Attributes.StaminaRestoreRateStat.Value * Time.deltaTime);
         }
     }
 
-    public bool HasEnoughStamina() => PlayerStats.Instance.Stamina.Current >= 1;
+    public bool HasEnoughStamina() => PlayerManager.Instance.Attributes.StaminaResource.Current >= 1;
 
     public void UseStamina(float amount)
     {
-        PlayerStats.Instance.Stamina.Use(amount);
+        PlayerManager.Instance.Attributes.StaminaResource.Use(amount);
         StartCoroutine(PauseRegenCoroutine());
     }
 

@@ -9,9 +9,10 @@ public class LevelUpWindow : UIWindow
     [SerializeField] private TextMeshProUGUI currentLevelText;
 
     [Header("Stat Texts")]
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private TextMeshProUGUI staminaText;
-    [SerializeField] private TextMeshProUGUI damageText;
+    [SerializeField] private TextMeshProUGUI vigorText;
+    [SerializeField] private TextMeshProUGUI enduranceText;
+    [SerializeField] private TextMeshProUGUI strengthText;
+    [SerializeField] private TextMeshProUGUI dexterityText;
 
     private void OnEnable()
     {
@@ -24,7 +25,7 @@ public class LevelUpWindow : UIWindow
 
     private void OnDisable()
     {
-        if (PlayerManager.Instance != null)
+        if (PlayerManager.Instance.Level != null)
         {
             PlayerManager.Instance.Level.OnLevelUp -= RefreshUI;
             PlayerManager.Instance.Level.OnSoulsChanged -= UpdateSoulsText;
@@ -33,14 +34,15 @@ public class LevelUpWindow : UIWindow
 
     private void RefreshUI()
     {
-        UpdateSoulsText(PlayerStats.Instance.CurrentSouls);
-        nextLevelCostText.text = $"Cost: {PlayerStats.Instance.LevelUpCost}";
-        currentLevelText.text = $"Level: {PlayerStats.Instance.Level}";
+        UpdateSoulsText(PlayerManager.Instance.Attributes.CurrentSouls);
+        nextLevelCostText.text = $"Cost: {PlayerManager.Instance.Attributes.LevelUpCost}";
+        currentLevelText.text = $"Level: {PlayerManager.Instance.Attributes.Level}";
 
         // Показываем текущие значения статов
-        healthText.text = $"Health: {PlayerStats.Instance.Health.Max}";
-        staminaText.text = $"Stamina: {PlayerStats.Instance.Stamina.Max}";
-        damageText.text = $"Damage: {PlayerStats.Instance.AttackDamage}";
+        vigorText.text = $"Vigor: {PlayerManager.Instance.Attributes.Vigor}";
+        enduranceText.text = $"Endurance: {PlayerManager.Instance.Attributes.Endurance}";
+        strengthText.text = $"Strength: {PlayerManager.Instance.Attributes.Strength}";
+        dexterityText.text = $"Dexterity: {PlayerManager.Instance.Attributes.Dexterity}";
     }
 
     private void UpdateSoulsText(float currentSouls)
@@ -49,15 +51,10 @@ public class LevelUpWindow : UIWindow
     }
 
     // Эти методы нужно назначить на события OnClick() у кнопок в Unity Editor
-    public void OnUpgradeHealthClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Health);
-    public void OnUpgradeStaminaClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Stamina);
-    public void OnUpgradeDamageClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.AttackDamage);
-
-    public void OnCloseClicked()
-    {
-        PlayerManager.Instance.Level.CloseUpgradePanel();
-        gameObject.SetActive(false);
-    }
+    public void OnUpgradeVigorClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Vigor);
+    public void OnUpgradeEnduranceClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Endurance);
+    public void OnUpgradeStrengthClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Strength);
+    public void OnUpgradeDexterityClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Dexterity);
 
     public override void OnOpen()
     {

@@ -7,7 +7,6 @@ public class PlayerStateMachine : MonoBehaviour
 {
     private PlayerBaseState _currentState;
     private PlayerStateFactory _states;
-    private PlayerStats _stats;
     private InputReader _input;
     private PlayerManager _playerManager;
     private Animator _animator;
@@ -17,14 +16,15 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private PlayerConfigSO config;
 
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public PlayerStateFactory States { get => _states; }   
     public float DashCooldownTimer { get => _dashCooldownTimer; set { _dashCooldownTimer = value; } }
     public TrailRenderer Trail => trail;
+    public PlayerConfigSO Config => config;
     public CinemachineImpulseSource ImpulseSource => _impulseSource;
     public PlayerManager PlayerManager => _playerManager;
-    public PlayerStats Stats => _stats;
     public InputReader Input => _input;
     public Animator Animator => _animator;
     public int PlayerLayer => gameObject.layer;
@@ -71,7 +71,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Start()
     {
-        _stats = PlayerStats.Instance;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -132,13 +131,13 @@ public class PlayerStateMachine : MonoBehaviour
             if (directionToTarget != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Stats.RotateSpeed * Time.fixedDeltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Config.rotateSpeed * Time.fixedDeltaTime);
             }
         }
         else if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, _stats.RotateSpeed);
+            _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, Config.rotateSpeed);
         }
     }
 

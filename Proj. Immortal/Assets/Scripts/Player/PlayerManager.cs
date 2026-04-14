@@ -9,15 +9,16 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private LevelSystemController level;
     [SerializeField] private PlayerCombat combat;
     [SerializeField] private QuickItemsSystem quickItems;
-
-    private PlayerStats _stats;
+    [SerializeField] private PlayerAttributes playerAttributes;
+    [SerializeField] private PlayerConfigSO config;
 
     public HealthSystemController Health { get => health; private set { } }
     public StaminaSystemController Stamina { get => stamina; private set { } }
     public LevelSystemController Level { get => level; private set { } }
     public PlayerCombat Combat { get => combat; private set { } }
     public QuickItemsSystem QuickItems { get => quickItems; private set { } }
-    public PlayerStats Stats { get => _stats; private set { } }
+    public PlayerAttributes Attributes { get => playerAttributes; private set { } }
+    public PlayerConfigSO Config { get => config; private set { } }
 
     private void Awake()
     {
@@ -33,6 +34,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _stats = PlayerStats.Instance;
+        
     }
 }

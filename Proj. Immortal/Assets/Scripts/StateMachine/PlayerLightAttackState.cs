@@ -13,7 +13,7 @@ public class PlayerLightAttackState : PlayerBaseState
     public override void EnterState()
     {
         _isAnimationFinished = false;
-        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Stats.AttackStamina);
+        Ctx.PlayerManager.Stamina.UseStamina(Ctx.Config.attackStamina);
         Ctx.PlayerManager.Combat.SetAttackMultipliers(1f, 1f);
         Ctx.Animator.Play("LightAttack");
     }

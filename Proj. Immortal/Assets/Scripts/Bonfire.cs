@@ -14,8 +14,8 @@ public class Bonfire : MonoBehaviour
     {
         Debug.Log("Rest");
 
-        PlayerStats.Instance.Health.Restore(PlayerStats.Instance.Health.Max);
-        PlayerStats.Instance.Stamina.Restore(PlayerStats.Instance.Stamina.Max);
+        PlayerManager.Instance.Attributes.HealthResource.Restore(PlayerManager.Instance.Attributes.HealthResource.Max);
+        PlayerManager.Instance.Attributes.StaminaResource.Restore(PlayerManager.Instance.Attributes.StaminaResource.Max);
 
         UIManager.Instance.ToggleWindow(WindowType.LevelUp, hideHUD: true);
     }

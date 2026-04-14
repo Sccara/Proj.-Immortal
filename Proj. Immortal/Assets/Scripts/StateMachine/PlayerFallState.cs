@@ -19,7 +19,7 @@ public class PlayerFallState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        Ctx.Rb.AddForce(Vector3.down * Ctx.Stats.FallMultiplier, ForceMode.Acceleration);
+        Ctx.Rb.AddForce(Vector3.down * Ctx.Config.fallMultiplier, ForceMode.Acceleration);
 
         HandleAirPhysics();
     }
@@ -42,7 +42,7 @@ public class PlayerFallState : PlayerBaseState
     private void HandleAirPhysics()
     {
         Vector3 direction = Ctx.GetMoveDirection();
-        float maxAirSpeed = Ctx.IsSprintJump ? Ctx.Stats.SprintMoveSpeed : Ctx.Stats.WalkMoveSpeed;
+        float maxAirSpeed = Ctx.IsSprintJump ? Ctx.Config.sprintMoveSpeed : Ctx.Config.walkMoveSpeed;
         Ctx.Rb.AddForce(direction * maxAirSpeed * 0.5f, ForceMode.Acceleration);
 
         Vector3 currentVelocity = Ctx.Rb.linearVelocity;

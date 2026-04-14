@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55155d7a2cbd9c44d92ec25bd5d9954e, type: 3}
   m_Name: Player Stats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStatsConfigSO
-  maxHealth: 500
-  maxStamina: 100
+  Vigor: 10
+  Endurance: 10
+  Strength: 10
+  Dexterity: 10
   staminaRestoreRate: 20
-  attackDamage: 20
-  poiseDamage: 25
-  maxPoise: 200
+  basePoise: 150
   poiseRestoreCooldown: 3
   poiseRestoreMultiplier: 2
   walkMoveSpeed: 5

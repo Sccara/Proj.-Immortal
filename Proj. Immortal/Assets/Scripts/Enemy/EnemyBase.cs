@@ -42,7 +42,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        player = PlayerStats.Instance.transform;
+        player = PlayerManager.Instance.transform;
     }
 
 

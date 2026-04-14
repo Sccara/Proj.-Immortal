@@ -8,7 +8,7 @@ public class HealthSystemController : MonoBehaviour, IDamageable
     public static Action OnDeath;
 
     [SerializeField] private float _timeSinceLastHit;
-    private PlayerStats _playerStats;
+    private PlayerAttributes _attributes;
 
     [field: SerializeField] public bool IsInvulnerable { get; set; } = false;
     public bool CanBeStaggered { get; set; } = true;
@@ -16,7 +16,7 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _playerStats = PlayerStats.Instance;
+        _attributes = PlayerManager.Instance.Attributes;
     }
 
     private void Update()
@@ -26,33 +26,33 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     private void HandlePoiseRegen()
     {
-        if (_timeSinceLastHit >= _playerStats.PoiseRestoreCooldown && _playerStats.Poise.Current < _playerStats.Poise.Max)
+        if (_timeSinceLastHit >= PlayerManager.Instance.Config.poiseRestoreCooldown && _attributes.PoiseResource.Current < _attributes.PoiseResource.Max)
         {
-            _playerStats.Poise.Restore(_playerStats.PoiseRestoreMultiplier * Time.deltaTime);
+            _attributes.PoiseResource.Restore(PlayerManager.Instance.Config.poiseRestoreMultiplier * Time.deltaTime);
         }
         _timeSinceLastHit += Time.deltaTime;
     }
 
     public void TakeDamage(DamageInfo info)
     {
-        if (_playerStats.Health.Current <= 0 || IsInvulnerable)
+        if (_attributes.HealthResource.Current <= 0 || IsInvulnerable)
             return;
 
-        _playerStats.Health.Use(info.DamageAmount);
+        _attributes.HealthResource.Use(info.DamageAmount);
 
         _timeSinceLastHit = 0;
 
         if (CanBeStaggered)
         {
-            _playerStats.Poise.Use(info.PoiseDecreaseAmount);
+            _attributes.PoiseResource.Use(info.PoiseDecreaseAmount);
 
-            if (_playerStats.Poise.Current <= 0)
+            if (_attributes.PoiseResource.Current <= 0)
             {
                 OnPoiseBroken?.Invoke();
             }
         }
 
-        if (_playerStats.Health.Current <= 0)
+        if (_attributes.HealthResource.Current <= 0)
         {
             OnDeath?.Invoke();
         }
@@ -60,12 +60,12 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     public void Heal(float healAmount)
     {
-        _playerStats.Health.Restore(healAmount);
+        _attributes.HealthResource.Restore(healAmount);
     }
 
     public void ResetPoise()
     {
-        _playerStats.Poise.Current = _playerStats.Poise.Max;
+        _attributes.PoiseResource.Current = _attributes.PoiseResource.Max;
     }
 
     public void TriggerInvulnerability(float duration)

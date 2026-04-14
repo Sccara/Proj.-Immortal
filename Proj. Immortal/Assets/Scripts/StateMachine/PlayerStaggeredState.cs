@@ -15,7 +15,7 @@ public class PlayerStaggeredState : PlayerBaseState
     {
         Ctx.PlayerManager.Health.CanBeStaggered = false;
 
-        _staggerTimer = Ctx.Stats.StaggerTime;
+        _staggerTimer = Ctx.Config.staggerTime;
 
         Ctx.StopMovement();
 
