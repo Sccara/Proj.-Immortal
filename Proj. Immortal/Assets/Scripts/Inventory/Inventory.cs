@@ -1,7 +1,5 @@
-
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -11,6 +9,7 @@ public class Inventory : MonoBehaviour
     [field: SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
 
     [SerializeField] private List<ItemSO> items = new List<ItemSO>();
+    [SerializeField] private List<WeaponSO> weapons = new List<WeaponSO>();
 
     public IReadOnlyList<InventorySlot> Slots => slots;
 
@@ -18,17 +17,21 @@ public class Inventory : MonoBehaviour
     {
         foreach (var item in items)
         {
-            AddItem(item, 5);
+            AddItem(new ItemInstance(item), 5);
+        }
+        foreach (var weapon in weapons)
+        {
+            AddItem(new WeaponInstance(weapon));
         }
     }
 
-    public void AddItem(ItemSO item, int amount = 1)
+    public void AddItem(ItemInstance item, int amount = 1)
     {
-        if (item.isStackable)
+        if (item.ItemData.isStackable)
         {
-            InventorySlot existingSlot = slots.Find(slot => slot.Item == item);
+            InventorySlot existingSlot = slots.Find(slot => slot.Item != null && slot.Item.ItemData == item.ItemData);
 
-            if (existingSlot != null && existingSlot.Quantity < item.maxStackSize)
+            if (existingSlot != null && existingSlot.Quantity < item.ItemData.maxStackSize)
             {
                 existingSlot.AddQuantity(amount);
                 OnInventoryChanged?.Invoke();
@@ -40,7 +43,7 @@ public class Inventory : MonoBehaviour
         OnInventoryChanged?.Invoke();
     }
 
-    public void RemoveItem(ItemSO item, int amount = 1)
+    public void RemoveItem(ItemInstance item, int amount = 1)
     {
         InventorySlot existingSlot = slots.Find(slot => slot.Item == item);
 
@@ -53,5 +56,18 @@ public class Inventory : MonoBehaviour
             }
             OnInventoryChanged?.Invoke();
         }
+    }
+
+    public List<InventorySlot> GetAllItemsOfType<T>() where T : ItemInstance
+    {
+        List<InventorySlot> filteredItems = new List<InventorySlot>();
+        foreach (var slot in Slots)
+        {
+            if (!slot.IsEmpty && slot.Item is T)
+            {
+                filteredItems.Add(slot);
+            }
+        }
+        return filteredItems;
     }
 }

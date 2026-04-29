@@ -7,10 +7,12 @@ public class WeaponSO : ItemSO
     public float BaseDamage = 50f;
     public float BasePoiseDamage = 10f;
     public float KnockbackStrength = 5f;
+    public float DamageUpgradePerLevel = 2f;
 
     [Header("Scaling")]
     public float StrengthScaling = 0.5f; // Бонус от силы
     public float DexterityScaling = 0.1f; // Бонус от ловкости
+    public float MindScaling = 0.1f; // Бонус от ловкости
 
     [Header("Heavy Attack Logic")]
     public float MaxChargeTime = 2f;

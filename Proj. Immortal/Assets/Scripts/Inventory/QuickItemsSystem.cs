@@ -1,22 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuickItemsSystem : MonoBehaviour
 {
+    [Header("TEST")]
+    public HealItemSO item;
+
     public Action OnActiveItemChanged;
 
     [SerializeField] private InputReader inputReader;
     [SerializeField] private Inventory inventorySystem;
     [SerializeField] private int maxQuickSlots;
 
-    [SerializeField] private List<ItemSO> equippedItems = new List<ItemSO>();
+    [SerializeField] private List<ItemInstance> equippedItems = new List<ItemInstance>();
     private int _currentIndex = 0;
 
     private void Start()
     {
         inventorySystem.OnInventoryChanged += NotifyUI;
         inputReader.OnCycleQuickItemPressed += CycleNextItem;
+
+        equippedItems.Add(new ItemInstance(item));
+
+        NotifyUI();
     }
 
     private void OnDestroy()
@@ -25,7 +33,7 @@ public class QuickItemsSystem : MonoBehaviour
             inventorySystem.OnInventoryChanged -= NotifyUI;
     }
 
-    public ItemSO GetCurrentItem()
+    public ItemInstance GetCurrentItem()
     {
         if (equippedItems.Count == 0)
             return null;
@@ -35,7 +43,7 @@ public class QuickItemsSystem : MonoBehaviour
 
     public int GetCurrentItemQuantity()
     {
-        ItemSO current = GetCurrentItem();
+        ItemInstance current = GetCurrentItem();
 
         if (current == null) 
             return 0;
@@ -68,9 +76,9 @@ public class QuickItemsSystem : MonoBehaviour
         NotifyUI();
     }
 
-    public void EquipItem(ItemSO item)
+    public void EquipItem(ItemInstance item)
     {
-        if (item.type != ItemType.Consumable)
+        if (item.ItemData.type != ItemType.Consumable)
             return;
 
         if (!equippedItems.Contains(item) && equippedItems.Count < maxQuickSlots)
@@ -82,7 +90,7 @@ public class QuickItemsSystem : MonoBehaviour
 
     public void ConsumeCurrentItem(PlayerStateMachine player)
     {
-        ItemSO currentItem = GetCurrentItem();
+        ItemInstance currentItem = GetCurrentItem();
         int quantity = GetCurrentItemQuantity();
 
         if (currentItem != null && quantity > 0)

@@ -62,6 +62,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4411419462911629165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3265148015774068140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8282268405258341861}
+  m_Layer: 6
+  m_Name: CastPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8282268405258341861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3265148015774068140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4411419462911629165}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3419289373211620017
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,6 +153,8 @@ GameObject:
   - component: {fileID: 1418714845170944608}
   - component: {fileID: 6340540996623804120}
   - component: {fileID: 2859235365213478418}
+  - component: {fileID: 3206497918779793067}
+  - component: {fileID: 8006486452333123857}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -147,6 +180,7 @@ Transform:
   - {fileID: 1200700187179401878}
   - {fileID: 8692428842267008813}
   - {fileID: 8783917549785136509}
+  - {fileID: 8282268405258341861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5735160190767732323
@@ -637,11 +671,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f36f21ba9575e47846f836fea74a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuickItemsSystem
+  item: {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
   inputReader: {fileID: 7993863743934738338}
   inventorySystem: {fileID: 8405616296295915670}
   maxQuickSlots: 5
-  equippedItems:
-  - {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
+  equippedItems: []
 --- !u!114 &6340540996623804120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,9 +697,12 @@ MonoBehaviour:
   <Endurance>k__BackingField: 10
   <Strength>k__BackingField: 10
   <Dexterity>k__BackingField: 10
+  <Mind>k__BackingField: 10
   MaxHealthStat:
     baseValue: 0
   MaxStaminaStat:
+    baseValue: 0
+  MaxManaStat:
     baseValue: 0
   RightHandAttackStat:
     baseValue: 0
@@ -681,6 +718,7 @@ MonoBehaviour:
     baseValue: 0
   health: 
   stamina: 
+  mana: 
   poise: 
 --- !u!114 &2859235365213478418
 MonoBehaviour:
@@ -694,9 +732,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee87535ed6a1e24495418aed6500b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
-  <RightWeapon>k__BackingField: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
-  <LeftWeapon>k__BackingField: {fileID: 0}
+  weapon1: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  weapon2: {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
+  inputReader: {fileID: 7993863743934738338}
+  inventorySystem: {fileID: 8405616296295915670}
+  maxWeaponSlots: 4
+  equippedRightHandWeapons: []
+  equippedLeftHandWeapons: []
   rightHandSocket: {fileID: 0}
+--- !u!114 &3206497918779793067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d4373c894b1fb4fb6d57993df8e6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpellSlotSystem
+  inputReader: {fileID: 7993863743934738338}
+  inventorySystem: {fileID: 8405616296295915670}
+  maxSpellSlots: 5
+--- !u!114 &8006486452333123857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acafe756e5303b4597d79e0469f7310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Equipment
+  RightHandWeapons:
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  LeftHandWeapons:
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

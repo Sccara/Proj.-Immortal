@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Upgrade", menuName = "Upgrade System")]
+[CreateAssetMenu(fileName = "Upgrade", menuName = "Upgrade System/Upgrade")]
 public abstract class UpgradeSO : ScriptableObject
 {
     public Sprite icon;
@@ -9,5 +9,4 @@ public abstract class UpgradeSO : ScriptableObject
     public float amount;
     public abstract void AddEffect();
 }
-
 

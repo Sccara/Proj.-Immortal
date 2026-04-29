@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -40,6 +41,12 @@ public class UIManager : MonoBehaviour
         { 
             ToggleWindow(WindowType.Inventory, hideHUD: true); 
         };
+    
+        inputReader.OnEquipmentPressed += () =>
+        {
+            ToggleWindow(WindowType.Equipment, hideHUD: true);
+        };
+
         inputReader.OnEscapePressed += CloseLastWindow;
     }
 
@@ -94,6 +101,21 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+
+    public T GetWindow<T>(WindowType type) where T : UIWindow
+    {
+        return registeredWindows.Find((w) => w.type == type).windowObject.GetComponent<T>();
+
+        //foreach (var window in registeredWindows)
+        //{
+        //    if (window.type == type)
+        //    {
+        //        return window.windowObject.GetComponent<T>();
+        //    }
+        //}
+
+        //return null;
+    }
 }
 
 [System.Serializable]
@@ -107,5 +129,7 @@ public enum WindowType
 {
     Inventory,
     LevelUp,
-    PauseMenu
+    PauseMenu,
+    Equipment,
+    Selection
 }

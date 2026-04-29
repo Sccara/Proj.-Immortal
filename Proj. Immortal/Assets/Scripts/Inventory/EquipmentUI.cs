@@ -16,22 +16,26 @@ public class EquipmentUI : MonoBehaviour
 
     private void Awake()
     {
-        equipmentSystem.OnWeaponEquipped += UpdateWeaponUI;
+        //equipmentSystem.OnRightHandWeaponChanged += UpdateWeaponUI;
+        //equipmentSystem.OnLeftHandWeaponChanged += UpdateWeaponUI;
     }
 
     private void Start()
     {
-        UpdateWeaponUI(EquipmentSlot.RightHand, equipmentSystem.RightWeapon);
-        UpdateWeaponUI(EquipmentSlot.LeftHand, equipmentSystem.LeftWeapon);
+        UpdateWeaponUI(EquipmentSlot.RightHand, equipmentSystem.RightHand);
+        UpdateWeaponUI(EquipmentSlot.LeftHand, equipmentSystem.LeftHand);
     }
 
     private void OnDestroy()
     {
         if (equipmentSystem != null)
-            equipmentSystem.OnWeaponEquipped -= UpdateWeaponUI;
+        {
+            //equipmentSystem.OnRightHandWeaponChanged -= UpdateWeaponUI;
+            //equipmentSystem.OnLeftHandWeaponChanged -= UpdateWeaponUI;
+        }
     }
 
-    private void UpdateWeaponUI(EquipmentSlot slot, WeaponSO weapon)
+    private void UpdateWeaponUI(EquipmentSlot slot, WeaponInstance weapon)
     {
         GameObject currentContainer = slot == EquipmentSlot.RightHand ? rightSlotContainer : leftSlotContainer;
         Image currentIcon = slot == EquipmentSlot.RightHand ? rightWeaponIcon : leftWeaponIcon;
@@ -43,6 +47,6 @@ public class EquipmentUI : MonoBehaviour
         }
 
         currentContainer.SetActive(true);
-        currentIcon.sprite = weapon.icon;
+        currentIcon.sprite = weapon.ItemData.icon;
     }
 }

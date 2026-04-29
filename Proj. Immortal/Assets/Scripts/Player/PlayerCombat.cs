@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void AnimEvent_EnableHitbox()
     {
-        float finalDamage = PlayerManager.Instance.Attributes.RightHandAttackStat.Value * _currentDamageMult;
+        float finalDamage = PlayerManager.Instance.Attributes.RightHandAttackStat.Value * _currentDamageMult; // + LEFT HAND
         float finalPoise = PlayerManager.Instance.Attributes.PoiseAttackPowerStat.Value * _currentPoiseMult;
         Vector3 knockback = transform.forward * currentWeaponConfig.KnockbackStrength * _currentDamageMult;
 

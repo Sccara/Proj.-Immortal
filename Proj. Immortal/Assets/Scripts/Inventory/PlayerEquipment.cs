@@ -1,12 +1,24 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    public Action<EquipmentSlot, WeaponSO> OnWeaponEquipped;
+    public Action<EquipmentSlot, int, WeaponInstance> OnEquipmentSlotChanged;
 
-    [field: SerializeField] public WeaponSO RightWeapon { get; private set; }
-    [field: SerializeField] public WeaponSO LeftWeapon { get; private set; }
+    public Action<EquipmentSlot, WeaponInstance> OnActiveWeaponCycled;
+    public WeaponInstance[] RightHandWeapons = new WeaponInstance[3];
+    public WeaponInstance[] LeftHandWeapons = new WeaponInstance[3];
+
+    [SerializeField] private InputReader inputReader;
+    [SerializeField] private Inventory inventorySystem;
+
+    private int _currentRightHandIndex = 0;
+    private int _currentLeftHandIndex = 0;
+
+    public WeaponInstance RightHand => GetWeapon(EquipmentSlot.RightHand);
+    public WeaponInstance LeftHand => GetWeapon(EquipmentSlot.LeftHand);
 
     [Header("ЗАДЕЛ НА БУДУЩЕЕ (Пока оставляем пустым)")]
     [SerializeField] private Transform rightHandSocket; // Кость правой руки в скелете
@@ -14,58 +26,69 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Start()
     {
-        if (RightWeapon != null)
-            EquipWeapon(RightWeapon, EquipmentSlot.RightHand);
-
-        if (LeftWeapon != null)
-            EquipWeapon(LeftWeapon, EquipmentSlot.LeftHand);
+        inputReader.OnCycleRightHandWeaponPressed += CycleRightWeapon;
+        inputReader.OnCycleLeftHandWeaponPressed += CycleLeftWeapon;
     }
 
-    public void EquipWeapon(WeaponSO newWeapon, EquipmentSlot slot)
+    public void AssignWeaponToSlot(int slotIndex, WeaponInstance weapon, EquipmentSlot slot)
     {
         if (slot == EquipmentSlot.RightHand)
         {
-            RightWeapon = newWeapon;
+            RightHandWeapons[slotIndex] = weapon;
+            OnEquipmentSlotChanged?.Invoke(slot, slotIndex, weapon);
         }
-        else if (slot == EquipmentSlot.LeftHand)
+        if (slot == EquipmentSlot.LeftHand)
         {
-            LeftWeapon = newWeapon;
+            LeftHandWeapons[slotIndex] = weapon;
+            OnEquipmentSlotChanged?.Invoke(slot, slotIndex, weapon);
         }
+    }
 
-        /* ТУТ БУДЕТ ЛОГИКА ДЛЯ МОДЕЛЕЙ:
-        if (_currentWeaponModel != null) Destroy(_currentWeaponModel);
-        if (newWeapon.WeaponPrefab != null && rightHandSocket != null)
+    public void CycleRightWeapon()
+    {
+        _currentRightHandIndex++;
+
+        if (_currentRightHandIndex >= RightHandWeapons.Length)
         {
-            _currentWeaponModel = Instantiate(newWeapon.WeaponPrefab, rightHandSocket);
+            _currentRightHandIndex = 0;
         }
-        */
 
-        // Оповещаем систему статов, что пушка сменилась
-        OnWeaponEquipped?.Invoke(slot, newWeapon);
-
-        string weaponName = newWeapon != null ? newWeapon.itemName : "Кулаки";
-        Debug.Log($"<color=orange>Экипировано [{weaponName}] в слот {slot}</color>");
+        OnActiveWeaponCycled?.Invoke(EquipmentSlot.RightHand, RightHandWeapons[_currentRightHandIndex]);
     }
 
-    // Временный метод для теста (повесим на кнопку мыши или клавиатуры)
-    public void CycleRightWeaponTest(WeaponSO nextWeapon)
+    public void CycleLeftWeapon()
     {
-        EquipWeapon(nextWeapon, EquipmentSlot.RightHand);
+        _currentLeftHandIndex++;
+
+        if (_currentLeftHandIndex >= LeftHandWeapons.Length)
+        {
+            _currentLeftHandIndex = 0;
+        }
+
+        OnActiveWeaponCycled?.Invoke(EquipmentSlot.LeftHand, LeftHandWeapons[_currentLeftHandIndex]);
     }
 
-    public void CycleLeftWeaponTest(WeaponSO nextWeapon)
+    public WeaponInstance GetWeapon(EquipmentSlot slot)
     {
-        EquipWeapon(nextWeapon, EquipmentSlot.LeftHand);
-    }
+        // REFACTOR TO FIST DEFAULT WEAPON
 
-    public WeaponSO GetWeapon(EquipmentSlot slot)
-    {
-        return slot == EquipmentSlot.RightHand ? RightWeapon : LeftWeapon;
+        if (slot == EquipmentSlot.RightHand && RightHandWeapons[_currentRightHandIndex] == null)
+        {
+            return null;
+        }
+        else if (slot == EquipmentSlot.LeftHand && RightHandWeapons[_currentLeftHandIndex] == null)
+        {
+            return null;
+        }
+
+        return slot == EquipmentSlot.RightHand ? RightHandWeapons[_currentRightHandIndex] : LeftHandWeapons[_currentLeftHandIndex];
     }
 }
 
 public enum EquipmentSlot
 {
     RightHand,
-    LeftHand
+    LeftHand,
+    Spell,
+    QuickItem
 }

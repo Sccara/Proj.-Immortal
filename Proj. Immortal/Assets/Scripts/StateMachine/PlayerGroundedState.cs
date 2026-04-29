@@ -69,7 +69,7 @@ public class PlayerGroundedState : PlayerBaseState
                 SwitchState(Factory.HeavyAttack());
                 return true;
             case InputCommand.UseItem:
-                ItemSO activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
+                ItemInstance activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
                 int quantity = Ctx.PlayerManager.QuickItems.GetCurrentItemQuantity();
 
                 if (activeItem != null && quantity > 0)

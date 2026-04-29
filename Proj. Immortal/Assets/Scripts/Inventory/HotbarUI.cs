@@ -30,7 +30,7 @@ public class HotbarUI : MonoBehaviour
 
     private void UpdateHotbarUI()
     {
-        ItemSO currentItem = quickItemsSystem.GetCurrentItem();
+        ItemInstance currentItem = quickItemsSystem.GetCurrentItem();
 
         if (currentItem == null)
         {
@@ -39,7 +39,7 @@ public class HotbarUI : MonoBehaviour
         }
 
         itemSlotContainer.SetActive(true);
-        itemIcon.sprite = currentItem.icon;
+        itemIcon.sprite = currentItem.ItemData.icon;
 
         int currentQuantity = quickItemsSystem.GetCurrentItemQuantity();
 

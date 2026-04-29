@@ -17,10 +17,12 @@ public class PlayerAttributes : MonoBehaviour
     [field: SerializeField] public int Endurance { get; private set; } = 10;
     [field: SerializeField] public int Strength { get; private set; } = 10;
     [field: SerializeField] public int Dexterity { get; private set; } = 10;
+    [field: SerializeField] public int Mind { get; private set; } = 10;
 
     [Header("Stats")]
     public Stat MaxHealthStat = new Stat();
     public Stat MaxStaminaStat = new Stat();
+    public Stat MaxManaStat = new Stat();
     public Stat RightHandAttackStat = new Stat();
     public Stat LeftHandAttackStat = new Stat();
     public Stat PoiseAttackPowerStat = new Stat();
@@ -33,11 +35,13 @@ public class PlayerAttributes : MonoBehaviour
     [Header("Resources")]
     public Resource HealthResource;
     public Resource StaminaResource;
+    public Resource ManaResource;
     public Resource PoiseResource;
 
     [Header("DEBUG")]
     public string health;
     public string stamina;
+    public string mana;
     public string poise;
 
     private void Awake()
@@ -56,6 +60,10 @@ public class PlayerAttributes : MonoBehaviour
         StaminaResource = new Resource(MaxStaminaStat.Value);
         MaxStaminaStat.OnStatChanged += (newMax) => StaminaResource.SetMax(newMax, false);
 
+        MaxManaStat.SetBaseValue(CalculateManaFromMind(Mind));
+        ManaResource = new Resource(MaxManaStat.Value);
+        MaxManaStat.OnStatChanged += (newMax) => ManaResource.SetMax(newMax, false);
+
         MaxPoiseStat.SetBaseValue(config.basePoise);
         PoiseResource = new Resource(MaxPoiseStat.Value);
         MaxPoiseStat.OnStatChanged += (newMax) => PoiseResource.SetMax(newMax, false);
@@ -63,16 +71,17 @@ public class PlayerAttributes : MonoBehaviour
 
     private void Start()
     {
-        PlayerManager.Instance.Equipment.OnWeaponEquipped += RecalculateAttackPower;
+        PlayerManager.Instance.Equipment.OnActiveWeaponCycled += RecalculateAttackPower;
 
-        RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
-        RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
+        RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
+        RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
     }
 
     private void Update()
     {
         health = $"{HealthResource.Current} '/' {HealthResource.Max}";
         stamina = $"{StaminaResource.Current} '/' {StaminaResource.Max}";
+        mana = $"{ManaResource.Current} '/' {ManaResource.Max}";
         poise = $"{PoiseResource.Current} '/' {PoiseResource.Max}";
     }
 
@@ -88,15 +97,19 @@ public class PlayerAttributes : MonoBehaviour
                 Endurance++;
                 MaxStaminaStat.SetBaseValue(CalculateStaminaFromEndurance(Endurance));
                 break;
+            case StatType.Mind:
+                Mind++;
+                MaxManaStat.SetBaseValue(CalculateManaFromMind(Mind));
+                break;
             case StatType.Strength:
                 Strength++;
-                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
-                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
+                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
                 break;
             case StatType.Dexterity:
                 Dexterity++;
-                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightWeapon);
-                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftWeapon);
+                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
                 break;
         }
 
@@ -105,11 +118,12 @@ public class PlayerAttributes : MonoBehaviour
 
     private float CalculateHPFromVigor(int vigor) => vigor * 10f;
     private float CalculateStaminaFromEndurance(int endurance) => endurance * 5f;
-    private void RecalculateAttackPower(EquipmentSlot slot, WeaponSO weapon)
+    private float CalculateManaFromMind(int mind) => mind * 5f;
+    private void RecalculateAttackPower(EquipmentSlot slot, WeaponInstance weapon)
     {
         float totalDamage = 0f;
 
-        if (weapon == null)
+        if (weapon.WeaponData == null)
         {
             // Удары кулаками (можно завести отдельную константу для этого)
             totalDamage = (Strength + Dexterity) * 1.5f;
@@ -117,9 +131,9 @@ public class PlayerAttributes : MonoBehaviour
         else
         {
             // Считаем урон от скейлов оружия
-            float strBonus = Strength * weapon.StrengthScaling;
-            float dexBonus = Dexterity * weapon.DexterityScaling;
-            totalDamage = weapon.BaseDamage + strBonus + dexBonus;
+            float strBonus = Strength * weapon.WeaponData.StrengthScaling;
+            float dexBonus = Dexterity * weapon.WeaponData.DexterityScaling;
+            totalDamage = weapon.WeaponData.BaseDamage + strBonus + dexBonus;
         }
 
         // Применяем урон в нужный стат
@@ -146,6 +160,7 @@ public enum StatType
     Vigor,
     Endurance,
     Strength,
-    Dexterity
+    Dexterity,
+    Mind
 }
 

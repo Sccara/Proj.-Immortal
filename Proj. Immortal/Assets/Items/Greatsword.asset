@@ -18,12 +18,14 @@ MonoBehaviour:
   isStackable: 0
   maxStackSize: 1
   cost: 500
-  icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: 9bb28f94a6911a34d9fabdb1354b6b5c, type: 3}
   BaseDamage: 50
   BasePoiseDamage: 10
   KnockbackStrength: 5
+  DamageUpgradePerLevel: 2
   StrengthScaling: 0.5
   DexterityScaling: 0.1
+  MindScaling: 0.1
   MaxChargeTime: 2
   MinDamageMultiplier: 1
   MaxDamageMultiplier: 2.5

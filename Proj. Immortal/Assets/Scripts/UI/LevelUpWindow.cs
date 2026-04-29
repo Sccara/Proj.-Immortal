@@ -13,6 +13,7 @@ public class LevelUpWindow : UIWindow
     [SerializeField] private TextMeshProUGUI enduranceText;
     [SerializeField] private TextMeshProUGUI strengthText;
     [SerializeField] private TextMeshProUGUI dexterityText;
+    [SerializeField] private TextMeshProUGUI mindText;
 
     private void OnEnable()
     {
@@ -43,6 +44,7 @@ public class LevelUpWindow : UIWindow
         enduranceText.text = $"Endurance: {PlayerManager.Instance.Attributes.Endurance}";
         strengthText.text = $"Strength: {PlayerManager.Instance.Attributes.Strength}";
         dexterityText.text = $"Dexterity: {PlayerManager.Instance.Attributes.Dexterity}";
+        mindText.text = $"Mind: {PlayerManager.Instance.Attributes.Mind}";
     }
 
     private void UpdateSoulsText(float currentSouls)
@@ -55,6 +57,7 @@ public class LevelUpWindow : UIWindow
     public void OnUpgradeEnduranceClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Endurance);
     public void OnUpgradeStrengthClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Strength);
     public void OnUpgradeDexterityClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Dexterity);
+    public void OnUpgradeMindClicked() => PlayerManager.Instance.Level.UpgradeStat(StatType.Mind);
 
     public override void OnOpen()
     {

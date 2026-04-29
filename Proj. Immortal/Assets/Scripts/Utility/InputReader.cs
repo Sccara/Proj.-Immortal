@@ -7,9 +7,13 @@ public class InputReader : MonoBehaviour
     public Action OnInteractPressed;
     public Action OnJumpPressed;
     public Action OnCycleQuickItemPressed;
+    public Action OnCycleSpellPressed;
+    public Action OnCycleRightHandWeaponPressed;
+    public Action OnCycleLeftHandWeaponPressed;
     public Action OnQuickItemUsePressed;
     public Action OnEscapePressed;
     public Action OnInventoryPressed;
+    public Action OnEquipmentPressed;
     public Action OnDashPressed;
     public Action OnLockOnPressed;
 
@@ -35,8 +39,12 @@ public class InputReader : MonoBehaviour
 
         _input.Player.Interact.performed += ctx => OnInteractPressed?.Invoke();
         _input.Player.CycleQuickItem.performed += ctx => OnCycleQuickItemPressed?.Invoke();
+        _input.Player.CycleSpell.performed += ctx => OnCycleSpellPressed?.Invoke();
+        _input.Player.Next.performed += ctx => OnCycleRightHandWeaponPressed?.Invoke();
+        _input.Player.Previous.performed += ctx => OnCycleLeftHandWeaponPressed?.Invoke();
         _input.Player.Escape.performed += ctx => OnEscapePressed?.Invoke();
         _input.Player.Inventory.performed += ctx => OnInventoryPressed?.Invoke();
+        _input.Player.Equipment.performed += ctx => OnEquipmentPressed?.Invoke();
         _input.Player.Dash.performed += ctx => OnDashPressed?.Invoke();
         _input.Player.Jump.performed += ctx => OnJumpPressed?.Invoke();
         _input.Player.Attack.performed += ctx => OnLightAttackPressed?.Invoke();

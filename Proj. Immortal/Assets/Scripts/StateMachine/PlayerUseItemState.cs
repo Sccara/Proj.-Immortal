@@ -16,9 +16,9 @@ public class PlayerUseItemState : PlayerBaseState
         _isAnimationFinished = false;
         Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.useItemSpeed;
 
-        ItemSO activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
+        ItemInstance activeItem = Ctx.PlayerManager.QuickItems.GetCurrentItem();
 
-        Ctx.Animator.Play(activeItem.AnimationTriggerName);
+        Ctx.Animator.Play(activeItem.ItemData.AnimationTriggerName);
     }
 
     public override void UpdateState()

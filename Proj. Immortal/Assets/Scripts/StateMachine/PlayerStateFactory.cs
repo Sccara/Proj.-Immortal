@@ -53,4 +53,9 @@ public class PlayerStateFactory : MonoBehaviour
     {
         return new PlayerUseItemState(_context, this);
     }
+
+    public PlayerBaseState Cast()
+    {
+        return new PlayerCastState(_context, this);
+    }
 }
