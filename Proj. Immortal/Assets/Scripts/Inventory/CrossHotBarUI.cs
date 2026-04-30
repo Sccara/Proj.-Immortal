@@ -4,8 +4,10 @@ using UnityEngine.UI;
 public class CrossHotBarUI : MonoBehaviour
 {
     [SerializeField] private PlayerEquipment equipment;
+    [SerializeField] private PlayerSpellMemory spellMemory;
 
-    [Header("Иконки")]
+    [Header("Icons")]
+    [SerializeField] private Image spellIcon;
     [SerializeField] private Image rightWeaponIcon;
     [SerializeField] private Image leftWeaponIcon;
 
@@ -13,12 +15,18 @@ public class CrossHotBarUI : MonoBehaviour
     {
         if (equipment != null)
             equipment.OnActiveWeaponCycled += UpdateHotbarIcon;
+
+        if (spellMemory != null)
+            spellMemory.OnActiveSpellChanged += UpdateSpellIcon;
     }
 
     private void OnDisable()
     {
         if (equipment != null)
             equipment.OnActiveWeaponCycled -= UpdateHotbarIcon;
+
+        if (spellMemory != null)
+            spellMemory.OnActiveSpellChanged -= UpdateSpellIcon;
     }
 
     private void UpdateHotbarIcon(EquipmentSlot hand, WeaponInstance activeWeapon)
@@ -27,15 +35,27 @@ public class CrossHotBarUI : MonoBehaviour
 
         if (activeWeapon == null || activeWeapon.ItemData == null)
         {
-            // Голые кулаки
-            targetIcon.color = new Color(1, 1, 1, 0); // Прозрачная
+            targetIcon.color = new Color(1, 1, 1, 0); 
             targetIcon.sprite = null;
         }
         else
         {
-            // В руках оружие
-            targetIcon.color = new Color(1, 1, 1, 1); // Видимая
+            targetIcon.color = new Color(1, 1, 1, 1); 
             targetIcon.sprite = activeWeapon.ItemData.icon;
+        }
+    }
+
+    public void UpdateSpellIcon(SpellInstance activeSpell)
+    {
+        if (activeSpell == null || activeSpell.ItemData == null)
+        {
+            spellIcon.color = new Color(1, 1, 1, 0);
+            spellIcon.sprite = null;
+        }
+        else
+        {
+            spellIcon.color = new Color(1, 1, 1, 1);
+            spellIcon.sprite = activeSpell.ItemData.icon;
         }
     }
 }

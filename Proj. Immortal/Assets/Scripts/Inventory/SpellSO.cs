@@ -1,12 +1,15 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Spell", menuName = "Inventory System/Spell")]
+[CreateAssetMenu(fileName = "New Spell", menuName = "Inventory System/Spell Data")]
 public class SpellSO : ItemSO
 {
+    public float BaseMagicDamage;
     public float manaCost;
+
+
     public GameObject projectilePrefab;
     public float spellDamage;
-    public float castTime; // Время до вылета снаряда
+    public float castTime; 
 
     public override string AnimationTriggerName => "CastSpell";
 

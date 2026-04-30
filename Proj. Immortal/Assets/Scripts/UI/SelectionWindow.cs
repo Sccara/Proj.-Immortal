@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SelectionWindow : UIWindow
 {
     [SerializeField] private PlayerEquipment equipment;
+    [SerializeField] private PlayerSpellMemory spellMemory;
     [SerializeField] private Inventory inventory;
     [SerializeField] private UIManager uiManager;
 
@@ -15,12 +16,24 @@ public class SelectionWindow : UIWindow
     private EquipmentSlot _targetHand;
     private int _targetSlotIndex;
 
+    private bool _isSelectingSpell = false;
+    private int _targetSpellSlotIndex;
+
     public void OpenForSlot(EquipmentSlot hand, int slotIndex)
     {
+        _isSelectingSpell = false;
         _targetHand = hand;
         _targetSlotIndex = slotIndex;
 
         ShowItemsByFilter<WeaponInstance>();
+    }
+
+    public void OpenForSpellSlot(int slotIndex)
+    {
+        _isSelectingSpell = true;
+        _targetSpellSlotIndex = slotIndex;
+
+        ShowItemsByFilter<SpellInstance>();
     }
 
     public override void OnOpen()
@@ -50,11 +63,18 @@ public class SelectionWindow : UIWindow
                 {
                     slotButton.onClick.RemoveAllListeners();
 
-                    WeaponInstance selectedWeapon = items[i].Item as WeaponInstance;
+                    ItemInstance currentItem = items[i].Item;
 
                     slotButton.onClick.AddListener(() =>
                     {
-                        EquipSelectedWeapon(selectedWeapon);
+                        if (_isSelectingSpell && currentItem is SpellInstance spell)
+                        {
+                            EquipSelectedSpell(spell);
+                        }
+                        else if (!_isSelectingSpell && currentItem is WeaponInstance weapon)
+                        {
+                            EquipSelectedWeapon(weapon);
+                        }
                     });
                 }
             }
@@ -71,5 +91,13 @@ public class SelectionWindow : UIWindow
 
         uiManager.ToggleWindow(WindowType.Selection);
         uiManager.ToggleWindow(WindowType.Equipment, hideHUD : true);
+    }
+
+    private void EquipSelectedSpell(SpellInstance spell)
+    {
+        spellMemory.AssignSpellToSlot(_targetSpellSlotIndex, spell);
+
+        uiManager.ToggleWindow(WindowType.Selection);
+        uiManager.ToggleWindow(WindowType.Equipment, hideHUD: true);
     }
 }

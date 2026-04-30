@@ -63,7 +63,7 @@ public class PlayerGroundedState : PlayerBaseState
                 }
                 break;
             case InputCommand.LightAttack:
-                SwitchState(Factory.LightAttack());
+                ExecuteRightHandAction();
                 return true;
             case InputCommand.HeavyAttack:
                 SwitchState(Factory.HeavyAttack());
@@ -84,5 +84,43 @@ public class PlayerGroundedState : PlayerBaseState
         }
 
         return base.HandleInput(command);
+    }
+
+    private void ExecuteRightHandAction()
+    {
+        WeaponInstance rightWeapon = Ctx.PlayerManager.Equipment.RightHand;
+
+        if (rightWeapon == null)
+        {
+            SwitchState(Factory.LightAttack());
+            return;
+        }
+
+        WeaponSO weaponData = rightWeapon.WeaponData;
+
+        switch (weaponData.Class)
+        {
+            case WeaponClass.Melee:
+                SwitchState(Factory.LightAttack());
+                break;
+            case WeaponClass.Catalyst:
+                SpellInstance activeSpell = Ctx.PlayerManager.SpellMemory.CurrentSpell;
+
+                if (activeSpell != null)
+                {
+                    SwitchState(Factory.Cast());
+                }
+                else
+                { 
+                    
+                    SwitchState(Factory.LightAttack());
+                }
+                break;
+
+            case WeaponClass.Ranged:
+                // SwitchState(Factory.AimRangedWeapon());
+                SwitchState(Factory.LightAttack());
+                break;
+        }
     }
 }

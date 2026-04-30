@@ -8,6 +8,7 @@ public class WeaponSO : ItemSO
     public float BasePoiseDamage = 10f;
     public float KnockbackStrength = 5f;
     public float DamageUpgradePerLevel = 2f;
+    public WeaponClass Class;
 
     [Header("Scaling")]
     public float StrengthScaling = 0.5f; // Ѕонус от силы
@@ -20,4 +21,11 @@ public class WeaponSO : ItemSO
     public float MaxDamageMultiplier = 2.5f;
     public float MaxPoiseMultiplier = 2.0f;
     public float AttackStepForce = 15f; // Ќасколько сильно персонаж шагает вперед при ударе этим оружием
+}
+
+public enum WeaponClass
+{
+    Melee,
+    Catalyst,
+    Ranged
 }

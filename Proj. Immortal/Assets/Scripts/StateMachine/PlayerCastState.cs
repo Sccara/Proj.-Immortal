@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerCastState : PlayerBaseState
 {
+    private SpellInstance _currentSpell;
+    private bool _hasCastFired;
+
     public PlayerCastState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
 : base(currentContext, playerStateFactory)
     {
@@ -11,8 +14,22 @@ public class PlayerCastState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Cast state");
+        _hasCastFired = false;
+        _currentSpell = Ctx.PlayerManager.SpellMemory.CurrentSpell;
+
+        float manaCost = _currentSpell.SpellData.manaCost;
+
+        if (Ctx.PlayerManager.Attributes.ManaResource.Current < manaCost)
+        {
+            Ctx.Animator.Play("Cast_Fail");
+            return;
+        }
+
         Ctx.StopMovement();
 
+        string animTrigger = _currentSpell.SpellData.AnimationTriggerName;
+        Ctx.Animator.Play(animTrigger);
+        _hasCastFired = true;
     }
     public override void UpdateState()
     {
@@ -32,6 +49,14 @@ public class PlayerCastState : PlayerBaseState
     }
     public override void CheckSwitchStates()
     {
+        if (_hasCastFired)
+        {
+            SwitchState(Factory.Grounded());
+        }
+    }
 
+    public void AnimationFinished()
+    {
+        _hasCastFired = true;
     }
 }

@@ -153,8 +153,8 @@ GameObject:
   - component: {fileID: 1418714845170944608}
   - component: {fileID: 6340540996623804120}
   - component: {fileID: 2859235365213478418}
-  - component: {fileID: 3206497918779793067}
   - component: {fileID: 8006486452333123857}
+  - component: {fileID: 6060595833461389869}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -627,6 +627,12 @@ MonoBehaviour:
   slots: []
   items:
   - {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
+  weapons:
+  - {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
+  - {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  spells:
+  - {fileID: 11400000, guid: b2cdc58d49c44a3438117e4cfa70d816, type: 2}
+  - {fileID: 11400000, guid: 53a736059ef4a9c40acf45abb424d66d, type: 2}
 --- !u!114 &5264399362625496569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,29 +738,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee87535ed6a1e24495418aed6500b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
-  weapon1: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
-  weapon2: {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
+  RightHandWeapons:
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  LeftHandWeapons:
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
+  - <UpgradeLevel>k__BackingField: 0
   inputReader: {fileID: 7993863743934738338}
   inventorySystem: {fileID: 8405616296295915670}
-  maxWeaponSlots: 4
-  equippedRightHandWeapons: []
-  equippedLeftHandWeapons: []
   rightHandSocket: {fileID: 0}
---- !u!114 &3206497918779793067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3463466838240493161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d4373c894b1fb4fb6d57993df8e6c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpellSlotSystem
-  inputReader: {fileID: 7993863743934738338}
-  inventorySystem: {fileID: 8405616296295915670}
-  maxSpellSlots: 5
 --- !u!114 &8006486452333123857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +769,20 @@ MonoBehaviour:
   - <UpgradeLevel>k__BackingField: 0
   - <UpgradeLevel>k__BackingField: 0
   - <UpgradeLevel>k__BackingField: 0
+--- !u!114 &6060595833461389869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca478195bae6004db6502c78f36150f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellMemory
+  MaxMemorySlots: 5
+  inputReader: {fileID: 7993863743934738338}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

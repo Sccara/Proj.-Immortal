@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private StaminaSystemController stamina;
     [SerializeField] private LevelSystemController level;
     [SerializeField] private PlayerCombat combat;
+    [SerializeField] private PlayerSpellMemory spellMemory;
     [SerializeField] private QuickItemsSystem quickItems;
     [SerializeField] private PlayerEquipment equipment;
     [SerializeField] private PlayerAttributes playerAttributes;
@@ -19,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerCombat Combat { get => combat; private set { } }
     public QuickItemsSystem QuickItems { get => quickItems; private set { } }
     public PlayerEquipment Equipment { get => equipment; private set { } }
+    public PlayerSpellMemory SpellMemory { get => spellMemory; private set { } }
     public PlayerAttributes Attributes { get => playerAttributes; private set { } }
     public PlayerConfigSO Config { get => config; private set { } }
 

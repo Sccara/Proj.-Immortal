@@ -43,7 +43,8 @@ public class EquipmentSlotUI : ItemSlotUI
 
     private void RefreshCurrentState()
     {
-        if (equipment == null) return;
+        if (equipment == null)
+            return;
 
         WeaponInstance currentWeaponInThisSlot = (HandType == EquipmentSlot.RightHand)
             ? equipment.RightHandWeapons[SlotIndex]

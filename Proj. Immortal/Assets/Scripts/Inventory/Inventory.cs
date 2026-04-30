@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] private List<ItemSO> items = new List<ItemSO>();
     [SerializeField] private List<WeaponSO> weapons = new List<WeaponSO>();
+    [SerializeField] private List<SpellSO> spells = new List<SpellSO>();
 
     public IReadOnlyList<InventorySlot> Slots => slots;
 
@@ -22,6 +23,10 @@ public class Inventory : MonoBehaviour
         foreach (var weapon in weapons)
         {
             AddItem(new WeaponInstance(weapon));
+        }
+        foreach(var spell in spells)
+        {
+            AddItem(new SpellInstance(spell));
         }
     }
 
