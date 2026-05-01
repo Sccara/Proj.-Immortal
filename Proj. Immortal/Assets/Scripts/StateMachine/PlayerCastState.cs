@@ -14,18 +14,17 @@ public class PlayerCastState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Cast state");
+        Ctx.StopMovement();
         _hasCastFired = false;
         _currentSpell = Ctx.PlayerManager.SpellMemory.CurrentSpell;
 
-        float manaCost = _currentSpell.SpellData.manaCost;
+        float manaCost = _currentSpell.SpellData.ManaCost;
 
         if (Ctx.PlayerManager.Attributes.ManaResource.Current < manaCost)
         {
             Ctx.Animator.Play("Cast_Fail");
             return;
         }
-
-        Ctx.StopMovement();
 
         string animTrigger = _currentSpell.SpellData.AnimationTriggerName;
         Ctx.Animator.Play(animTrigger);

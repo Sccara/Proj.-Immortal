@@ -4,12 +4,9 @@ using UnityEngine;
 public class SpellSO : ItemSO
 {
     public float BaseMagicDamage;
-    public float manaCost;
+    public float ManaCost;
 
-
-    public GameObject projectilePrefab;
-    public float spellDamage;
-    public float castTime; 
+    public SpellEffect SpellPrefab;
 
     public override string AnimationTriggerName => "CastSpell";
 

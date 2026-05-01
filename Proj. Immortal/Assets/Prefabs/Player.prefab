@@ -181,6 +181,7 @@ Transform:
   - {fileID: 8692428842267008813}
   - {fileID: 8783917549785136509}
   - {fileID: 8282268405258341861}
+  - {fileID: 7663066171649578216}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5735160190767732323
@@ -574,6 +575,7 @@ MonoBehaviour:
   stamina: {fileID: 311555042095912451}
   level: {fileID: 5783568130548789771}
   combat: {fileID: 3511701561223828964}
+  spellMemory: {fileID: 6060595833461389869}
   quickItems: {fileID: 1418714845170944608}
   equipment: {fileID: 2859235365213478418}
   playerAttributes: {fileID: 6340540996623804120}
@@ -630,6 +632,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
   - {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  - {fileID: 11400000, guid: 1f7942b9216e4fe42972469eda04674c, type: 2}
   spells:
   - {fileID: 11400000, guid: b2cdc58d49c44a3438117e4cfa70d816, type: 2}
   - {fileID: 11400000, guid: 53a736059ef4a9c40acf45abb424d66d, type: 2}
@@ -647,6 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationEvents
   _stateMachine: {fileID: 6448107660609498646}
   _combat: {fileID: 3511701561223828964}
+  magicSpawnPoint: {fileID: 0}
 --- !u!114 &1290416745817091015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,6 +1068,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6623462185674336979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7663066171649578216}
+  m_Layer: 6
+  m_Name: MagicSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7663066171649578216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6623462185674336979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4411419462911629165}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6865076925464939921
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,8 +19,6 @@ MonoBehaviour:
   maxStackSize: 1
   cost: 300
   icon: {fileID: 21300000, guid: 870a14824e7268749905b3fd707d6ff9, type: 3}
-  BaseMagicDamage: 100
-  manaCost: 50
-  projectilePrefab: {fileID: 0}
-  spellDamage: 0
-  castTime: 0
+  BaseMagicDamage: 50
+  ManaCost: 20
+  SpellPrefab: {fileID: 6243947052739659495, guid: 7e798c8fb84c81b4ea2cb21d056cd194, type: 3}
