@@ -12,6 +12,7 @@ public class PlayerGroundedState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Grounded state");
+        Ctx.Animator.CrossFadeInFixedTime("Movement", 0.1f, 0, 0f);
     }
     public override void UpdateState()
     {
@@ -90,7 +91,7 @@ public class PlayerGroundedState : PlayerBaseState
     {
         WeaponInstance rightWeapon = Ctx.PlayerManager.Equipment.RightHand;
 
-        if (rightWeapon == null)
+        if (rightWeapon.WeaponData == null)
         {
             SwitchState(Factory.LightAttack());
             return;

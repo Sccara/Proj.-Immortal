@@ -42,5 +42,5 @@ MonoBehaviour:
   heavyAttackCooldown: 1.5
   dashForce: 15
   dashCooldown: 1
-  dashDuration: 0.3
+  dashDuration: 0.5
   dashStamina: 20

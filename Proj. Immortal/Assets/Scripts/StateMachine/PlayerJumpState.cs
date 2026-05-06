@@ -12,6 +12,7 @@ public class PlayerJumpState : PlayerBaseState
     {
         Debug.Log("Jump state");
 
+        Ctx.Animator.CrossFadeInFixedTime("Jump", 0.1f, 0, 0f);
         Vector3 velocity = Ctx.Rb.linearVelocity;
         velocity.y = 0;
         Ctx.Rb.linearVelocity = velocity;

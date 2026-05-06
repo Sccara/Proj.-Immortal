@@ -6,14 +6,23 @@ public class PlayerAnimationEvents : MonoBehaviour
     [SerializeField] private PlayerCombat _combat;
 
     [SerializeField] private Transform magicSpawnPoint;
-    public void EnableHitbox() => _combat.AnimEvent_EnableHitbox();
+    public void EnableHitbox()
+    {
+        Debug.Log("EnableHitbox");
+        _combat.AnimEvent_EnableHitbox();
+    }
 
-    // Вызывать на кадре, где замах закончился
-    public void DisableHitbox() => _combat.AnimEvent_DisableHitbox();
+    public void DisableHitbox()
+    {
+        Debug.Log("DisableHitbox");
+        _combat.AnimEvent_DisableHitbox();
+    }
 
     // Вызывать в самом КОНЦЕ анимации удара
     public void EndAttack()
     {
+        Debug.Log("End Attack");
+
         if (_stateMachine.CurrentState is PlayerLightAttackState lightState)
             lightState.AnimationFinished();
         else if (_stateMachine.CurrentState is PlayerHeavyAttackState heavyState)

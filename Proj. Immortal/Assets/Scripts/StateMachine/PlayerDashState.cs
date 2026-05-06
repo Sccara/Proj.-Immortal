@@ -48,6 +48,7 @@ public class PlayerDashState : PlayerBaseState
 
         Physics.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
+        //Ctx.Animator.CrossFadeInFixedTime("Roll", 0.1f, 0, 0f);
         Vector3 dashDirection = Ctx.GetMoveDirection();
 
         if (dashDirection == Vector3.zero)

@@ -1,6 +1,6 @@
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -9,7 +9,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerStateFactory _states;
     private InputReader _input;
     private PlayerManager _playerManager;
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     private TargetLockSystem _targetLock;
 
     // Вынести в отдельный скрипт
@@ -17,6 +17,9 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private float groundCheckRadius = 0.2f;
     [SerializeField] private PlayerConfigSO config;
+
+    [SerializeField] private TextMeshProUGUI stateText;
+
 
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public PlayerStateFactory States { get => _states; }   
@@ -54,7 +57,6 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         _input = GetComponent<InputReader>();
-        _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
         _targetLock = GetComponent<TargetLockSystem>();
@@ -89,6 +91,8 @@ public class PlayerStateMachine : MonoBehaviour
         }
 
         _currentState.UpdateStates();
+
+        stateText.text = $"Current State: {_currentState}";
     }
 
     private void FixedUpdate()
@@ -113,12 +117,18 @@ public class PlayerStateMachine : MonoBehaviour
     public void ApplyMovement(Vector3 direction, float speed)
     {
         Vector3 velocity = direction * speed;
+
+        float currentSpeedRatio = velocity.magnitude / PlayerManager.Attributes.MoveSpeedStat.BaseValue;
+        Animator.SetFloat("Speed", currentSpeedRatio);
         _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
     }
 
     public void StopMovement()
     {
         _rb.linearVelocity = new Vector3(0, _rb.linearVelocity.y, 0);
+
+        float currentSpeedRatio = Vector3.zero.magnitude / PlayerManager.Attributes.MoveSpeedStat.BaseValue;
+        Animator.SetFloat("Speed", currentSpeedRatio);
     }
 
     public void ApplyRotate(Vector3 direction)
