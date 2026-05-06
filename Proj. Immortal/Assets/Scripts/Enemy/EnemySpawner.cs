@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(player.position.x + x, 1f, player.position.z + z);
 
-        Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPos, Quaternion.identity);
+        EnemyBase enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPos, Quaternion.identity).GetComponent<EnemyBase>();
+        enemy.Init(player);
     }
 }

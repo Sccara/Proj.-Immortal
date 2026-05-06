@@ -10,9 +10,10 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     protected Transform player;
 
     [SerializeField] private ParticleSystem bloodParticle;
-    [SerializeField] protected GameObject expSpherePrefab;
     [SerializeField] protected Transform attackPoint;
+    [SerializeField] private SoulsEventChannelSO soulsChannel;
 
+    [SerializeField] protected float soulsReward;
     [SerializeField] protected float attackDamage;
     [SerializeField] protected float timeSinceLastHit;
     [SerializeField] protected float poiseRestoreCooldown;
@@ -40,11 +41,10 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         poise = maxPoise;
     }
 
-    private void Start()
+    public void Init(Transform _player)
     {
-        player = PlayerManager.Instance.transform;
+        player = _player;
     }
-
 
     protected virtual void Update()
     {
@@ -162,9 +162,11 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     private void Death()
     {
-        Vector3 randomPosition = transform.position + new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
-        Rigidbody sphereRb = Instantiate(expSpherePrefab, randomPosition, Quaternion.identity).GetComponent<Rigidbody>();
-        sphereRb.AddForce(Vector3.up, ForceMode.Impulse);
+        if (soulsChannel != null)
+        {
+            soulsChannel.RaiseEvent(soulsReward);
+        }
+
         health.OnDeath -= Death;
         Destroy(gameObject);
     }

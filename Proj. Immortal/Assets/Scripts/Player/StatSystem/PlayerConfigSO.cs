@@ -9,9 +9,6 @@ public class PlayerConfigSO : ScriptableObject
     public int Strength = 10;
     public int Dexterity = 10;
     public float staminaRestoreRate;
-    public float basePoise;
-    public float poiseRestoreCooldown;
-    public float poiseRestoreMultiplier;
     [Header("Movement")]
     public float walkMoveSpeed;
     public float sprintMoveSpeed;

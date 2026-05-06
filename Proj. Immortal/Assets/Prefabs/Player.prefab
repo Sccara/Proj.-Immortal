@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 8006486452333123857}
   - component: {fileID: 6060595833461389869}
   - component: {fileID: 6248733878103032787}
+  - component: {fileID: 6932738373254472895}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -444,6 +445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   weaponDetector: {fileID: 7029538792328981239}
   currentWeaponConfig: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  attributes: {fileID: 6340540996623804120}
   attackPoint: {fileID: 1200700187179401878}
   enemyLayers:
     serializedVersion: 2
@@ -460,7 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c7885a10e812254cbd029c3671a8d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystemController
-  _timeSinceLastHit: 0
+  attributes: {fileID: 6340540996623804120}
+  config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
   <IsInvulnerable>k__BackingField: 0
 --- !u!114 &5783568130548789771
 MonoBehaviour:
@@ -474,6 +477,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c32471f594759e4f8dda6fa980f30af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelSystemController
+  soulsChannel: {fileID: 11400000, guid: abe0c06e82376b5459a7345736008689, type: 2}
+  attributes: {fileID: 6340540996623804120}
 --- !u!114 &311555042095912451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystemController
   performActionCooldown: 0.7
+  attributes: {fileID: 6340540996623804120}
 --- !u!114 &6448107660609498646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +589,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
   weapons:
   - {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
+  - {fileID: 11400000, guid: 1f7942b9216e4fe42972469eda04674c, type: 2}
   spells:
   - {fileID: 11400000, guid: b2cdc58d49c44a3438117e4cfa70d816, type: 2}
   - {fileID: 11400000, guid: 53a736059ef4a9c40acf45abb424d66d, type: 2}
@@ -634,6 +641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttributes
   config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
+  equipment: {fileID: 2859235365213478418}
   <Level>k__BackingField: 1
   <CurrentSouls>k__BackingField: 0
   baseLevelUpCost: 100
@@ -657,14 +665,11 @@ MonoBehaviour:
     baseValue: 0
   MoveSpeedStat:
     baseValue: 0
-  MaxPoiseStat:
-    baseValue: 0
   StaminaRestoreRateStat:
     baseValue: 0
   health: 
   stamina: 
   mana: 
-  poise: 
 --- !u!114 &2859235365213478418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +746,22 @@ MonoBehaviour:
   interactLayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &6932738373254472895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c261639e805beeb48a175a48354ec609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUIManager
+  attributes: {fileID: 6340540996623804120}
+  healthBar: {fileID: 0}
+  manaBar: {fileID: 0}
+  staminaBar: {fileID: 0}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0

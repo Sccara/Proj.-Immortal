@@ -4,6 +4,7 @@ using UnityEngine;
 public class Bonfire : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
+    [SerializeField] private PlayerAttributes playerAttributes;
 
     private void Start()
     {
@@ -14,9 +15,9 @@ public class Bonfire : MonoBehaviour
     {
         Debug.Log("Rest");
 
-        PlayerManager.Instance.Attributes.HealthResource.Restore(PlayerManager.Instance.Attributes.HealthResource.Max);
-        PlayerManager.Instance.Attributes.StaminaResource.Restore(PlayerManager.Instance.Attributes.StaminaResource.Max);
-        PlayerManager.Instance.Attributes.ManaResource.Restore(PlayerManager.Instance.Attributes.ManaResource.Max);
+        playerAttributes.HealthResource.Restore(playerAttributes.HealthResource.Max);
+        playerAttributes.StaminaResource.Restore(playerAttributes.StaminaResource.Max);
+        playerAttributes.ManaResource.Restore(playerAttributes.ManaResource.Max);
 
 
         UIManager.Instance.ToggleWindow(WindowType.LevelUp, hideHUD: true);
@@ -24,13 +25,9 @@ public class Bonfire : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Убедись, что у игрока стоит тег "Player"
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Collision");
-            // Начинаем слушать кнопку взаимодействия
             _inputReader.OnInteractPressed += RestAtBonfire;
-
-            // Опционально: тут можно показать UI подсказку "Нажмите E для отдыха"
         }
     }
 
@@ -38,10 +35,7 @@ public class Bonfire : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Перестаем слушать кнопку
             _inputReader.OnInteractPressed -= RestAtBonfire;
-
-            // Опционально: скрываем UI подсказку
         }
     }
 

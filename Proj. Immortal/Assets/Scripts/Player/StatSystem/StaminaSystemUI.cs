@@ -4,15 +4,16 @@ using UnityEngine.UI;
 public class StaminaSystemUI : MonoBehaviour
 {
     [SerializeField] private Image staminaBar;
+    [SerializeField] private PlayerAttributes attributes;
 
     private void Awake()
     {
-        PlayerManager.Instance.Attributes.StaminaResource.OnValueChanged += UpdateStaminaBar;
+        attributes.StaminaResource.OnValueChanged += UpdateStaminaBar;
     }
 
     private void Start()
     {
-        UpdateStaminaBar(PlayerManager.Instance.Attributes.StaminaResource.Percent);
+        UpdateStaminaBar(attributes.StaminaResource.Percent);
     }
 
     public void UpdateStaminaBar(float staminaPercent)
@@ -22,7 +23,7 @@ public class StaminaSystemUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (PlayerManager.Instance.Attributes != null)
-            PlayerManager.Instance.Attributes.StaminaResource.OnValueChanged -= UpdateStaminaBar;
+        if (attributes != null)
+            attributes.StaminaResource.OnValueChanged -= UpdateStaminaBar;
     }
 }

@@ -1338,6 +1338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bonfire
   _inputReader: {fileID: 1001135231}
+  playerAttributes: {fileID: 6538071833038322323}
 --- !u!23 &189692354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1692,10 +1693,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 208183000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bdb1a02b4d958d49ba0b35c56746b81, type: 3}
+  m_Script: {fileID: 11500000, guid: 114221d80ed0d0548b0c580a54c868ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StaminaSystemUI
-  staminaBar: {fileID: 1184404075}
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceBarUI
+  barImage: {fileID: 1184404075}
 --- !u!1 &213028398
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,7 +2792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &325749360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7833,10 +7834,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1083507740}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc1504f22721984dae24fb2b20220ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 114221d80ed0d0548b0c580a54c868ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSystemUI
-  healthBar: {fileID: 1989614154}
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceBarUI
+  barImage: {fileID: 1989614154}
 --- !u!1 &1131166613
 GameObject:
   m_ObjectHideFlags: 0
@@ -7981,7 +7982,7 @@ GameObject:
   - component: {fileID: 1152403999}
   - component: {fileID: 1152404000}
   m_Layer: 5
-  m_Name: LevelBar
+  m_Name: ManaBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8016,11 +8017,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1152403998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7384b27664c1c3f4883a4b79b586a1e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 114221d80ed0d0548b0c580a54c868ca, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LevelSystemUI
-  levelBar: {fileID: 1194152289}
-  levelText: {fileID: 767098076}
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceBarUI
+  barImage: {fileID: 1194152289}
 --- !u!1001 &1158603101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12111,6 +12111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d839eb25a1b6640469ac6ded7005628d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpWindow
+  playerLevel: {fileID: 6538071833038322349}
+  playerAttributes: {fileID: 6538071833038322323}
   currentSoulsText: {fileID: 1529501729}
   nextLevelCostText: {fileID: 1629971724}
   currentLevelText: {fileID: 1479643505}
@@ -14696,6 +14698,18 @@ PrefabInstance:
       propertyPath: stateText
       value: 
       objectReference: {fileID: 2142394092}
+    - target: {fileID: 6932738373254472895, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: manaBar
+      value: 
+      objectReference: {fileID: 1152404000}
+    - target: {fileID: 6932738373254472895, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1083507742}
+    - target: {fileID: 6932738373254472895, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: staminaBar
+      value: 
+      objectReference: {fileID: 208183002}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14723,6 +14737,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180b746ad9f8559418c15c034faad6ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
+--- !u!114 &6538071833038322323 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6340540996623804120, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+  m_PrefabInstance: {fileID: 6538071833038322320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fbf72ba626b374f84bf65612ac1e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttributes
 --- !u!114 &6538071833038322339 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2859235365213478418, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
@@ -14756,6 +14781,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca478195bae6004db6502c78f36150f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellMemory
+--- !u!114 &6538071833038322349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5783568130548789771, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+  m_PrefabInstance: {fileID: 6538071833038322320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c32471f594759e4f8dda6fa980f30af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelSystemController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -67,8 +67,6 @@ public class PlayerStateMachine : MonoBehaviour
         _states = new PlayerStateFactory(this);
         _currentState = _states.Grounded();
         _currentState.EnterState();
-
-        _playerManager.Health.OnPoiseBroken += HandlePoiseBroken;
     }
 
     private void Start()
@@ -159,11 +157,6 @@ public class PlayerStateMachine : MonoBehaviour
     public bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-    }
-
-    private void OnDisable()
-    {
-        _playerManager.Health.OnPoiseBroken -= HandlePoiseBroken;
     }
 }
 

@@ -457,7 +457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7e119517eec3f408ebca4bea5cccc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  expReward: 3000
 --- !u!195 &8529910531996169985
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -493,8 +492,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
   bloodParticle: {fileID: 188724316326294443}
-  expSpherePrefab: {fileID: 2532141067680730699, guid: 01ae09e792c64424ebf882d796338b93, type: 3}
   attackPoint: {fileID: 4496648902265063981}
+  soulsChannel: {fileID: 11400000, guid: abe0c06e82376b5459a7345736008689, type: 2}
+  soulsReward: 100
   attackDamage: 20
   timeSinceLastHit: 0
   poiseRestoreCooldown: 3

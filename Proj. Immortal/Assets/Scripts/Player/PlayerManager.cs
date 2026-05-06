@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager Instance { get; private set; }
-
     [SerializeField] private HealthSystemController health;
     [SerializeField] private StaminaSystemController stamina;
     [SerializeField] private LevelSystemController level;
@@ -25,21 +23,4 @@ public class PlayerManager : MonoBehaviour
     public PlayerSpellMemory SpellMemory { get => spellMemory; private set { } }
     public PlayerAttributes Attributes { get => playerAttributes; private set { } }
     public PlayerConfigSO Config { get => config; private set { } }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        
-    }
 }

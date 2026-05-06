@@ -4,9 +4,6 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public Action OnDeath;
-
-    [SerializeField] private float expReward;
-
     public Resource Health { get; set; }
 
     private void Awake()
@@ -31,8 +28,6 @@ public class EnemyHealth : MonoBehaviour
 
     public void Die()
     {
-        PlayerManager.Instance.Level.AddSouls(expReward);
-
-        OnDeath.Invoke();
+        OnDeath?.Invoke();
     }
 }

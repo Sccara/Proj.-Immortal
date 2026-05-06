@@ -4,14 +4,15 @@ using UnityEngine.UI;
 public class HealthSystemUI : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
+    [SerializeField] private PlayerAttributes attributes;
 
-    private void Awake()
+    private void OnEnable()
     {
-        PlayerManager.Instance.Attributes.HealthResource.OnValueChanged += UpdateHealthBar;
+        attributes.HealthResource.OnValueChanged += UpdateHealthBar;
     }
     private void Start()
     {
-        UpdateHealthBar(PlayerManager.Instance.Attributes.HealthResource.Percent);
+        UpdateHealthBar(attributes.HealthResource.Percent);
     }
 
     public void UpdateHealthBar(float healthPercent)
@@ -21,7 +22,7 @@ public class HealthSystemUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (PlayerManager.Instance.Attributes != null)
-            PlayerManager.Instance.Attributes.HealthResource.OnValueChanged += UpdateHealthBar;
+        if (attributes != null)
+            attributes.HealthResource.OnValueChanged -= UpdateHealthBar;
     }
 }

@@ -7,7 +7,7 @@ public class EnemyHealthUI : MonoBehaviour
 
     [SerializeField] private EnemyHealth _healthSystem;
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -23,7 +23,7 @@ public class EnemyHealthUI : MonoBehaviour
         healthBar.fillAmount = healthPercent;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (_healthSystem != null)
             _healthSystem.Health.OnValueChanged -= UpdateHealthBar;

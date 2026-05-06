@@ -5,6 +5,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private WeaponDamageDetector weaponDetector;
     [SerializeField] private WeaponSO currentWeaponConfig;
+    [SerializeField] private PlayerAttributes attributes;
 
     private float _currentDamageMult = 1f;
     private float _currentPoiseMult = 1f;
@@ -25,8 +26,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void AnimEvent_EnableHitbox()
     {
-        float finalDamage = PlayerManager.Instance.Attributes.RightHandAttackStat.Value * _currentDamageMult; // + LEFT HAND
-        float finalPoise = PlayerManager.Instance.Attributes.PoiseAttackPowerStat.Value * _currentPoiseMult;
+        float finalDamage = attributes.RightHandAttackStat.Value * _currentDamageMult; // + LEFT HAND
+        float finalPoise = attributes.PoiseAttackPowerStat.Value * _currentPoiseMult;
         Vector3 knockback = transform.forward * currentWeaponConfig.KnockbackStrength * _currentDamageMult;
 
         weaponDetector.EnableDamage(finalDamage, finalPoise, knockback);

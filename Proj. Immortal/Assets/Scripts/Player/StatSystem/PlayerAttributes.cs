@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerAttributes : MonoBehaviour
 {
     [SerializeField] private PlayerConfigSO config;
+    [SerializeField] private PlayerEquipment equipment;
 
     [Header("Leveling")]
     [field: SerializeField] public int Level { get; set; } = 1;
@@ -29,20 +30,17 @@ public class PlayerAttributes : MonoBehaviour
 
     [Header("Hidden Stats")]
     public Stat MoveSpeedStat = new Stat();
-    public Stat MaxPoiseStat = new Stat();
     public Stat StaminaRestoreRateStat = new Stat();
 
     [Header("Resources")]
     public Resource HealthResource;
     public Resource StaminaResource;
     public Resource ManaResource;
-    public Resource PoiseResource;
 
     [Header("DEBUG")]
     public string health;
     public string stamina;
     public string mana;
-    public string poise;
 
     private void Awake()
     {
@@ -63,18 +61,14 @@ public class PlayerAttributes : MonoBehaviour
         MaxManaStat.SetBaseValue(CalculateManaFromMind(Mind));
         ManaResource = new Resource(MaxManaStat.Value);
         MaxManaStat.OnStatChanged += (newMax) => ManaResource.SetMax(newMax, false);
-
-        MaxPoiseStat.SetBaseValue(config.basePoise);
-        PoiseResource = new Resource(MaxPoiseStat.Value);
-        MaxPoiseStat.OnStatChanged += (newMax) => PoiseResource.SetMax(newMax, false);
     }
 
     private void Start()
     {
-        PlayerManager.Instance.Equipment.OnActiveWeaponCycled += RecalculateAttackPower;
+        equipment.OnActiveWeaponCycled += RecalculateAttackPower;
 
-        RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
-        RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
+        RecalculateAttackPower(EquipmentSlot.RightHand, equipment.RightHand);
+        RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
     }
 
     private void Update()
@@ -82,7 +76,6 @@ public class PlayerAttributes : MonoBehaviour
         health = $"{HealthResource.Current} '/' {HealthResource.Max}";
         stamina = $"{StaminaResource.Current} '/' {StaminaResource.Max}";
         mana = $"{ManaResource.Current} '/' {ManaResource.Max}";
-        poise = $"{PoiseResource.Current} '/' {PoiseResource.Max}";
     }
 
     public void UpgradeAttribute(StatType statType)
@@ -103,13 +96,13 @@ public class PlayerAttributes : MonoBehaviour
                 break;
             case StatType.Strength:
                 Strength++;
-                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
-                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
+                RecalculateAttackPower(EquipmentSlot.RightHand, equipment.RightHand);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
                 break;
             case StatType.Dexterity:
                 Dexterity++;
-                RecalculateAttackPower(EquipmentSlot.RightHand, PlayerManager.Instance.Equipment.RightHand);
-                RecalculateAttackPower(EquipmentSlot.LeftHand, PlayerManager.Instance.Equipment.LeftHand);
+                RecalculateAttackPower(EquipmentSlot.RightHand, equipment.RightHand);
+                RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
                 break;
         }
 
@@ -125,18 +118,15 @@ public class PlayerAttributes : MonoBehaviour
 
         if (weapon.WeaponData == null)
         {
-            // Удары кулаками (можно завести отдельную константу для этого)
             totalDamage = (Strength + Dexterity) * 1.5f;
         }
         else
         {
-            // Считаем урон от скейлов оружия
             float strBonus = Strength * weapon.WeaponData.StrengthScaling;
             float dexBonus = Dexterity * weapon.WeaponData.DexterityScaling;
             totalDamage = weapon.WeaponData.BaseDamage + strBonus + dexBonus;
         }
 
-        // Применяем урон в нужный стат
         if (slot == EquipmentSlot.RightHand)
         {
             RightHandAttackStat.SetBaseValue(totalDamage);
