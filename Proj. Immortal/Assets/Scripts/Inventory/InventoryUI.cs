@@ -1,21 +1,23 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryUI : UIWindow
 {
+    private bool _isDirty;
+
     [SerializeField] private Inventory inventorySystem;
     [SerializeField] private Transform inventoryContent;
     [SerializeField] private ItemSlotUI itemSlotPrefab;
 
     private List<ItemSlotUI> spawnedSlots = new List<ItemSlotUI>();
 
-    private void Awake()
+    private void OnEnable()
     {
-        inventorySystem.OnInventoryChanged += UpdateInventoryUI;
+        if (inventorySystem != null)
+            inventorySystem.OnInventoryChanged += UpdateInventoryUI;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (inventorySystem != null)
             inventorySystem.OnInventoryChanged -= UpdateInventoryUI;

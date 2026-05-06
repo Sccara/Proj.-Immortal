@@ -7,7 +7,6 @@ public class HealthSystemController : MonoBehaviour, IDamageable
     public static Action OnDeath;
 
     [SerializeField] private PlayerAttributes attributes;
-    [SerializeField] private PlayerConfigSO config;
 
     [field: SerializeField] public bool IsInvulnerable { get; set; } = false;
 

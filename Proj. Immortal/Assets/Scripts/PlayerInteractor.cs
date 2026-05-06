@@ -4,15 +4,23 @@ using UnityEngine;
 public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
+    [SerializeField] private PlayerManager playerManager;
     [SerializeField] private GameObject popUpWindow;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private float interactRadius;
     [SerializeField] private LayerMask interactLayerMask;
     [SerializeField] private IInteractable current;
 
-    private void Start()
+    private Collider[] objsToInteract = new Collider[10];
+
+    private void OnEnable()
     {
         inputReader.OnInteractPressed += Interact;
+    }
+
+    private void OnDisable()
+    {
+        inputReader.OnInteractPressed -= Interact;
     }
 
     private void Update()
@@ -22,23 +30,25 @@ public class PlayerInteractor : MonoBehaviour
 
     public void CheckInteract()
     {
-        Collider[] objsToInteract = Physics.OverlapSphere(transform.position, interactRadius, interactLayerMask);
+        int count = Physics.OverlapSphereNonAlloc(transform.position, interactRadius, objsToInteract, interactLayerMask);
 
         float minDistance = Mathf.Infinity;
         GameObject closestObj = null;
-        foreach (Collider collider in objsToInteract)
+
+        for (int i = 0; i < count; i++)
         {
-            float distance = Vector3.Distance(transform.position, collider.gameObject.transform.position);
+            float distance = (transform.position - objsToInteract[i].gameObject.transform.position).sqrMagnitude;
             if (distance < minDistance)
             {
                 minDistance = distance;
-                closestObj = collider.gameObject;
+                closestObj = objsToInteract[i].gameObject;
             }
         }
 
         if (closestObj == null)
         {
             popUpWindow.SetActive(false);
+            current = null; 
             return;
         }
 
@@ -59,7 +69,7 @@ public class PlayerInteractor : MonoBehaviour
     {
         if (current != null)
         {
-            current.Interact(GetComponent<PlayerManager>());
+            current.Interact(playerManager);
             popUpWindow.SetActive(false);
         }
     }

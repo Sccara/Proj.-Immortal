@@ -6,30 +6,39 @@ public class TargetLockSystem : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private float lockOnRadius = 15f;
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private CinemachineCamera playerCamera; // Ссылка на главную камеру
+    [SerializeField] private CinemachineCamera playerCamera;
     [SerializeField] private InputReader inputReader;
 
     public Transform CurrentTarget { get; private set; }
     public bool IsLockedOn { get; private set; }
 
-    private void Start()
+    private Collider[] _enemyColliders = new Collider[10];
+
+    private void OnEnable()
     {
-        inputReader.OnLockOnPressed += ToggleLockOn;
+        if (inputReader != null) 
+            inputReader.OnLockOnPressed += ToggleLockOn;
+    }
+
+    private void OnDisable()
+    {
+        if (inputReader != null)
+            inputReader.OnLockOnPressed -= ToggleLockOn;
     }
 
     private void Update()
     {
         if (IsLockedOn)
         {
+            float breakRadius = lockOnRadius * 1.5f;
             if (CurrentTarget == null ||
-                Vector3.Distance(transform.position, CurrentTarget.position) > lockOnRadius * 1.5f)
+                (CurrentTarget.position - transform.position).sqrMagnitude > breakRadius * breakRadius)
             {
                 ClearTarget();
             }
         }
     }
 
-    // Вызывается из InputReader (по нажатию кнопки Lock-on, например, R3 или СКМ)
     public void ToggleLockOn()
     {
         if (IsLockedOn)
@@ -44,26 +53,23 @@ public class TargetLockSystem : MonoBehaviour
 
     private void FindNewTarget()
     {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, lockOnRadius, enemyLayer);
+        int count = Physics.OverlapSphereNonAlloc(transform.position, lockOnRadius, _enemyColliders, enemyLayer);
 
-        if (enemies.Length == 0)
+        if (_enemyColliders.Length == 0)
             return;
 
         float closestDistance = Mathf.Infinity;
         Transform bestTarget = null;
 
-        foreach (var enemy in enemies)
+        for (int i = 0; i < count; i++)
         {
-            // Здесь можно добавить проверку видимости (Raycast), чтобы не лочить врагов за стенами
-            Vector3 directionToEnemy = enemy.transform.position - transform.position;
+            Vector3 directionToEnemy = _enemyColliders[i].transform.position - transform.position;
             float distance = directionToEnemy.sqrMagnitude;
 
-            // Можно также проверять угол от центра экрана (playerCamera.forward), 
-            // чтобы лочить того, кто ближе к прицелу, а не просто ближе физически.
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                bestTarget = enemy.transform;
+                bestTarget = _enemyColliders[i].transform;
             }
         }
 
@@ -74,7 +80,6 @@ public class TargetLockSystem : MonoBehaviour
 
     private void ClearTarget()
     {
-        Debug.Log("===CLEAR TARGET===");
         CurrentTarget = null;
         ClearLockOnCamera(-1);
         IsLockedOn = false;
@@ -88,7 +93,6 @@ public class TargetLockSystem : MonoBehaviour
 
     private void ClearLockOnCamera(int priority)
     {
-        Debug.Log("ClearLockOnCamera");
         playerCamera.Priority = priority;
         playerCamera.Target.LookAtTarget = null;
     }

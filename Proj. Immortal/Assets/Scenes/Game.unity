@@ -7118,7 +7118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1009787106}
   - component: {fileID: 1009787107}
-  - component: {fileID: 1009787108}
   - component: {fileID: 1009787109}
   m_Layer: 5
   m_Name: HotBar
@@ -7158,23 +7157,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009787105}
   m_CullTransparentMesh: 1
---- !u!114 &1009787108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1009787105}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d39218e4cf973d4486cc85d39327e34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EquipmentUI
-  equipmentSystem: {fileID: 6538071833038322339}
-  rightSlotContainer: {fileID: 1064570017}
-  rightWeaponIcon: {fileID: 291933077}
-  leftSlotContainer: {fileID: 145187236}
-  leftWeaponIcon: {fileID: 165905843}
 --- !u!114 &1009787109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7189,9 +7171,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrossHotBarUI
   equipment: {fileID: 6538071833038322339}
   spellMemory: {fileID: 6538071833038322341}
+  quickItems: {fileID: 0}
   spellIcon: {fileID: 2076425285}
   rightWeaponIcon: {fileID: 291933077}
   leftWeaponIcon: {fileID: 165905843}
+  quickItemIcon: {fileID: 0}
 --- !u!1 &1015612472
 GameObject:
   m_ObjectHideFlags: 0
@@ -10839,7 +10823,6 @@ GameObject:
   - component: {fileID: 1542701108}
   - component: {fileID: 1542701107}
   - component: {fileID: 1542701106}
-  - component: {fileID: 1542701110}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -10936,22 +10919,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1542701110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542701105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2cf399e80c44b841b67b5b8dcf36ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HotbarUI
-  quickItemsSystem: {fileID: 6538071833038322321}
-  itemSlotContainer: {fileID: 1301332591}
-  itemIcon: {fileID: 1244398201}
-  quantityText: {fileID: 1638228399}
 --- !u!1 &1582107472
 GameObject:
   m_ObjectHideFlags: 0
@@ -13135,7 +13102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601b4c7c22d518a409e80e5cc3d09fa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  equipment: {fileID: 6538071833038322340}
+  equipment: {fileID: 0}
   inventory: {fileID: 6538071833038322322}
   uiManager: {fileID: 1189305750}
 --- !u!1 &1904379122
@@ -14638,6 +14605,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 311555042095912451, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: performActionCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1290416745817091015, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: playerCamera
       value: 
@@ -14694,6 +14665,10 @@ PrefabInstance:
       propertyPath: interactText
       value: 
       objectReference: {fileID: 1207969251}
+    - target: {fileID: 6248733878103032787, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+      propertyPath: playerManager
+      value: 
+      objectReference: {fileID: 6538071833038322347}
     - target: {fileID: 6448107660609498646, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
       propertyPath: stateText
       value: 
@@ -14710,22 +14685,12 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 208183002}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8006486452333123857, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
---- !u!114 &6538071833038322321 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1418714845170944608, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-  m_PrefabInstance: {fileID: 6538071833038322320}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86f36f21ba9575e47846f836fea74a34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuickItemsSystem
 --- !u!114 &6538071833038322322 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8405616296295915670, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
@@ -14759,17 +14724,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee87535ed6a1e24495418aed6500b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
---- !u!114 &6538071833038322340 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8006486452333123857, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
-  m_PrefabInstance: {fileID: 6538071833038322320}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2acafe756e5303b4597d79e0469f7310, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Equipment
 --- !u!114 &6538071833038322341 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6060595833461389869, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
@@ -14781,6 +14735,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca478195bae6004db6502c78f36150f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSpellMemory
+--- !u!114 &6538071833038322347 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4269433142186122330, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+  m_PrefabInstance: {fileID: 6538071833038322320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d873773e2a0a540ac701787d2e0be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
 --- !u!114 &6538071833038322349 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5783568130548789771, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}

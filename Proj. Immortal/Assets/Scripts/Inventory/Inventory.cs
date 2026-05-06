@@ -7,40 +7,33 @@ public class Inventory : MonoBehaviour
     public Action OnInventoryChanged;
 
     [field: SerializeField] private List<InventorySlot> slots = new List<InventorySlot>();
-
-    [SerializeField] private List<ItemSO> items = new List<ItemSO>();
-    [SerializeField] private List<WeaponSO> weapons = new List<WeaponSO>();
-    [SerializeField] private List<SpellSO> spells = new List<SpellSO>();
-
-    public IReadOnlyList<InventorySlot> Slots => slots;
-
-    private void Start()
-    {
-        foreach (var item in items)
-        {
-            AddItem(new ItemInstance(item), 5);
-        }
-        foreach (var weapon in weapons)
-        {
-            AddItem(new WeaponInstance(weapon));
-        }
-        foreach(var spell in spells)
-        {
-            AddItem(new SpellInstance(spell));
-        }
-    }
+    public IReadOnlyList<InventorySlot> Slots => slots;   
 
     public void AddItem(ItemInstance item, int amount = 1)
     {
         if (item.ItemData.isStackable)
         {
-            InventorySlot existingSlot = slots.Find(slot => slot.Item != null && slot.Item.ItemData == item.ItemData);
+            InventorySlot existingSlot = slots.Find(slot => slot.Item != null
+            && slot.Item.ItemData == item.ItemData
+            && slot.Quantity < item.ItemData.maxStackSize);
 
-            if (existingSlot != null && existingSlot.Quantity < item.ItemData.maxStackSize)
+            if (existingSlot != null)
             {
-                existingSlot.AddQuantity(amount);
-                OnInventoryChanged?.Invoke();
-                return;
+                int spaceLeft = item.ItemData.maxStackSize - existingSlot.Quantity;
+
+                if (amount <= spaceLeft)
+                {
+                    existingSlot.AddQuantity(amount);
+                    OnInventoryChanged?.Invoke();
+                    return;
+                }
+                else
+                {
+                    existingSlot.AddQuantity(spaceLeft);
+                    amount -= spaceLeft;    
+                }
+
+
             }
         }
 

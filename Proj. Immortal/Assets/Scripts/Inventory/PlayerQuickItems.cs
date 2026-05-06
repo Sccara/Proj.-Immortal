@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class QuickItemsSystem : MonoBehaviour
+public class PlayerQuickItems : MonoBehaviour
 {
     [Header("TEST")]
     public HealItemSO item;
 
-    public Action OnActiveItemChanged;
+    public Action<ItemInstance> OnActiveItemChanged;
 
     [SerializeField] private InputReader inputReader;
     [SerializeField] private Inventory inventorySystem;
@@ -105,5 +104,5 @@ public class QuickItemsSystem : MonoBehaviour
         }
     }
 
-    private void NotifyUI() => OnActiveItemChanged?.Invoke();
+    private void NotifyUI() => OnActiveItemChanged?.Invoke(GetCurrentItem());
 }

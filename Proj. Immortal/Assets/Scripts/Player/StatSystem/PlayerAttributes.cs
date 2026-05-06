@@ -41,6 +41,8 @@ public class PlayerAttributes : MonoBehaviour
     public string health;
     public string stamina;
     public string mana;
+    public string leftHand;
+    public string rightHand;
 
     private void Awake()
     {
@@ -49,9 +51,7 @@ public class PlayerAttributes : MonoBehaviour
         StaminaRestoreRateStat.SetBaseValue(config.staminaRestoreRate);
 
         MaxHealthStat.SetBaseValue(CalculateHPFromVigor(Vigor));
-        Debug.Log($"MaxHealth from vigor: {MaxHealthStat.Value}");
         HealthResource = new Resource(MaxHealthStat.Value);
-        Debug.Log($"Health: {HealthResource.Current}");
         MaxHealthStat.OnStatChanged += (newMax) => HealthResource.SetMax(newMax, false);
 
         MaxStaminaStat.SetBaseValue(CalculateStaminaFromEndurance(Endurance));
@@ -63,7 +63,7 @@ public class PlayerAttributes : MonoBehaviour
         MaxManaStat.OnStatChanged += (newMax) => ManaResource.SetMax(newMax, false);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         equipment.OnActiveWeaponCycled += RecalculateAttackPower;
 
@@ -71,11 +71,18 @@ public class PlayerAttributes : MonoBehaviour
         RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
     }
 
+    private void OnDisable()
+    {
+        equipment.OnActiveWeaponCycled -= RecalculateAttackPower;
+    }
+
     private void Update()
     {
         health = $"{HealthResource.Current} '/' {HealthResource.Max}";
         stamina = $"{StaminaResource.Current} '/' {StaminaResource.Max}";
         mana = $"{ManaResource.Current} '/' {ManaResource.Max}";
+        leftHand = $"{LeftHandAttackStat.Value}";
+        rightHand = $"{RightHandAttackStat.Value}"; 
     }
 
     public void UpgradeAttribute(StatType statType)
@@ -105,8 +112,6 @@ public class PlayerAttributes : MonoBehaviour
                 RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
                 break;
         }
-
-        Debug.Log($"Прокачан {statType}. Новые значения пересчитаны!");
     }
 
     private float CalculateHPFromVigor(int vigor) => vigor * 10f;
@@ -130,12 +135,10 @@ public class PlayerAttributes : MonoBehaviour
         if (slot == EquipmentSlot.RightHand)
         {
             RightHandAttackStat.SetBaseValue(totalDamage);
-            Debug.Log($"Урон Правой руки: {totalDamage}");
         }
         else
         {
             LeftHandAttackStat.SetBaseValue(totalDamage);
-            Debug.Log($"Урон Левой руки: {totalDamage}");
         }
     }
 

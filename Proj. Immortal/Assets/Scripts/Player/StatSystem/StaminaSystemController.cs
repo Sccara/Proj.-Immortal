@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class StaminaSystemController : MonoBehaviour
@@ -7,12 +5,15 @@ public class StaminaSystemController : MonoBehaviour
     [SerializeField] private float performActionCooldown;
     [SerializeField] private PlayerAttributes attributes;
 
-    private bool _isRegenPaused;
+    private float _regenTimer;
 
     private void Update()
     {
-
-        if (attributes.StaminaResource.Percent < 1f && !_isRegenPaused)
+        if (_regenTimer > 0)
+        {
+            _regenTimer -= Time.deltaTime;
+        }
+        else if (attributes.StaminaResource.Percent < 1f)
         {
             attributes.StaminaResource.Restore(attributes.StaminaRestoreRateStat.Value * Time.deltaTime);
         }
@@ -23,13 +24,6 @@ public class StaminaSystemController : MonoBehaviour
     public void UseStamina(float amount)
     {
         attributes.StaminaResource.Use(amount);
-        StartCoroutine(PauseRegenCoroutine());
-    }
-
-    private IEnumerator PauseRegenCoroutine()
-    {
-        _isRegenPaused = true;
-        yield return new WaitForSeconds(performActionCooldown);
-        _isRegenPaused = false;
+        _regenTimer = performActionCooldown;
     }
 }
