@@ -4,8 +4,9 @@ using UnityEngine;
 public class WeaponDamageDetector : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private List<Transform> hitPoints; // Точки вдоль лезвия (от гарды до кончика)
+    [SerializeField] private List<Transform> hitPoints; 
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private float hitRadius = 0.1f;
     [SerializeField] private bool _debugGizmos = true;
 
     private bool _isAttacking;
@@ -13,22 +14,18 @@ public class WeaponDamageDetector : MonoBehaviour
     private float _currentPoiseDamage;
     private Vector3 _currentKnockback;
 
-    // Храним позиции точек в прошлом кадре
-    private Dictionary<Transform, Vector3> _lastPointPositions = new Dictionary<Transform, Vector3>();
 
-    // Список врагов, которых мы УЖЕ ударили за этот замах (чтобы не бить каждый кадр)
+    private Vector3[] _lastPointPositions;
+    //private Dictionary<Transform, Vector3> _lastPointPositions = new Dictionary<Transform, Vector3>();
+
     private HashSet<IDamageable> _hitTargets = new HashSet<IDamageable>();
 
     private void Start()
     {
-        // Инициализируем словарь позиций
-        foreach (var point in hitPoints)
-        {
-            _lastPointPositions[point] = point.position;
-        }
+        _lastPointPositions = new Vector3[hitPoints.Count];
+        ResetPositions();
     }
 
-    // Включаем проверку урона и передаем параметры текущей атаки
     public void EnableDamage(float damage, float poiseDamage, Vector3 knockback)
     {
         _currentDamage = damage;
@@ -36,7 +33,7 @@ public class WeaponDamageDetector : MonoBehaviour
         _currentKnockback = knockback;
 
         _hitTargets.Clear();
-        // Сбрасываем позиции на текущие, чтобы первый луч не улетел в бесконечность
+
         ResetPositions();
         _isAttacking = true;
     }
@@ -48,35 +45,33 @@ public class WeaponDamageDetector : MonoBehaviour
 
     private void ResetPositions()
     {
-        foreach (var point in hitPoints)
+        for (int i = 0; i < hitPoints.Count; i++)
         {
-            _lastPointPositions[point] = point.position;
+            _lastPointPositions[i] = hitPoints[i].position;
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!_isAttacking)
             return;
 
-        foreach (var point in hitPoints)
+        for (int i = 0; i < hitPoints.Count; i++)
         {
-            Vector3 lastPos = _lastPointPositions[point];
-            Vector3 currentPos = point.position;
+            Vector3 lastPos = _lastPointPositions[i];
+            Vector3 currentPos = hitPoints[i].position;
 
-            // Самая важная часть: вектор от старой позиции к новой
+
             Vector3 direction = currentPos - lastPos;
             float distance = direction.magnitude;
 
-            if (distance > 0.001f) // Если точка сдвинулась
+            if (distance > 0.001f)
             {
-                // Пускаем луч сквозь "пространство" между кадрами
-                RaycastHit hit;
-                if (Physics.Raycast(lastPos, direction.normalized, out hit, distance, enemyLayer))
+                if (Physics.SphereCast(lastPos, hitRadius, direction.normalized, out RaycastHit hit, distance, enemyLayer))
                 {
                     if (hit.collider.TryGetComponent(out IDamageable damageable))
                     {
-                        // Если мы еще не били этого врага в этом замахе
+
                         if (!_hitTargets.Contains(damageable))
                         {
                             DamageInfo info = new DamageInfo
@@ -87,17 +82,13 @@ public class WeaponDamageDetector : MonoBehaviour
                             };
 
                             damageable.TakeDamage(info);
-                            _hitTargets.Add(damageable); // Запоминаем врага
-
-                            // Тут можно добавить микро-паузу (HitStop) или партиклы
-                            // Debug.Log($"Hit {hit.collider.name}");
+                            _hitTargets.Add(damageable);
                         }
                     }
                 }
             }
 
-            // Обновляем старую позицию
-            _lastPointPositions[point] = currentPos;
+            _lastPointPositions[i] = currentPos;
         }
     }
 
@@ -106,15 +97,20 @@ public class WeaponDamageDetector : MonoBehaviour
         if (!_debugGizmos || hitPoints == null) return;
 
         Gizmos.color = _isAttacking ? Color.red : Color.green;
-        foreach (var point in hitPoints)
+        if (Application.isPlaying && _lastPointPositions != null)
         {
-            if (_lastPointPositions.ContainsKey(point))
+            for (int i = 0; i < hitPoints.Count; i++)
             {
-                // Рисуем лучи, которые сработали в Update
-                Gizmos.DrawLine(_lastPointPositions[point], point.position);
+                Gizmos.DrawLine(_lastPointPositions[i], hitPoints[i].position);
+                Gizmos.DrawWireSphere(hitPoints[i].position, hitRadius); // Рисуем толщину лезвия
             }
-            // Рисуем сами точки
-            Gizmos.DrawWireSphere(point.position, 0.02f);
+        }
+        else 
+        {
+            foreach (var point in hitPoints)
+            {
+                if (point != null) Gizmos.DrawWireSphere(point.position, hitRadius);
+            }
         }
     }
 }

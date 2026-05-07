@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -22,7 +21,6 @@ public class PlayerCombat : MonoBehaviour
         _currentPoiseMult = poiseMult;
     }
 
-    // === İÒÈ ÌÅÒÎÄÛ ÂÛÇÛÂÀŞÒÑß ÈÇ ANIMATION EVENTS Â UNITY ===
 
     public void AnimEvent_EnableHitbox()
     {
