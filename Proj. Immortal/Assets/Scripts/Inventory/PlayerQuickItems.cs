@@ -30,6 +30,9 @@ public class PlayerQuickItems : MonoBehaviour
     {
         if (inventorySystem != null)
             inventorySystem.OnInventoryChanged -= NotifyUI;
+
+        if (inputReader != null)
+            inputReader.OnCycleQuickItemPressed -= CycleNextItem;
     }
 
     public ItemInstance GetCurrentItem()
@@ -92,7 +95,10 @@ public class PlayerQuickItems : MonoBehaviour
         ItemInstance currentItem = GetCurrentItem();
         int quantity = GetCurrentItemQuantity();
 
-        if (currentItem != null && quantity > 0)
+        if (currentItem == null)
+            return;
+
+        if (quantity > 0)
         {
             bool success = currentItem.Use(player);
 

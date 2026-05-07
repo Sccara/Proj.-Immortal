@@ -26,6 +26,11 @@ public class PlayerSpellMemory : MonoBehaviour
         inputReader.OnCycleSpellPressed += CycleSpell;
     }
 
+    private void OnDestroy()
+    {
+        inputReader.OnCycleSpellPressed -= CycleSpell;
+    }
+
     public void AssignSpellToSlot(int slotIndex, SpellInstance spell)
     {
         if (slotIndex < 0 || slotIndex >= MaxMemorySlots)

@@ -7171,11 +7171,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrossHotBarUI
   equipment: {fileID: 6538071833038322339}
   spellMemory: {fileID: 6538071833038322341}
-  quickItems: {fileID: 0}
+  quickItems: {fileID: 6538071833038322350}
   spellIcon: {fileID: 2076425285}
   rightWeaponIcon: {fileID: 291933077}
   leftWeaponIcon: {fileID: 165905843}
-  quickItemIcon: {fileID: 0}
+  quickItemIcon: {fileID: 1244398201}
+  quickItemQuantityText: {fileID: 1638228399}
 --- !u!1 &1015612472
 GameObject:
   m_ObjectHideFlags: 0
@@ -14757,6 +14758,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c32471f594759e4f8dda6fa980f30af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelSystemController
+--- !u!114 &6538071833038322350 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1418714845170944608, guid: 1a3e942d6fcacde4ab4acf7f1373df3f, type: 3}
+  m_PrefabInstance: {fileID: 6538071833038322320}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f36f21ba9575e47846f836fea74a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuickItemsSystem
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

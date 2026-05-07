@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ public class CrossHotBarUI : MonoBehaviour
     [SerializeField] private Image rightWeaponIcon;
     [SerializeField] private Image leftWeaponIcon;
     [SerializeField] private Image quickItemIcon;
+
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI quickItemQuantityText;
 
     private void OnEnable()
     {
@@ -71,13 +75,27 @@ public class CrossHotBarUI : MonoBehaviour
     {
         if (item == null || item.ItemData == null)
         {
-            spellIcon.color = new Color(1, 1, 1, 0);
-            spellIcon.sprite = null;
+            quickItemIcon.color = new Color(1, 1, 1, 0);
+            quickItemIcon.sprite = null;
+            quickItemQuantityText.text = "";
         }
         else
         {
-            spellIcon.color = new Color(1, 1, 1, 1);
-            spellIcon.sprite = item.ItemData.icon;
+            int quantity = quickItems.GetCurrentItemQuantity();
+
+            quickItemIcon.sprite = item.ItemData.icon;
+            quickItemQuantityText.text = quantity.ToString();
+
+            if (quantity <= 0)
+            {
+                quickItemIcon.color = new Color(0.3f, 0.3f, 0.3f, 0.3f);
+                quickItemQuantityText.color = Color.red;
+            }
+            else
+            {
+                quickItemIcon.color = Color.white;
+                quickItemQuantityText.color = Color.white;
+            }
         }
     }
 }

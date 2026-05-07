@@ -24,8 +24,21 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Start()
     {
-        inputReader.OnCycleRightHandWeaponPressed += CycleRightWeapon;
-        inputReader.OnCycleLeftHandWeaponPressed += CycleLeftWeapon;
+        if (inputReader != null)
+        {
+            inputReader.OnCycleRightHandWeaponPressed += CycleRightWeapon;
+            inputReader.OnCycleLeftHandWeaponPressed += CycleLeftWeapon;
+        }  
+    }
+
+    private void OnDestroy()
+    {
+        if (inputReader != null)
+        {
+            inputReader.OnCycleRightHandWeaponPressed -= CycleRightWeapon;
+            inputReader.OnCycleLeftHandWeaponPressed -= CycleLeftWeapon;
+        }
+           
     }
 
     public void AssignWeaponToSlot(int slotIndex, WeaponInstance weapon, EquipmentSlot slot)
@@ -74,7 +87,7 @@ public class PlayerEquipment : MonoBehaviour
         {
             return null;
         }
-        else if (slot == EquipmentSlot.LeftHand && RightHandWeapons[_currentLeftHandIndex] == null)
+        else if (slot == EquipmentSlot.LeftHand && LeftHandWeapons[_currentLeftHandIndex] == null)
         {
             return null;
         }
