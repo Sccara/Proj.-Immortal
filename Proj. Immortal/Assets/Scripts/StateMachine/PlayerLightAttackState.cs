@@ -51,7 +51,6 @@ public class PlayerLightAttackState : PlayerBaseState
 
     public void AnimationFinished()
     {
-        Debug.Log("Light attack animation finished");
         _isAnimationFinished = true;
     }
 }

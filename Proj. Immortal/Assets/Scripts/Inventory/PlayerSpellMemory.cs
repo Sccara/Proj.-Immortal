@@ -76,6 +76,5 @@ public class PlayerSpellMemory : MonoBehaviour
         _activeIndex = nextIndex;
 
         OnActiveSpellChanged?.Invoke(CurrentSpell);
-        
     }
 }

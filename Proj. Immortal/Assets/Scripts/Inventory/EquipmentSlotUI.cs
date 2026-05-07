@@ -59,7 +59,10 @@ public class EquipmentSlotUI : ItemSlotUI
 
         if (selectionWindow != null)
         {
-            selectionWindow.OpenForSlot(HandType, SlotIndex);
+            selectionWindow.OpenForSelection<WeaponInstance>(weapon =>
+            {
+                equipment.AssignWeaponToSlot(SlotIndex, weapon, HandType);
+            });
         }
 
         UIManager.Instance.ToggleWindow(WindowType.Equipment);

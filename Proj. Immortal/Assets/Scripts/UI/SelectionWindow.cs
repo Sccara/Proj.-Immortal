@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectionWindow : UIWindow
 {
-    [SerializeField] private PlayerEquipment equipment;
-    [SerializeField] private PlayerSpellMemory spellMemory;
     [SerializeField] private Inventory inventory;
     [SerializeField] private UIManager uiManager;
 
@@ -13,27 +12,45 @@ public class SelectionWindow : UIWindow
     [SerializeField] private ItemSlotUI itemSlotPrefab;
     [SerializeField] private Transform content;
 
-    private EquipmentSlot _targetHand;
-    private int _targetSlotIndex;
-
-    private bool _isSelectingSpell = false;
-    private int _targetSpellSlotIndex;
-
-    public void OpenForSlot(EquipmentSlot hand, int slotIndex)
+    public void OpenForSelection<T>(Action<T> onItemSelected) where T: ItemInstance
     {
-        _isSelectingSpell = false;
-        _targetHand = hand;
-        _targetSlotIndex = slotIndex;
+        foreach (var slot in spawnedSlots)
+        {
+            slot.gameObject.SetActive(false);
+        }
 
-        ShowItemsByFilter<WeaponInstance>();
-    }
+        List<InventorySlot> items = inventory.GetAllItemsOfType<T>();
 
-    public void OpenForSpellSlot(int slotIndex)
-    {
-        _isSelectingSpell = true;
-        _targetSpellSlotIndex = slotIndex;
+        if (items.Count == 0)
+            return;
 
-        ShowItemsByFilter<SpellInstance>();
+        while (spawnedSlots.Count < items.Count)
+        {
+            ItemSlotUI newSlotUI = Instantiate(itemSlotPrefab, content);
+            spawnedSlots.Add(newSlotUI);
+        }
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            spawnedSlots[i].Init(items[i]);
+            spawnedSlots[i].gameObject.SetActive(true);
+
+            Button slotButton = spawnedSlots[i].GetComponent<Button>(); 
+
+            if (slotButton != null)
+            {
+                slotButton.onClick.RemoveAllListeners();
+
+                T currentItem = items[i].Item as T;
+
+                slotButton.onClick.AddListener(() =>
+                {
+                    onItemSelected?.Invoke(currentItem);
+                    uiManager.ToggleWindow(WindowType.Selection);
+                    uiManager.ToggleWindow(WindowType.Equipment, hideHUD: true);
+                });
+            }
+        }
     }
 
     public override void OnOpen()
@@ -64,18 +81,6 @@ public class SelectionWindow : UIWindow
                     slotButton.onClick.RemoveAllListeners();
 
                     ItemInstance currentItem = items[i].Item;
-
-                    slotButton.onClick.AddListener(() =>
-                    {
-                        if (_isSelectingSpell && currentItem is SpellInstance spell)
-                        {
-                            EquipSelectedSpell(spell);
-                        }
-                        else if (!_isSelectingSpell && currentItem is WeaponInstance weapon)
-                        {
-                            EquipSelectedWeapon(weapon);
-                        }
-                    });
                 }
             }
             else
@@ -85,19 +90,4 @@ public class SelectionWindow : UIWindow
         }
     }
 
-    private void EquipSelectedWeapon(WeaponInstance weapon)
-    {
-        equipment.AssignWeaponToSlot(_targetSlotIndex, weapon, _targetHand);
-
-        uiManager.ToggleWindow(WindowType.Selection);
-        uiManager.ToggleWindow(WindowType.Equipment, hideHUD : true);
-    }
-
-    private void EquipSelectedSpell(SpellInstance spell)
-    {
-        spellMemory.AssignSpellToSlot(_targetSpellSlotIndex, spell);
-
-        uiManager.ToggleWindow(WindowType.Selection);
-        uiManager.ToggleWindow(WindowType.Equipment, hideHUD: true);
-    }
 }

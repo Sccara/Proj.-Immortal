@@ -1,14 +1,13 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
-public class SpellSlotUI : ItemSlotUI
+public class QuickItemSlotUI : ItemSlotUI
 {
     [SerializeField] private Button button;
-    [SerializeField] private PlayerSpellMemory spellMemory; 
+    [SerializeField] private PlayerQuickItems quickItems;
 
     [Header("Slot Identity")]
-    public int SlotIndex; 
+    public int SlotIndex;
 
     private void Start()
     {
@@ -20,32 +19,32 @@ public class SpellSlotUI : ItemSlotUI
 
     private void OnEnable()
     {
-        if (spellMemory != null)
-            spellMemory.OnSpellSlotChanged += UpdateUI;
+        if (quickItems != null)
+            quickItems.OnItemSlotChanged += UpdateUI;
 
         RefreshCurrentState();
     }
 
     private void OnDisable()
     {
-        if (spellMemory != null)
-            spellMemory.OnSpellSlotChanged -= UpdateUI;
+        if (quickItems != null)
+            quickItems.OnItemSlotChanged -= UpdateUI;
     }
 
-    private void UpdateUI(int changedIndex, SpellInstance newSpell)
+    private void UpdateUI(int changedIndex, ItemInstance newItem)
     {
-        if (this.SlotIndex == changedIndex)
+        if (SlotIndex == changedIndex)
         {
-            Init(new InventorySlot(newSpell));
+            Init(new InventorySlot(newItem));
         }
     }
 
     private void RefreshCurrentState()
     {
-        if (spellMemory == null) 
+        if (quickItems == null)
             return;
 
-        Init(new InventorySlot(spellMemory.MemorizedSpells[SlotIndex]));
+        Init(new InventorySlot(quickItems.EquippedItems[SlotIndex]));
     }
 
     private void OnSlotClicked()
@@ -53,9 +52,9 @@ public class SpellSlotUI : ItemSlotUI
         var selectionWindow = UIManager.Instance.GetWindow<SelectionWindow>(WindowType.Selection);
         if (selectionWindow != null)
         {
-            selectionWindow.OpenForSelection<SpellInstance>(spell =>
+            selectionWindow.OpenForSelection<ItemInstance>(item =>
             {
-                spellMemory.AssignSpellToSlot(SlotIndex, spell);
+                quickItems.AssignItemToSlot(SlotIndex, item);
             });
         }
 

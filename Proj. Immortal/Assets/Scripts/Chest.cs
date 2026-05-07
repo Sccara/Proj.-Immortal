@@ -27,8 +27,22 @@ public class Chest : MonoBehaviour, IInteractable
             animator.Play("Chest_Open");
         }
 
-        ItemInstance loot = new ItemInstance(item);
-        player.Inventory.AddItem(loot);
+        ItemInstance loot;
+
+        if (item is WeaponSO)
+        {
+            loot = new WeaponInstance(item as WeaponSO);
+        }
+        else if (item is SpellSO)
+        {
+            loot = new SpellInstance(item as SpellSO);
+        }
+        else
+        {
+            loot = new ItemInstance(item);
+        }
+        
+        player.Inventory.AddItem(loot, amount);
 
         Debug.Log($"Picked up: {item.itemName} x{amount}");
 

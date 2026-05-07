@@ -1,27 +1,33 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerQuickItems : MonoBehaviour
 {
-    [Header("TEST")]
-    public HealItemSO item;
-
     public Action<ItemInstance> OnActiveItemChanged;
+    public Action<int, ItemInstance> OnItemSlotChanged;
 
     [SerializeField] private InputReader inputReader;
     [SerializeField] private Inventory inventorySystem;
-    [SerializeField] private int maxQuickSlots;
 
-    [SerializeField] private List<ItemInstance> equippedItems = new List<ItemInstance>();
+    public int MaxQuickSlots = 5;
+    public ItemInstance[] EquippedItems;
+
     private int _currentIndex = 0;
+
+    public ItemInstance CurrentItem => EquippedItems[_currentIndex];
+
+    private void Awake()
+    {
+        EquippedItems = new ItemInstance[MaxQuickSlots];
+    }
 
     private void Start()
     {
-        inventorySystem.OnInventoryChanged += NotifyUI;
-        inputReader.OnCycleQuickItemPressed += CycleNextItem;
+        if (inventorySystem != null)
+            inventorySystem.OnInventoryChanged += NotifyUI;
 
-        equippedItems.Add(new ItemInstance(item));
+        if (inputReader != null)
+            inputReader.OnCycleQuickItemPressed += CycleNextItem;
 
         NotifyUI();
     }
@@ -35,17 +41,9 @@ public class PlayerQuickItems : MonoBehaviour
             inputReader.OnCycleQuickItemPressed -= CycleNextItem;
     }
 
-    public ItemInstance GetCurrentItem()
-    {
-        if (equippedItems.Count == 0)
-            return null;
-        
-        return equippedItems[_currentIndex];
-    }
-
     public int GetCurrentItemQuantity()
     {
-        ItemInstance current = GetCurrentItem();
+        ItemInstance current = CurrentItem;
 
         if (current == null) 
             return 0;
@@ -63,36 +61,56 @@ public class PlayerQuickItems : MonoBehaviour
 
     public void CycleNextItem()
     {
-        if (equippedItems.Count <= 1)
+        Debug.Log("Cycle Item");
+
+        int nextIndex = _currentIndex;
+        bool foundItem = false;
+
+        for (int i = 0; i < EquippedItems.Length; i++)
         {
-            return;
+            nextIndex++;
+            if (nextIndex >= EquippedItems.Length)
+                nextIndex = 0;
+
+            if (EquippedItems[nextIndex] != null)
+            {
+                foundItem = true;
+                break;
+            }
+
         }
 
-        _currentIndex++;
-
-        if (_currentIndex >= equippedItems.Count)
+        if (!foundItem)
         {
-            _currentIndex = 0;
+            nextIndex = 0;
         }
+
+        _currentIndex = nextIndex;
 
         NotifyUI();
     }
 
-    public void EquipItem(ItemInstance item)
+    public void AssignItemToSlot(int slotIndex, ItemInstance item)
     {
-        if (item.ItemData.type != ItemType.Consumable)
+        if (slotIndex < 0 || slotIndex >= MaxQuickSlots)
             return;
 
-        if (!equippedItems.Contains(item) && equippedItems.Count < maxQuickSlots)
+        Debug.Log($"Type 1: {EquippedItems[slotIndex]}");
+        Debug.Log($"Type 2: {item}");
+
+        EquippedItems[slotIndex] = item;
+
+        OnItemSlotChanged?.Invoke(slotIndex, item);
+
+        if (_currentIndex == slotIndex)
         {
-            equippedItems.Add(item);
             NotifyUI();
         }
     }
 
     public void ConsumeCurrentItem(PlayerStateMachine player)
     {
-        ItemInstance currentItem = GetCurrentItem();
+        ItemInstance currentItem = CurrentItem;
         int quantity = GetCurrentItemQuantity();
 
         if (currentItem == null)
@@ -110,5 +128,9 @@ public class PlayerQuickItems : MonoBehaviour
         }
     }
 
-    private void NotifyUI() => OnActiveItemChanged?.Invoke(GetCurrentItem());
+    private void NotifyUI()
+    {
+        OnActiveItemChanged?.Invoke(CurrentItem);
+    }
+
 }

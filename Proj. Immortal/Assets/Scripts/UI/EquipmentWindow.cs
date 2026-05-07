@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EquipmentWindow : UIWindow
 {
-    [SerializeField] private Equipment equipment;
+    [SerializeField] private PlayerEquipment equipment;
     [SerializeField] private Inventory inventory;
     [SerializeField] private UIManager uiManager;
 

@@ -151,7 +151,6 @@ GameObject:
   - component: {fileID: 1418714845170944608}
   - component: {fileID: 6340540996623804120}
   - component: {fileID: 2859235365213478418}
-  - component: {fileID: 8006486452333123857}
   - component: {fileID: 6060595833461389869}
   - component: {fileID: 6248733878103032787}
   - component: {fileID: 6932738373254472895}
@@ -463,7 +462,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystemController
   attributes: {fileID: 6340540996623804120}
-  config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
   <IsInvulnerable>k__BackingField: 0
 --- !u!114 &5783568130548789771
 MonoBehaviour:
@@ -491,7 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8ca0d21a33a1e44b9b05f41c6a7cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaminaSystemController
-  performActionCooldown: 0.7
+  performActionCooldown: 1
   attributes: {fileID: 6340540996623804120}
 --- !u!114 &6448107660609498646
 MonoBehaviour:
@@ -585,14 +583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   slots: []
-  items:
-  - {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
-  weapons:
-  - {fileID: 11400000, guid: faafcd971c18d8847ad22354c5a4fe69, type: 2}
-  - {fileID: 11400000, guid: 1f7942b9216e4fe42972469eda04674c, type: 2}
-  spells:
-  - {fileID: 11400000, guid: b2cdc58d49c44a3438117e4cfa70d816, type: 2}
-  - {fileID: 11400000, guid: 53a736059ef4a9c40acf45abb424d66d, type: 2}
 --- !u!114 &1290416745817091015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,11 +613,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f36f21ba9575e47846f836fea74a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuickItemsSystem
-  item: {fileID: 11400000, guid: b8990e9cba675c74a9df29f20ee856c2, type: 2}
   inputReader: {fileID: 7993863743934738338}
   inventorySystem: {fileID: 8405616296295915670}
-  maxQuickSlots: 5
-  equippedItems: []
+  MaxQuickSlots: 5
+  EquippedItems: []
 --- !u!114 &6340540996623804120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +659,8 @@ MonoBehaviour:
   health: 
   stamina: 
   mana: 
+  leftHand: 
+  rightHand: 
 --- !u!114 &2859235365213478418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,26 +684,6 @@ MonoBehaviour:
   inputReader: {fileID: 7993863743934738338}
   inventorySystem: {fileID: 8405616296295915670}
   rightHandSocket: {fileID: 0}
---- !u!114 &8006486452333123857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3463466838240493161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2acafe756e5303b4597d79e0469f7310, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Equipment
-  RightHandWeapons:
-  - <UpgradeLevel>k__BackingField: 0
-  - <UpgradeLevel>k__BackingField: 0
-  - <UpgradeLevel>k__BackingField: 0
-  LeftHandWeapons:
-  - <UpgradeLevel>k__BackingField: 0
-  - <UpgradeLevel>k__BackingField: 0
-  - <UpgradeLevel>k__BackingField: 0
 --- !u!114 &6060595833461389869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
   inputReader: {fileID: 7993863743934738338}
+  playerManager: {fileID: 4269433142186122330}
   popUpWindow: {fileID: 0}
   interactText: {fileID: 0}
   interactRadius: 5
