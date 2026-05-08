@@ -43,6 +43,7 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void AnimEvent_FireSpell()
     {
+        Debug.Log("Fire spell!");
         SpellInstance activeSpell = _stateMachine.PlayerManager.SpellMemory.CurrentSpell;
         if (activeSpell == null)
             return;

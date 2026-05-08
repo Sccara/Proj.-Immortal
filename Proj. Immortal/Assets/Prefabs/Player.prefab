@@ -877,6 +877,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  hitRadius: 0.1
   _debugGizmos: 1
 --- !u!1 &3627494131361670666
 GameObject:

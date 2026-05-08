@@ -19,16 +19,20 @@ public class PlayerCastState : PlayerBaseState
         _currentSpell = Ctx.PlayerManager.SpellMemory.CurrentSpell;
 
         float manaCost = _currentSpell.SpellData.ManaCost;
-
+        Debug.Log($"Mana: {Ctx.PlayerManager.Attributes.ManaResource.Current}");
+        Debug.Log($"Mana Cost: {manaCost}");
         if (Ctx.PlayerManager.Attributes.ManaResource.Current < manaCost)
         {
-            Ctx.Animator.Play("Cast_Fail");
+            //Ctx.Animator.Play("Cast_Fail");
+            Ctx.Animator.CrossFadeInFixedTime("Cast_Fail", 0.1f, 0, 0f);
             return;
         }
 
         string animTrigger = _currentSpell.SpellData.AnimationTriggerName;
-        Ctx.Animator.Play(animTrigger);
-        _hasCastFired = true;
+        Debug.Log($"Playing animation {animTrigger}");
+        //Ctx.Animator.Play(animTrigger);
+        Ctx.Animator.CrossFadeInFixedTime(animTrigger, 0.1f, 0, 0f);
+        //_hasCastFired = true;
     }
     public override void UpdateState()
     {
@@ -50,6 +54,7 @@ public class PlayerCastState : PlayerBaseState
     {
         if (_hasCastFired)
         {
+            Debug.Log("Switch state to grounded from cast");
             SwitchState(Factory.Grounded());
         }
     }
