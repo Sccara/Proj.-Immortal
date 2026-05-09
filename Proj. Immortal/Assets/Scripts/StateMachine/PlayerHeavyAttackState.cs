@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHeavyAttackState : PlayerBaseState
@@ -18,21 +17,23 @@ public class PlayerHeavyAttackState : PlayerBaseState
         Debug.Log("HeavyAttackState");
         _chargeTimer = 0f;
         _isCharging = true;
-        Ctx.Animator.SetBool("IsChargingHeavyAttack", _isCharging);
         _isAnimationFinished = false;
 
-        Ctx.Animator.Play("HeavyAttack_Charge");
+        Ctx.Animator.SetBool("IsChargingHeavyAttack", _isCharging);
+
+        Ctx.Animator.CrossFadeInFixedTime("HeavyAttack_Charge", 0.1f, 0, 0f);
     }
     public override void UpdateState()
     {
         if (_isCharging)
         {
-            if (Ctx.Input.HeavyAttackPressed)
+            _chargeTimer += Time.deltaTime;
+
+            float maxCharge = Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxChargeTime;
+
+            if (!Ctx.Input.HeavyAttackPressed || _chargeTimer >= maxCharge)
             {
-                _chargeTimer = Mathf.Min(_chargeTimer + Time.deltaTime, Ctx.PlayerManager.Combat.CurrentWeaponConfig.MaxChargeTime);
-            }
-            else
-            {
+                _chargeTimer = Mathf.Min(_chargeTimer, maxCharge);
                 ExecuteHeavySwing();
             }
         }
@@ -45,7 +46,9 @@ public class PlayerHeavyAttackState : PlayerBaseState
     }
     public override void ExitState()
     {
+        Ctx.PlayerManager.Combat.SetAttackMultipliers(1f, 1f);
 
+        Ctx.Animator.SetBool("IsChargingHeavyAttack", false);
     }
     public override void InitializeSubState()
     {
@@ -72,7 +75,7 @@ public class PlayerHeavyAttackState : PlayerBaseState
         Ctx.PlayerManager.Combat.SetAttackMultipliers(damageMult, poiseMult);
         Ctx.Animator.SetBool("IsChargingHeavyAttack", _isCharging);
 
-        Ctx.Animator.Play("HeavyAttack_Swing");
+        Ctx.Animator.CrossFadeInFixedTime("HeavyAttack_Swing", 0.1f, 0, 0f);
     }
 
     public void AnimationFinished()

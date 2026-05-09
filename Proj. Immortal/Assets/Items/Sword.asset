@@ -9,12 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ead6e9d1ecc1d44ca6eeee180b5d5f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4db3e2cfcafcfe84f8536b4e9a5cd626, type: 3}
   m_Name: Sword
-  m_EditorClassIdentifier: Assembly-CSharp::ItemSO
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
   itemName: Sword
+  type: 1
   description: 
   isStackable: 0
-  maxStackSize: 99
+  maxStackSize: 1
   cost: 0
-  icon: {fileID: 21300000, guid: 4d905bb640a85e446ba252bc4ce5bee4, type: 3}
+  icon: {fileID: 21300000, guid: 3b4666145334e6f4f9f871076b47c2be, type: 3}
+  BaseDamage: 40
+  BasePoiseDamage: 15
+  KnockbackStrength: 5
+  DamageUpgradePerLevel: 2
+  Class: 0
+  StrengthScaling: 0.1
+  DexterityScaling: 0.5
+  MindScaling: 0.1
+  MaxChargeTime: 0.55
+  MinDamageMultiplier: 1
+  MaxDamageMultiplier: 2
+  MaxPoiseMultiplier: 2
+  AttackStepForce: 10

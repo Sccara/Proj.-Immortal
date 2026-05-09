@@ -135,6 +135,32 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!1102 &-1151765167261187384
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeavyAttack_Charge
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 7533f605ce7c6e54bb3257aad0fa2777, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -153,6 +179,12 @@ AnimatorController:
   - m_Name: AttackSpeedMultiplier
     m_Type: 1
     m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: IsChargingHeavyAttack
+    m_Type: 4
+    m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
@@ -209,10 +241,10 @@ AnimatorStateMachine:
     m_Position: {x: 490, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2884098762399198356}
-    m_Position: {x: 490, y: 280, z: 0}
+    m_Position: {x: 700, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8501942091508836615}
-    m_Position: {x: 500, y: 240, z: 0}
+    m_Position: {x: 480, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4692754906617879620}
     m_Position: {x: 490, y: 10, z: 0}
@@ -221,13 +253,19 @@ AnimatorStateMachine:
     m_Position: {x: 490, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3690302403041895997}
-    m_Position: {x: 470, y: 200, z: 0}
+    m_Position: {x: 240, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3825973244885177279}
     m_Position: {x: 490, y: -30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2742413175728511357}
     m_Position: {x: 700, y: 150, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1151765167261187384}
+    m_Position: {x: 440, y: 260, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7230308968457017704}
+    m_Position: {x: 440, y: 310, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -285,6 +323,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 7d02a652c4b596c4ea66faacb1ebcf85, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7230308968457017704
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeavyAttack_Swing
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 71383e1157c9dd246a5e799fbf220355, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

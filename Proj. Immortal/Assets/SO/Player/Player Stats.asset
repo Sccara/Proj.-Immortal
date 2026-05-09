@@ -17,9 +17,6 @@ MonoBehaviour:
   Strength: 10
   Dexterity: 10
   staminaRestoreRate: 20
-  basePoise: 150
-  poiseRestoreCooldown: 3
-  poiseRestoreMultiplier: 2
   walkMoveSpeed: 5
   sprintMoveSpeed: 10
   useItemSpeed: 2
@@ -32,7 +29,7 @@ MonoBehaviour:
   attackRange: 1
   knockbackStrength: 7
   attackStepForce: 15
-  maxChargeTime: 2
+  maxChargeTime: 1
   attackStamina: 20
   heavyAttackStamina: 35
   minDamageMultiplier: 1.5
@@ -40,7 +37,39 @@ MonoBehaviour:
   maxPoiseMultiplier: 2
   lightAttackCooldown: 0.3
   heavyAttackCooldown: 1.5
-  dashForce: 15
-  dashCooldown: 1
-  dashDuration: 0.5
-  dashStamina: 20
+  rollDuration: 1
+  rollBaseSpeed: 10
+  rollSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.06886332
+      outSlope: -0.06886332
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14327611
+    - serializedVersion: 3
+      time: 0.6481149
+      value: 0.5401876
+      inSlope: -1.4412518
+      outSlope: -1.4412518
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08043084
+      outWeight: 0.21800777
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1.9502083
+      outSlope: -1.9502083
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.21215123
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rollStamina: 20
