@@ -16,7 +16,6 @@ public class PlayerAnimationEvents : MonoBehaviour
         _combat.AnimEvent_DisableHitbox();
     }
 
-    // Вызывать в самом КОНЦЕ анимации удара
     public void EndAttack()
     {
         if (_stateMachine.CurrentState is PlayerLightAttackState lightState)
@@ -37,7 +36,6 @@ public class PlayerAnimationEvents : MonoBehaviour
 
     public void AnimEvent_ApplyItemEffect()
     {
-        // Обращаемся к QuickItemsSystem и просим применить предмет
         _stateMachine.PlayerManager.QuickItems.ConsumeCurrentItem(_stateMachine);
     }
 
@@ -52,9 +50,9 @@ public class PlayerAnimationEvents : MonoBehaviour
         float manaCost = activeSpell.SpellData.ManaCost;
 
      
-        if (_stateMachine.PlayerManager.Attributes.ManaResource.Current >= manaCost)
+        if (_stateMachine.PlayerManager.Mana.HasEnoughMana(manaCost))
         {
-            _stateMachine.PlayerManager.Attributes.ManaResource.Use(manaCost);
+            _stateMachine.PlayerManager.Mana.UseMana(manaCost);
 
             DamageInfo finalDamage = new DamageInfo { DamageAmount = spellData.BaseMagicDamage };
 

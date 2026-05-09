@@ -11,6 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerManager _playerManager;
     [SerializeField] private Animator _animator;
     private TargetLockSystem _targetLock;
+    private BufferedInput? _bufferedInput = null;
 
     // Вынести в отдельный скрипт
     [SerializeField] private LayerMask groundMask;
@@ -19,7 +20,8 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private PlayerConfigSO config;
 
     [SerializeField] private TextMeshProUGUI stateText;
-
+    [SerializeField] private TextMeshProUGUI bufferStateText;
+   
 
     public PlayerBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public PlayerStateFactory States { get => _states; }   
@@ -42,6 +44,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private string enemyLayerName;
     [SerializeField] private bool _requireNewDashPress;
+    [SerializeField] private float inputBufferTime = 0.4f;
 
     [Header("Input")]
     public InputActionAsset InputActions;
@@ -74,11 +77,11 @@ public class PlayerStateMachine : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        Input.OnRollPressed += () => CurrentState?.HandleInput(InputCommand.Roll);
-        Input.OnJumpPressed += () => CurrentState?.HandleInput(InputCommand.Jump);
-        Input.OnLightAttackPressed += () => CurrentState?.HandleInput(InputCommand.LightAttack);
-        Input.OnHeavyAttackPressed += () => CurrentState?.HandleInput(InputCommand.HeavyAttack);
-        Input.OnQuickItemUsePressed += () => CurrentState?.HandleInput(InputCommand.UseItem);
+        Input.OnRollPressed += () => ReceiveInput(InputCommand.Roll);
+        Input.OnJumpPressed += () => ReceiveInput(InputCommand.Jump);
+        Input.OnLightAttackPressed += () => ReceiveInput(InputCommand.LightAttack);
+        Input.OnHeavyAttackPressed += () => ReceiveInput(InputCommand.HeavyAttack);
+        Input.OnQuickItemUsePressed += () => ReceiveInput(InputCommand.UseItem);
     }
 
     private void Update()
@@ -90,7 +93,28 @@ public class PlayerStateMachine : MonoBehaviour
 
         _currentState.UpdateStates();
 
-        stateText.text = $"Current State: {_currentState}";
+        //stateText.text = $"Current State: {_currentState}";
+        if (_bufferedInput.HasValue)
+        {
+            //bufferStateText.text = $"Buffered State: {_bufferedInput.Value.Command}";
+        }
+
+        if (_bufferedInput.HasValue && Time.time > _bufferedInput.Value.ExpirationTime)
+        {
+            Debug.Log($"Buffer expired: {_bufferedInput.Value.Command}");
+            _bufferedInput = null;
+        }
+
+        if (_bufferedInput.HasValue)
+        {
+            bool isConsumed = CurrentState.HandleInput(_bufferedInput.Value.Command);
+
+            if (isConsumed)
+            {
+                Debug.Log($"From buffer!: {_bufferedInput.Value.Command}");
+                _bufferedInput = null;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -149,6 +173,22 @@ public class PlayerStateMachine : MonoBehaviour
         }
     }
 
+    public void ReceiveInput(InputCommand command)
+    {
+        bool isConsumed = CurrentState.HandleInput(command);
+
+        if (!isConsumed)
+        {
+            _bufferedInput = new BufferedInput
+            {
+                Command = command,
+                ExpirationTime = Time.time + inputBufferTime
+            };
+
+            Debug.Log($"Buffered: {command}");
+        }
+    }
+
     public bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
@@ -165,4 +205,10 @@ public enum InputCommand
     Jump,
     Sprint,
     UseItem
+}
+
+public struct BufferedInput
+{
+    public InputCommand Command;
+    public float ExpirationTime;
 }

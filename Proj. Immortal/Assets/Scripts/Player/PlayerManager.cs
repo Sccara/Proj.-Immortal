@@ -4,6 +4,7 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] private HealthSystemController health;
     [SerializeField] private StaminaSystemController stamina;
+    [SerializeField] private ManaSystemController mana;
     [SerializeField] private LevelSystemController level;
     [SerializeField] private PlayerCombat combat;
     [SerializeField] private Inventory inventory;
@@ -15,6 +16,7 @@ public class PlayerManager : MonoBehaviour
 
     public HealthSystemController Health => health;
     public StaminaSystemController Stamina => stamina;
+    public ManaSystemController Mana => mana;
     public LevelSystemController Level => level;
     public PlayerCombat Combat => combat;
     public PlayerQuickItems QuickItems => quickItems;

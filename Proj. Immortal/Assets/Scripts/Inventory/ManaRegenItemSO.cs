@@ -16,7 +16,7 @@ public class ManaRegenItemSO : ItemSO
             return false;
         }
 
-        player.PlayerManager.Attributes.ManaResource.Restore(manaRegenAmount);
+        player.PlayerManager.Mana.RestoreMana(manaRegenAmount);
 
         return true;
     }
