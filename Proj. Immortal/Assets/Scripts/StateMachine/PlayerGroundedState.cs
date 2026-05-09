@@ -48,8 +48,8 @@ public class PlayerGroundedState : PlayerBaseState
 
         switch (command)
         {
-            case InputCommand.Dash:
-                if (Ctx.DashCooldownTimer <= 0)
+            case InputCommand.Roll:
+                if (Ctx.PlayerManager.Stamina.HasEnoughStamina())
                 {
                     SwitchState(Factory.Dash());
                     return true; 

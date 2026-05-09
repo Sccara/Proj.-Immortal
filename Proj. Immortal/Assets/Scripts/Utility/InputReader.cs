@@ -14,7 +14,7 @@ public class InputReader : MonoBehaviour
     public Action OnEscapePressed;
     public Action OnInventoryPressed;
     public Action OnEquipmentPressed;
-    public Action OnDashPressed;
+    public Action OnRollPressed;
     public Action OnLockOnPressed;
 
     public Action OnLightAttackPressed;
@@ -45,7 +45,7 @@ public class InputReader : MonoBehaviour
         _input.Player.Escape.performed += ctx => OnEscapePressed?.Invoke();
         _input.Player.Inventory.performed += ctx => OnInventoryPressed?.Invoke();
         _input.Player.Equipment.performed += ctx => OnEquipmentPressed?.Invoke();
-        _input.Player.Dash.performed += ctx => OnDashPressed?.Invoke();
+        _input.Player.Roll.performed += ctx => OnRollPressed?.Invoke();
         _input.Player.Jump.performed += ctx => OnJumpPressed?.Invoke();
         _input.Player.Attack.performed += ctx => OnLightAttackPressed?.Invoke();
         _input.Player.HeavyAttack.started += ctx => OnHeavyAttackPressed?.Invoke();

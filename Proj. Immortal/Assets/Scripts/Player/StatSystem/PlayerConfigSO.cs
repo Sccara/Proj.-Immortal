@@ -31,9 +31,9 @@ public class PlayerConfigSO : ScriptableObject
     public float maxPoiseMultiplier;
     public float lightAttackCooldown;
     public float heavyAttackCooldown;
-    [Header("Dash")]
-    public float dashForce;
-    public float dashCooldown;
-    public float dashDuration;
-    public float dashStamina;
+    [Header("Roll")]
+    public float rollDuration;
+    public float rollBaseSpeed;
+    public AnimationCurve rollSpeedCurve;
+    public float rollStamina;
 }
