@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public abstract class EnemyBase : MonoBehaviour, IDamageable
 {
-    protected EnemyHealth health;
+    protected EnemyHealthController health;
     protected NavMeshAgent agent;
     protected Rigidbody rb;
     protected Transform player;
@@ -31,7 +31,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
-        health = GetComponent<EnemyHealth>();
+        health = GetComponent<EnemyHealthController>();
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
 

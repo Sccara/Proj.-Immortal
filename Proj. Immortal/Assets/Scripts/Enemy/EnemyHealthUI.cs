@@ -5,7 +5,7 @@ public class EnemyHealthUI : MonoBehaviour
 {
     [SerializeField] private Image healthBar;
 
-    [SerializeField] private EnemyHealth _healthSystem;
+    [SerializeField] private EnemyHealthController _healthSystem;
 
     private void Awake()
     {
@@ -14,7 +14,7 @@ public class EnemyHealthUI : MonoBehaviour
 
     public void Init()
     {
-        _healthSystem = GetComponentInParent<EnemyHealth>();
+        _healthSystem = GetComponentInParent<EnemyHealthController>();
         _healthSystem.Health.OnValueChanged += UpdateHealthBar;
     }
 

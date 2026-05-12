@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealthController : MonoBehaviour
 {
     public Action OnDeath;
     public Resource Health { get; set; }
