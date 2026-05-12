@@ -11,7 +11,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override void EnterState()
     {
-        Debug.Log("Grounded state");
+        //Debug.Log("Grounded state");
         Ctx.Animator.CrossFadeInFixedTime("Movement", 0.1f, 0, 0f);
     }
     public override void UpdateState()
@@ -44,7 +44,7 @@ public class PlayerGroundedState : PlayerBaseState
 
     public override bool HandleInput(InputCommand command)
     {
-        Debug.Log($"Command: {command}");
+        //Debug.Log($"Command: {command}");
 
         switch (command)
         {

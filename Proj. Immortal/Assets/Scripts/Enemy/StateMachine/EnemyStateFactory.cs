@@ -13,4 +13,14 @@ public class EnemyStateFactory : MonoBehaviour
     {
         return new EnemyIdleState(_context, this);
     }
+
+    public EnemyChaseState Chase()
+    {
+        return new EnemyChaseState(_context, this);
+    }
+
+    public EnemyAttackState Attack()
+    {
+        return new EnemyAttackState(_context, this);
+    }
 }

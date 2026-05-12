@@ -23,7 +23,6 @@ public class PlayerRunState : PlayerBaseState
     }
     public override void ExitState()
     {
-        Debug.Log("Exit Run State");
         Ctx.PlayerManager.Attributes.MoveSpeedStat.BaseValue = Ctx.Config.walkMoveSpeed;
     }
     public override void InitializeSubState()

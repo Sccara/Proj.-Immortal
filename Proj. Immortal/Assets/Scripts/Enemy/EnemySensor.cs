@@ -11,6 +11,8 @@ public class EnemySensor : MonoBehaviour
     
     [SerializeField] private Transform _playerTransform;
 
+    public Transform PlayerTransform => _playerTransform;
+
     private void Start()
     {
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");

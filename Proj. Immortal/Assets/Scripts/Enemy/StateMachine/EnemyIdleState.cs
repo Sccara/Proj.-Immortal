@@ -4,14 +4,14 @@ public class EnemyIdleState : EnemyBaseState
 {
     public EnemyIdleState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
     {
-
+        IsRootState = true;
     }
 
     public override void EnterState()
     {
         Ctx.Agent.isStopped = true;
 
-        Ctx.Animator.CrossFadeInFixedTime("Idle", 0.1f, 0, 0f);
+        //Ctx.Animator.CrossFadeInFixedTime("Idle", 0.1f, 0, 0f);
 
         Debug.Log("Enemy idle state");
     }
@@ -24,15 +24,11 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void CheckSwitchStates()
     {
-        Debug.Log($"CTX NULL: {Ctx == null}");
-        Debug.Log($"Sensor NULL: {Ctx.Sensor == null}");
-       
-
         if (Ctx.Sensor.IsPlayerInViewSight() || Ctx.Sensor.IsPlayerInAgroRadius())
         {
             Debug.Log("Enemy spotted player!");
 
-            // SwitchState(Factory.Chase());
+            SwitchState(Factory.Chase());
         }
     }
 

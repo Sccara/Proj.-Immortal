@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent), typeof(EnemySensor), typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent), typeof(EnemySensor))]
 public class EnemyStateMachine : MonoBehaviour
 {
     private EnemyBaseState _currentState;
@@ -20,6 +20,7 @@ public class EnemyStateMachine : MonoBehaviour
     public NavMeshAgent Agent => agent;
     public EnemyBaseState CurrentState { get => _currentState; set { _currentState = value; } }
     public EnemyStateFactory States => _states;
+    public Vector3 DirectionToPlayer => (Sensor.PlayerTransform.position - transform.position).normalized;
 
     private void Awake()
     {
