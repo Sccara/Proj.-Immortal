@@ -12,6 +12,8 @@ public class HealthSystemController : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo info)
     {
+        Debug.Log("Player Take Damage");
+
         if (attributes.HealthResource.Current <= 0 || IsInvulnerable)
             return;
 

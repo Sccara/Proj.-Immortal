@@ -14,8 +14,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         Debug.Log("Enemy attack state");
 
-        Ctx.Agent.isStopped = true;
-        Ctx.Agent.velocity = Vector3.zero;
+        Ctx.StopMovement();
 
         _attackTimer = 0;
         _isAnimationFinished = false;
@@ -32,7 +31,6 @@ public class EnemyAttackState : EnemyBaseState
         {
             Vector3 direction = Ctx.DirectionToPlayer;
             direction.y = 0;
-            Debug.Log($"direction: {direction}");
 
             if (direction != Vector3.zero)
             {
@@ -61,7 +59,7 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void ExitState()
     {
-        
+        Ctx.Combat.AnimEvent_DisableHitbox();
     }
 
     public override void FixedUpdateState()
@@ -72,5 +70,10 @@ public class EnemyAttackState : EnemyBaseState
     public override void InitializeSubState()
     {
         throw new System.NotImplementedException();
+    }
+
+    public void AnimationFinished()
+    {
+        _isAnimationFinished = true;
     }
 }

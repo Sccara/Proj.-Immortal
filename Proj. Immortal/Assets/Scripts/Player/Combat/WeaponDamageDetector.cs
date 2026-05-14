@@ -5,7 +5,7 @@ public class WeaponDamageDetector : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private List<Transform> hitPoints; 
-    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private LayerMask targetLayer;
     [SerializeField] private float hitRadius = 0.1f;
     [SerializeField] private bool _debugGizmos = true;
 
@@ -67,12 +67,13 @@ public class WeaponDamageDetector : MonoBehaviour
 
             if (distance > 0.001f)
             {
-                if (Physics.SphereCast(lastPos, hitRadius, direction.normalized, out RaycastHit hit, distance, enemyLayer))
+                if (Physics.SphereCast(lastPos, hitRadius, direction.normalized, out RaycastHit hit, distance, targetLayer))
                 {
-                    if (hit.collider.TryGetComponent(out IDamageable damageable))
-                    {
+                    IDamageable target = hit.collider.GetComponentInParent<IDamageable>();
 
-                        if (!_hitTargets.Contains(damageable))
+                    if (target != null)
+                    {
+                        if (!_hitTargets.Contains(target))
                         {
                             DamageInfo info = new DamageInfo
                             {
@@ -81,8 +82,8 @@ public class WeaponDamageDetector : MonoBehaviour
                                 PoiseDecreaseAmount = _currentPoiseDamage
                             };
 
-                            damageable.TakeDamage(info);
-                            _hitTargets.Add(damageable);
+                            target.TakeDamage(info);
+                            _hitTargets.Add(target);
                         }
                     }
                 }

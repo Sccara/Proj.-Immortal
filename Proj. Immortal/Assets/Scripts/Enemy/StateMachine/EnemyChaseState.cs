@@ -12,7 +12,7 @@ public class EnemyChaseState : EnemyBaseState
         Ctx.Agent.isStopped = false;
         Ctx.Agent.speed = Ctx.Config.ChaseSpeed;
 
-        //Ctx.Animator.CrossFadeInFixedTime("Run", 0.1f, 0, 0f);
+        Ctx.Animator.CrossFadeInFixedTime("Movement", 0.1f, 0, 0f);
 
         Debug.Log("Enemy chase state");
     }
@@ -23,6 +23,9 @@ public class EnemyChaseState : EnemyBaseState
         if (Ctx.Sensor.PlayerTransform != null)
         {
             Ctx.Agent.SetDestination(Ctx.Sensor.PlayerTransform.position);
+
+            float currentSpeedRatio = Ctx.Agent.velocity.magnitude / Ctx.Config.ChaseSpeed;
+            Ctx.Animator.SetFloat("Speed", currentSpeedRatio);
         }
 
         CheckSwitchStates();

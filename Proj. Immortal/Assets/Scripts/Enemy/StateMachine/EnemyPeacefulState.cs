@@ -1,15 +1,41 @@
 using UnityEngine;
 
-public class EnemyPeacefulState : MonoBehaviour
+public class EnemyPeacefulState : EnemyBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public EnemyPeacefulState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
     {
-        
+        IsRootState = true;
+        InitializeSubState();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EnterState()
+    {
+        Debug.Log("Enemy peaceful state");
+
+    }
+
+
+    public override void UpdateState()
+    {
+        CheckSwitchStates();
+    }
+
+    public override void CheckSwitchStates()
+    {
+ 
+    }
+
+    public override void ExitState()
+    {
+
+    }
+
+    public override void FixedUpdateState()
+    {
+
+    }
+
+    public override void InitializeSubState()
     {
         
     }

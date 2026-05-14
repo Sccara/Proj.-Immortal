@@ -9,9 +9,7 @@ public class EnemyIdleState : EnemyBaseState
 
     public override void EnterState()
     {
-        Ctx.Agent.isStopped = true;
-
-        //Ctx.Animator.CrossFadeInFixedTime("Idle", 0.1f, 0, 0f);
+        Ctx.StopMovement();
 
         Debug.Log("Enemy idle state");
     }

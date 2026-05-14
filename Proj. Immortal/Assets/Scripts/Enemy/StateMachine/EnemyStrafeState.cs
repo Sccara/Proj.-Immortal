@@ -1,16 +1,41 @@
 using UnityEngine;
 
-public class EnemyStrafeState : MonoBehaviour
+public class EnemyStrafeState : EnemyBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public EnemyStrafeState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EnterState()
     {
-        
+        Debug.Log("Enemy strafe state");
+
+    }
+
+
+    public override void UpdateState()
+    {
+        CheckSwitchStates();
+    }
+
+    public override void CheckSwitchStates()
+    {
+
+    }
+
+    public override void ExitState()
+    {
+
+    }
+
+    public override void FixedUpdateState()
+    {
+
+    }
+
+    public override void InitializeSubState()
+    {
+       
     }
 }

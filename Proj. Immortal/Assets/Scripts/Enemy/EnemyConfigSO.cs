@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Enemy Config", menuName = "Enemy")]
 public class EnemyConfigSO : ScriptableObject
 {
+    [Header("Stats")]
+    public float Health;
+    public float Poise;
+
     [Header("Movement")]
     public float WalkMoveSpeed;
     public float ChaseSpeed;
@@ -18,4 +22,5 @@ public class EnemyConfigSO : ScriptableObject
     [Header("Combat Settings")]
     public float AttackRange;
     public float StrafeWaitTime;
+    public float KnockbackDuration;
 }

@@ -23,4 +23,29 @@ public class EnemyStateFactory : MonoBehaviour
     {
         return new EnemyAttackState(_context, this);
     }
+
+    public EnemyPatrolState Patrol()
+    {
+        return new EnemyPatrolState(_context, this);
+    }
+
+    public EnemyDeadState Dead()
+    {
+        return new EnemyDeadState(_context, this);
+    }
+
+    public EnemyStrafeState Strafe()
+    {
+        return new EnemyStrafeState(_context, this);
+    }
+
+    public EnemyStunState Stun()
+    {
+        return new EnemyStunState(_context, this);
+    }
+
+    public EnemyImpactState Impact(Vector3 _knockback)
+    {
+        return new EnemyImpactState(_context, this, _knockback);
+    }
 }

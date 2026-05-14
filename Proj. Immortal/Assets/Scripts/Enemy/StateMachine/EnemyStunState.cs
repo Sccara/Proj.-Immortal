@@ -1,16 +1,41 @@
 using UnityEngine;
 
-public class EnemyStunState : MonoBehaviour
+public class EnemyStunState : EnemyBaseState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public EnemyStunState(EnemyStateMachine currentContext, EnemyStateFactory playerStateFactory) : base(currentContext, playerStateFactory)
     {
-        
+        IsRootState = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void EnterState()
     {
-        
+        Debug.Log("Enemy stun state");
+
+    }
+
+
+    public override void UpdateState()
+    {
+        CheckSwitchStates();
+    }
+
+    public override void CheckSwitchStates()
+    {
+
+    }
+
+    public override void ExitState()
+    {
+
+    }
+
+    public override void FixedUpdateState()
+    {
+
+    }
+
+    public override void InitializeSubState()
+    {
+
     }
 }
