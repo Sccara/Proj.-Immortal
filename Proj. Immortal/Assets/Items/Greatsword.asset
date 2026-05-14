@@ -19,10 +19,11 @@ MonoBehaviour:
   maxStackSize: 1
   cost: 500
   icon: {fileID: 21300000, guid: 9bb28f94a6911a34d9fabdb1354b6b5c, type: 3}
-  BaseDamage: 50
-  BasePoiseDamage: 10
+  BaseDamage: 20
+  BasePoiseDamage: 40
   KnockbackStrength: 5
   DamageUpgradePerLevel: 2
+  Class: 0
   StrengthScaling: 0.5
   DexterityScaling: 0.1
   MindScaling: 0.1

@@ -20,7 +20,7 @@ MonoBehaviour:
   cost: 0
   icon: {fileID: 21300000, guid: 3b4666145334e6f4f9f871076b47c2be, type: 3}
   BaseDamage: 40
-  BasePoiseDamage: 15
+  BasePoiseDamage: 40
   KnockbackStrength: 2
   DamageUpgradePerLevel: 2
   Class: 0

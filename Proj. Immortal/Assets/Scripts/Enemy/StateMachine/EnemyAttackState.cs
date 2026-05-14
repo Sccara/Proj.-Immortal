@@ -53,7 +53,7 @@ public class EnemyAttackState : EnemyBaseState
     {
         if (_isAnimationFinished)
         {
-            SwitchState(Factory.Chase());
+            SwitchState(Factory.Strafe());
         }
     }
 

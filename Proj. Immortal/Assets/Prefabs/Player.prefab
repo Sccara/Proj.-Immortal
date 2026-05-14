@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1200700187179401878}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8783917549785136509}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8282268405258341861}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: CastPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,6 +154,7 @@ GameObject:
   - component: {fileID: 6060595833461389869}
   - component: {fileID: 6248733878103032787}
   - component: {fileID: 6932738373254472895}
+  - component: {fileID: 755977471984419740}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -197,7 +198,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3463466838240493161}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 44f9a773e269cc34eac7d6184fd14eb4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -443,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   weaponDetector: {fileID: 7029538792328981239}
-  currentWeaponConfig: {fileID: 11400000, guid: d87b3a2c1d96fb041a7cad6c56ff63a3, type: 2}
+  currentWeaponConfig: {fileID: 11400000, guid: dc5b1bc53ac09414b94cd8bb1b8b13ef, type: 2}
   attributes: {fileID: 6340540996623804120}
   attackPoint: {fileID: 1200700187179401878}
   enemyLayers:
@@ -511,8 +512,10 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   config: {fileID: 11400000, guid: fba001f8e1e684a4dbca7035a45ea0c1, type: 2}
   stateText: {fileID: 0}
+  bufferStateText: {fileID: 0}
   enemyLayerName: Enemy
   _requireNewDashPress: 0
+  inputBufferTime: 1
   InputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &4269433142186122330
 MonoBehaviour:
@@ -528,6 +531,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
   health: {fileID: 7550979647310192321}
   stamina: {fileID: 311555042095912451}
+  mana: {fileID: 755977471984419740}
   level: {fileID: 5783568130548789771}
   combat: {fileID: 3511701561223828964}
   inventory: {fileID: 8405616296295915670}
@@ -734,6 +738,19 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   manaBar: {fileID: 0}
   staminaBar: {fileID: 0}
+--- !u!114 &755977471984419740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463466838240493161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2644a958f2925644a2c0320b0957139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ManaSystemController
+  attributes: {fileID: 6340540996623804120}
 --- !u!1 &3565888318105151665
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +891,7 @@ MonoBehaviour:
   - {fileID: 1601332202968648605}
   - {fileID: 2702881923402725980}
   - {fileID: 526448183259487268}
-  enemyLayer:
+  targetLayer:
     serializedVersion: 2
     m_Bits: 8
   hitRadius: 0.1
@@ -888,7 +905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6436449140090824537}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: LookAt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -950,7 +967,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6129532907786297758}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -982,7 +999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7663066171649578216}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MagicSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyConfigSO
   Health: 100
   Poise: 50
-  WalkMoveSpeed: 3
+  PoiseRegenRate: 10
+  TimeBeforePoiseRegen: 3.5
+  WalkMoveSpeed: 1.5
   ChaseSpeed: 5
   RotateSpeed: 10
   ViewRange: 15
@@ -22,5 +24,6 @@ MonoBehaviour:
   DetectRadius: 3
   LoseSightRange: 25
   AttackRange: 1.5
-  StrafeWaitTime: 0
+  StrafeWaitTime: 2.5
   KnockbackDuration: 0.25
+  StunDuration: 5

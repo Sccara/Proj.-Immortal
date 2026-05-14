@@ -12,7 +12,7 @@ public class EnemyChaseState : EnemyBaseState
         Ctx.Agent.isStopped = false;
         Ctx.Agent.speed = Ctx.Config.ChaseSpeed;
 
-        Ctx.Animator.CrossFadeInFixedTime("Movement", 0.1f, 0, 0f);
+        Ctx.Animator.CrossFadeInFixedTime("Movement", 0.05f, 0, 0f);
 
         Debug.Log("Enemy chase state");
     }
@@ -48,7 +48,7 @@ public class EnemyChaseState : EnemyBaseState
             {
                 Debug.Log("Player close enough! Combat!");
                 
-                SwitchState(Factory.Attack());
+                SwitchState(Factory.Strafe());
             }
         }
     }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.AdaptivePerformance.Provider.AdaptivePerformanceSubsystemDescriptor;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(EnemySensor))]
 public class EnemyStateMachine : MonoBehaviour
@@ -14,12 +13,16 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private EnemySensor sensor;
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyHealthController health;
+    [SerializeField] private EnemyUIManager uiManager;
+    [SerializeField] private EnemyPoiseController poise;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private EnemyCombat combat;
 
     public EnemyHealthController Health => health;
+    public EnemyPoiseController Poise => poise;
     public EnemySensor Sensor => sensor;
     public EnemyCombat Combat => combat;
+    public EnemyUIManager UIManager => uiManager;
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
     public Rigidbody Rb => rb;
@@ -46,6 +49,8 @@ public class EnemyStateMachine : MonoBehaviour
         {
             CurrentState.UpdateStates();
         }
+
+        StrafeMovement();
     }
 
     private void FixedUpdate()
@@ -65,15 +70,49 @@ public class EnemyStateMachine : MonoBehaviour
         Animator.SetFloat("Speed", currentSpeedRatio);
     }
 
+    public void StrafeMovement()
+    {
+        if (Agent.enabled)
+        {
+            Vector3 localVelocity = transform.InverseTransformDirection(Agent.velocity);
+
+            float dampTime = 0.1f;
+            Animator.SetFloat("VelocityX", localVelocity.x, dampTime, Time.deltaTime);
+            Animator.SetFloat("VelocityZ", localVelocity.z, dampTime, Time.deltaTime);
+        }
+    }
+
     private void HandleTakeHit(DamageInfo info)
     {
-        CurrentState?.ExitState();
-        CurrentState = States.Impact(info.KnockbackForce);
-        CurrentState.EnterState();
+        if (CurrentState is EnemyStunState)
+        {
+            Poise.ResetPoise();
+            CurrentState?.ExitState();
+            CurrentState = States.Impact(info.KnockbackForce);
+            CurrentState.EnterState();
+            return;
+        }
+
+        Poise.TakePoiseDamage(info.PoiseDecreaseAmount);
+
+        if (poise.Poise.Current <= 0)
+        {
+            CurrentState?.ExitState();
+            CurrentState = States.Stun();
+            CurrentState.EnterState();
+        }
+        else
+        {
+            CurrentState?.ExitState();
+            CurrentState = States.Impact(info.KnockbackForce);
+            CurrentState.EnterState();
+        }
+
     }
 
     private void HandleDeath()
     {
+        uiManager.gameObject.SetActive(false);
         CurrentState?.ExitState();
         CurrentState = States.Dead();
         CurrentState.EnterState();

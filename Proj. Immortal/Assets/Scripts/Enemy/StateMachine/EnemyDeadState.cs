@@ -12,7 +12,8 @@ public class EnemyDeadState : EnemyBaseState
         Debug.Log("Enemy dead state");
         Ctx.Agent.enabled = false;
         Ctx.Sensor.enabled = false;
-        Ctx.GetComponent<Collider>().isTrigger = true;
+        Ctx.Health.enabled = false;
+        Ctx.GetComponent<Collider>().enabled = false;
         Ctx.Animator.CrossFadeInFixedTime("Death", 0.1f, 0, 0f);
     }
 

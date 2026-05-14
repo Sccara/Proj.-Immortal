@@ -6,6 +6,8 @@ public class EnemyConfigSO : ScriptableObject
     [Header("Stats")]
     public float Health;
     public float Poise;
+    public float PoiseRegenRate;
+    public float TimeBeforePoiseRegen;
 
     [Header("Movement")]
     public float WalkMoveSpeed;
@@ -23,4 +25,5 @@ public class EnemyConfigSO : ScriptableObject
     public float AttackRange;
     public float StrafeWaitTime;
     public float KnockbackDuration;
+    public float StunDuration;
 }

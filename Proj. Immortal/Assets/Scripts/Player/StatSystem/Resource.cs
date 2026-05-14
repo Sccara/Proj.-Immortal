@@ -6,7 +6,7 @@ public class Resource
 {
     public Action<float> OnValueChanged;
 
-    public float Current { get; set; }
+    public float Current { get; private set; }
     public float Max { get; private set; }
     public float Percent => Max > 0 ? Current / Max : 0;
     

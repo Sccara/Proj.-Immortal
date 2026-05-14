@@ -43,6 +43,7 @@ public class PlayerAttributes : MonoBehaviour
     public string mana;
     public string leftHand;
     public string rightHand;
+    public string poiseDamage;
 
     private void Awake()
     {
@@ -66,14 +67,17 @@ public class PlayerAttributes : MonoBehaviour
     private void OnEnable()
     {
         equipment.OnActiveWeaponCycled += RecalculateAttackPower;
+        equipment.OnActiveWeaponCycled += RecalculatePoiseAttackPower;
 
         RecalculateAttackPower(EquipmentSlot.RightHand, equipment.RightHand);
         RecalculateAttackPower(EquipmentSlot.LeftHand, equipment.LeftHand);
+        RecalculatePoiseAttackPower(EquipmentSlot.RightHand, equipment.RightHand); // REWORK FOR R L HAND
     }
 
     private void OnDisable()
     {
         equipment.OnActiveWeaponCycled -= RecalculateAttackPower;
+        equipment.OnActiveWeaponCycled -= RecalculatePoiseAttackPower;
     }
 
     private void Update()
@@ -82,7 +86,8 @@ public class PlayerAttributes : MonoBehaviour
         stamina = $"{StaminaResource.Current} '/' {StaminaResource.Max}";
         mana = $"{ManaResource.Current} '/' {ManaResource.Max}";
         leftHand = $"{LeftHandAttackStat.Value}";
-        rightHand = $"{RightHandAttackStat.Value}"; 
+        rightHand = $"{RightHandAttackStat.Value}";
+        poiseDamage = $"{PoiseAttackPowerStat.Value}";
     }
 
     public void UpgradeAttribute(StatType statType)
@@ -140,6 +145,22 @@ public class PlayerAttributes : MonoBehaviour
         {
             LeftHandAttackStat.SetBaseValue(totalDamage);
         }
+    }
+
+    private void RecalculatePoiseAttackPower(EquipmentSlot slot, WeaponInstance weapon)
+    {
+        float totalPoiseDamage = 0f;
+
+        if (weapon.WeaponData == null)
+        {
+            totalPoiseDamage = 10;
+        }
+        else
+        {
+            totalPoiseDamage = weapon.WeaponData.BasePoiseDamage;
+        }
+
+        PoiseAttackPowerStat.SetBaseValue(totalPoiseDamage);
     }
 
     private float GetLevelUpCost()
